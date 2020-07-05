@@ -11,7 +11,8 @@ Before running the app, make sure you ran:
     yarn install
 
 Also, make sure you run the following commands:
-In the root `react-native` directory, run `yarn link`. Following this, in `react-native/packages/RNTester`, run `yarn link react-native`.
+In the root `react-native` directory, run `yarn link`. Following this, in `react-native/packages/RNTester`,do `yarn install` and run `yarn link react-native`.
+
 
 ### Running on iOS
 
