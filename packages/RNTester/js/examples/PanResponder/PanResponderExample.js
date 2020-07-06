@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
 exports.title = 'PanResponder Sample';
 exports.description =
   'Shows the Use of PanResponder to provide basic gesture handling';
-exports.simpleExampleContainer = false;
+exports.simpleExampleContainer = true;
 exports.examples = [
   {
     title: 'Basic gesture handling',
