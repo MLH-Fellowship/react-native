@@ -24,7 +24,7 @@ describe('Button', () => {
   });
 
   it('Default Styling button should be tappable', async () => {
-    await openExampleWithTitle('default styling');
+    await openExampleWithTitle('Default Styling');
     await element(by.id('button_default_styling')).tap();
     await expect(
       element(by.text('Your application has been submitted!')),
@@ -33,7 +33,7 @@ describe('Button', () => {
   });
 
   it('Red color button should be tappable', async () => {
-    await openExampleWithTitle('color="red"');
+    await openExampleWithTitle('Color');
     await element(by.id('cancel_button')).tap();
     await expect(
       element(by.text('Your application has been cancelled!')),
@@ -79,10 +79,10 @@ describe('Button', () => {
   });
 
   it('Disabled button should not interact', async () => {
-    await openExampleWithTitle('Disabled Button');
+    await openExampleWithTitle('Disabled');
     await element(by.id('disabled_button')).tap();
     await expect(
-      element(by.text('Disabled has been pressed!')),
+      element(by.text('Your application has been submitted!')),
     ).toBeNotVisible();
   });
 });
