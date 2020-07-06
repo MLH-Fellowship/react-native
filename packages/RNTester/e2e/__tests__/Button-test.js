@@ -23,12 +23,12 @@ describe('Button', () => {
     );
   });
 
-  it.only('Default Styling button should be tappable', async () => {
+  it('Default Styling button should be tappable', async () => {
     await openExampleWithTitle('default styling');
     await element(by.id('button_default_styling')).tap();
-    // await expect(
-    //   element(by.text('Your application has been submitted!')),
-    // ).toBeVisible();
+    await expect(
+      element(by.text('Your application has been submitted!')),
+    ).toBeVisible();
     await element(by.text('OK')).tap();
   });
 

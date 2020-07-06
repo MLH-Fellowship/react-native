@@ -16,7 +16,7 @@ const {Alert, Button, View, StyleSheet, Image} = require('react-native');
 import {RNTesterThemeContext} from '../../components/RNTesterTheme';
 
 function onButtonPress(buttonName) {
-  Alert.alert(`Your application has been ${buttonName}`);
+  Alert.alert(`Your application has been ${buttonName}!`);
 }
 
 exports.displayName = 'ButtonExample';
