@@ -12,11 +12,9 @@
 
 const React = require('react');
 
-const {Alert, Button, View, StyleSheet, Image} = require('react-native');
-import {RNTesterThemeContext} from '../../components/RNTesterTheme';
+const {Alert, Button, View, StyleSheet} = require('react-native');
 
 function onButtonPress(buttonName) {
-  console.log(buttonName);
   Alert.alert(`Your application has been ${buttonName}!`);
 }
 
@@ -32,18 +30,12 @@ exports.examples = [
       'and onPress handler to be called when user taps on button': string),
     render: function (): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <Button
-                onPress={() => onButtonPress('submitted')}
-                testID="button_default_styling"
-                title="Submit Application"
-                accessibilityLabel="Press to submit your application!"
-              />
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <Button
+          onPress={() => onButtonPress('submitted')}
+          testID="button_default_styling"
+          title="Submit Application"
+          accessibilityLabel="Press to submit your application!"
+        />
       );
     },
   },
@@ -53,19 +45,13 @@ exports.examples = [
       'Android, the color adjusts the background color of the button.': string),
     render: function (): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <Button
-                onPress={() => onButtonPress('cancelled')}
-                testID="cancel_button"
-                color="red"
-                title="Cancel Application"
-                accessibilityLabel="Press to cancel your application!"
-              />
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <Button
+          onPress={() => onButtonPress('cancelled')}
+          testID="cancel_button"
+          color="red"
+          title="Cancel Application"
+          accessibilityLabel="Press to cancel your application!"
+        />
       );
     },
   },
@@ -75,28 +61,22 @@ exports.examples = [
       'This layout strategy lets the title define the width of the button': string),
     render: function (): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <View style={styles.container}>
-                <Button
-                  onPress={() => onButtonPress('cancelled')}
-                  testID="two_cancel_button"
-                  color="red"
-                  title="Cancel"
-                  accessibilityLabel="Press to cancel your application!"
-                />
-                <Button
-                  onPress={() => onButtonPress('submitted')}
-                  testID="two_submit_button"
-                  color="green"
-                  title="Submit"
-                  accessibilityLabel="Press to submit your application!"
-                />
-              </View>
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <View style={styles.container}>
+          <Button
+            onPress={() => onButtonPress('cancelled')}
+            testID="two_cancel_button"
+            color="red"
+            title="Cancel"
+            accessibilityLabel="Press to cancel your application!"
+          />
+          <Button
+            onPress={() => onButtonPress('submitted')}
+            testID="two_submit_button"
+            color="green"
+            title="Submit"
+            accessibilityLabel="Press to submit your application!"
+          />
+        </View>
       );
     },
   },
@@ -106,34 +86,28 @@ exports.examples = [
       'This layout strategy lets the title define the width of the button': string),
     render: function (): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {(theme) => {
-            return (
-              <View style={styles.container}>
-                <Button
-                  onPress={() => onButtonPress('cancelled')}
-                  testID="three_cancel_button"
-                  color="red"
-                  title="Cancel"
-                  accessibilityLabel="Press to cancel your application!"
-                />
-                <Button
-                  onPress={() => onButtonPress('saved')}
-                  testID="three_save_button"
-                  title="Save For Later"
-                  accessibilityLabel="Press to save your application!"
-                />
-                <Button
-                  onPress={() => onButtonPress('submitted')}
-                  testID="three_submit_button"
-                  color="green"
-                  title="Submit"
-                  accessibilityLabel="Press to submit your application!"
-                />
-              </View>
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <View style={styles.container}>
+          <Button
+            onPress={() => onButtonPress('cancelled')}
+            testID="three_cancel_button"
+            color="red"
+            title="Cancel"
+            accessibilityLabel="Press to cancel your application!"
+          />
+          <Button
+            onPress={() => onButtonPress('saved')}
+            testID="three_save_button"
+            title="Save For Later"
+            accessibilityLabel="Press to save your application!"
+          />
+          <Button
+            onPress={() => onButtonPress('submitted')}
+            testID="three_submit_button"
+            color="green"
+            title="Submit"
+            accessibilityLabel="Press to submit your application!"
+          />
+        </View>
       );
     },
   },

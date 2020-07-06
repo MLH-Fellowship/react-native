@@ -16,7 +16,7 @@ const {
 
 describe('Button', () => {
   beforeAll(async () => {
-    // await device.reloadReactNative();
+    await device.reloadReactNative();
     await openComponentWithLabel(
       '<Button>',
       '<Button> Simple React Native button component.',
