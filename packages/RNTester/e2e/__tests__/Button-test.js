@@ -95,3 +95,11 @@ it('AccessibilityLabel button should be tappable', async () => {
   ).toBeVisible();
   await element(by.text('OK')).tap();
 });
+
+it('No onPress button should not interact', async () => {
+  await openExampleWithTitle('OnPress');
+  await element(by.id('onPress_button')).tap();
+  await expect(
+    element(by.text('Your application has been submitted!')),
+  ).toBeNotVisible();
+});

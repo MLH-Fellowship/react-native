@@ -14,7 +14,7 @@ const {
   openExampleWithTitle,
 } = require('../e2e-helpers');
 
-describe.skip('ActionSheetIOS', () => {
+describe('ActionSheetIOS', () => {
   beforeAll(async () => {
     await device.reloadReactNative();
     await openComponentWithLabel(
