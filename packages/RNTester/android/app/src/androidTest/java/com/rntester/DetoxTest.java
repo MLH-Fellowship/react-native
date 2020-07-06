@@ -23,7 +23,7 @@ public class DetoxTest {
     public void runDetoxTests() {
         Detox.DetoxIdlePolicyConfig idlePolicyConfig = new Detox.DetoxIdlePolicyConfig();
         idlePolicyConfig.masterTimeoutSec = 60;
-        idlePolicyConfig.idleResourceTimeoutSec = 30;
+        idlePolicyConfig.idleResourceTimeoutSec = 60;
 
         Detox.runTests(mActivityRule, idlePolicyConfig);
     }
