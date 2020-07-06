@@ -41,14 +41,18 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it("Two buttons with JustifyContent:'space-between' should be tappable", async () => {
-    await openExampleWithTitle('Fit to text layout');
-    await element(by.id('left_button')).tap();
-    await expect(element(by.text('Left has been pressed!'))).toBeVisible();
+  it.only("Two buttons with JustifyContent:'space-between' should be tappable", async () => {
+    await openExampleWithTitle('Two Buttons');
+    await element(by.id('two_cancel_button')).tap();
+    await expect(
+      element(by.text('Your application has been cancelled!')),
+    ).toBeVisible();
     await element(by.text('OK')).tap();
 
-    await element(by.id('right_button')).tap();
-    await expect(element(by.text('Right has been pressed!'))).toBeVisible();
+    await element(by.id('two_submit_button')).tap();
+    await expect(
+      element(by.text('Your application has been submitted!')),
+    ).toBeVisible();
     await element(by.text('OK')).tap();
   });
 
