@@ -32,10 +32,12 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it('Adjusted color button should be tappable', async () => {
-    await openExampleWithTitle('Adjusted color');
-    await element(by.id('purple_button')).tap();
-    await expect(element(by.text('Purple has been pressed!'))).toBeVisible();
+  it('Red color button should be tappable', async () => {
+    await openExampleWithTitle('color="red"');
+    await element(by.id('cancel_button')).tap();
+    await expect(
+      element(by.text('Your application has been cancelled!')),
+    ).toBeVisible();
     await element(by.text('OK')).tap();
   });
 

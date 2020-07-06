@@ -16,6 +16,7 @@ const {Alert, Button, View, StyleSheet, Image} = require('react-native');
 import {RNTesterThemeContext} from '../../components/RNTesterTheme';
 
 function onButtonPress(buttonName) {
+  console.log(buttonName);
   Alert.alert(`Your application has been ${buttonName}!`);
 }
 
@@ -56,7 +57,7 @@ exports.examples = [
           {(theme) => {
             return (
               <Button
-                onPress={() => onButtonPress('submitted')}
+                onPress={() => onButtonPress('cancelled')}
                 testID="cancel_button"
                 color="red"
                 title="Cancel Application"
