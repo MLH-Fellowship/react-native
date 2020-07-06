@@ -16,7 +16,7 @@ import {Alert, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
  * Simple alert examples.
  */
 
-const AlertWithOneButton = () => {
+const AlertWithDefaultButton = () => {
   const alertMessage = 'An external USB drive has been detected!';
 
   return (
@@ -182,11 +182,11 @@ exports.description =
   'and prompt the user to make a decision.';
 exports.examples = [
   {
-    title: 'Alert with one Button',
+    title: 'Alert with default Button',
     description:
       "It can be used to show some information to user that doesn't require an action.",
     render(): React.Node {
-      return <AlertWithOneButton />;
+      return <AlertWithDefaultButton />;
     },
   },
   {
