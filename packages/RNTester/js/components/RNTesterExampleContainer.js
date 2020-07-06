@@ -16,6 +16,8 @@ const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const RNTesterPage = require('./RNTesterPage');
 
 const invariant = require('invariant');
+import UseCase from './UseCase';
+import ExamplePage from './ExamplePage';
 
 class RNTesterExampleContainer extends React.Component {
   renderExample(example, i) {
@@ -37,6 +39,7 @@ class RNTesterExampleContainer extends React.Component {
 
   render(): React.Element<any> {
     const {module} = this.props;
+    console.log(module.examples)
     if (module.simpleExampleContainer) {
       invariant(
         module.examples.length === 1,
@@ -45,10 +48,15 @@ class RNTesterExampleContainer extends React.Component {
       return module.examples[0].render();
     }
     if (module.examples.length === 1) {
+
       return (
-        <RNTesterPage title={this.props.title}>
-          {this.renderExample(module.examples[0])}
-        </RNTesterPage>
+        <ExamplePage
+          title={module.title}
+          description={module.description}
+          android={module.android}
+          ios={module.ios}>
+          {module.examples[0].render()}
+        </ExamplePage>
       );
     }
 
@@ -63,7 +71,11 @@ class RNTesterExampleContainer extends React.Component {
     ];
 
     return (
-      <RNTesterPage title={this.props.title}>
+      <ExamplePage
+        title={this.props.title}
+        description={module.description}
+        android={module.android}
+        ios={module.ios}>
         <RNTesterExampleFilter
           testID="example_search"
           sections={sections}
@@ -72,7 +84,7 @@ class RNTesterExampleContainer extends React.Component {
             filteredSections[0].data.map(this.renderExample)
           }
         />
-      </RNTesterPage>
+      </ExamplePage>
     );
   }
 }

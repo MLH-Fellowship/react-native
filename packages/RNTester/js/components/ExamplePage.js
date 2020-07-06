@@ -51,13 +51,12 @@ export default function ExamplePage(props: Props): React.Node {
   ) : null;
 
   const docsImage = <Image source={imagePaths.docs} />;
-  
-  const children = React.Children.map(props.children, child => (
-    <UseCase {...child.props}> {child} </UseCase>
-  ));
+  // const children = React.Children.map(props.children, (child, index) => (
+  //   <UseCase key={index}>{child}</UseCase>
+  // ));
 
   return (
-    <View>
+    <React.Fragment>
       <View style={styles.titleView}>
         <View style={styles.titleContainer}>
           {title}
@@ -72,10 +71,10 @@ export default function ExamplePage(props: Props): React.Node {
       <Background height={ScreenHeight} width={ScreenWidth}>
         <ScrollView style={styles.scrollView}>
           <Text> {description} </Text>
-          {children}
+          {props.children}
         </ScrollView>
       </Background>
-    </View>
+    </React.Fragment>
   );
 }
 
