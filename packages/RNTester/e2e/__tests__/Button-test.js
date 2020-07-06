@@ -41,7 +41,7 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it.only("Two buttons with JustifyContent:'space-between' should be tappable", async () => {
+  it("Two buttons with JustifyContent:'space-between' should be tappable", async () => {
     await openExampleWithTitle('Two Buttons');
     await element(by.id('two_cancel_button')).tap();
     await expect(
@@ -50,6 +50,28 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
 
     await element(by.id('two_submit_button')).tap();
+    await expect(
+      element(by.text('Your application has been submitted!')),
+    ).toBeVisible();
+    await element(by.text('OK')).tap();
+  });
+
+  it("Three buttons with JustifyContent:'space-between' should be tappable", async () => {
+    await openExampleWithTitle('Three Buttons');
+    await element(by.id('three_cancel_button')).tap();
+    await expect(
+      element(by.text('Your application has been cancelled!')),
+    ).toBeVisible();
+    await element(by.text('OK')).tap();
+
+    await openExampleWithTitle('Three Buttons');
+    await element(by.id('three_save_button')).tap();
+    await expect(
+      element(by.text('Your application has been saved!')),
+    ).toBeVisible();
+    await element(by.text('OK')).tap();
+
+    await element(by.id('three_submit_button')).tap();
     await expect(
       element(by.text('Your application has been submitted!')),
     ).toBeVisible();
