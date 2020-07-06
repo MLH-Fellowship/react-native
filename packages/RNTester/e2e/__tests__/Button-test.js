@@ -19,17 +19,17 @@ describe('Button', () => {
     // await device.reloadReactNative();
     await openComponentWithLabel(
       '<Button>',
-      'Simple React Native button component.',
+      '<Button> Simple React Native button component.',
     );
   });
 
   it.only('Default Styling button should be tappable', async () => {
     await openExampleWithTitle('default styling');
     await element(by.id('button_default_styling')).tap();
-    await expect(
-      element(by.text('Your application has been submitted!')),
-    ).toBeVisible();
-    // await element(by.text('OK')).tap();
+    // await expect(
+    //   element(by.text('Your application has been submitted!')),
+    // ).toBeVisible();
+    await element(by.text('OK')).tap();
   });
 
   it('Adjusted color button should be tappable', async () => {
