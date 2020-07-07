@@ -38,7 +38,7 @@ describe('Alert', () => {
     await expect(element(by.text('Cancel'))).toBeVisible();
     await expect(element(by.text('No'))).toBeVisible();
     await expect(element(by.text('Yes'))).toBeVisible();
-    await element(by.text('Cancel')).tap();
+    await element(by.text('Yes')).tap();
   });
 
   it('should successfully call the callback on button press', async () => {
