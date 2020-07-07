@@ -22,6 +22,7 @@ const AlertWithDefaultButton = () => {
   return (
     <View>
       <TouchableHighlight
+        testID="alert-with-default-button"
         style={styles.wrapper}
         onPress={() => Alert.alert('Alert', alertMessage)}>
         <View style={styles.button}>
@@ -59,10 +60,17 @@ const AlertWithThreeButtons = () => {
   return (
     <View>
       <TouchableHighlight
+        testID="alert-with-three-buttons"
         style={styles.wrapper}
         onPress={() =>
           Alert.alert('Unsaved Changes!', alertMessage, [
-            {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
+            {
+              text: 'Cancel',
+              onPress: () => {
+                // Show another alert indicating that this callback was called (needed for Detox test)
+                Alert.alert('Alert', 'Callback called for the Cancel button!');
+              },
+            },
             {text: 'No', onPress: () => console.log('No Pressed!')},
             {text: 'Yes', onPress: () => console.log('Yes Pressed!')},
           ])
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
   },
 });
 
-exports.title = 'Alert';
+exports.title = 'Alerts';
 exports.description =
   'Alerts display a concise and informative message ' +
   'and prompt the user to make a decision.';
