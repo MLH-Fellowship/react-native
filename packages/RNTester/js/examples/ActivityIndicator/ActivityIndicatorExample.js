@@ -10,10 +10,10 @@
 
 'use strict';
 import type {Node} from 'React';
-import {ActivityIndicator, StyleSheet, View, Text, Button} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import React, {Component} from 'react';
 
-type State = {|animating: boolean, message: string|};
+type State = {|animating: boolean|};
 type Props = $ReadOnly<{||}>;
 type Timer = TimeoutID;
 
@@ -24,7 +24,6 @@ class ToggleAnimatingActivityIndicator extends Component<Props, State> {
     super(props);
     this.state = {
       animating: true,
-      message: 'Loading...',
     };
   }
 
@@ -38,56 +37,18 @@ class ToggleAnimatingActivityIndicator extends Component<Props, State> {
 
   setToggleTimeout() {
     this._timer = setTimeout(() => {
-      this.setState({
-        animating: !this.state.animating,
-        message: this.state.animating ? 'Information Loaded!' : 'Loading...',
-      });
+      this.setState({animating: !this.state.animating});
       this.setToggleTimeout();
     }, 2000);
   }
 
   render(): Node {
     return (
-      <View style={styles.centering}>
-        <Text>{this.state.message}</Text>
-        <ActivityIndicator
-          animating={this.state.animating}
-          style={{height: 80}}
-          size="large"
-        />
-      </View>
-    );
-  }
-}
-
-class ButtonToggleActivityIndicator extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      animating: true,
-      message: 'Loading...',
-    };
-  }
-
-  toggleState = () => {
-    this.setState({
-      animating: !this.state.animating,
-      message: this.state.animating ? 'Information Loaded!' : 'Loading...',
-    });
-  };
-
-  render(): Node {
-    return (
-      <View style={styles.centering}>
-        <Text>{this.state.message}</Text>
-        <ActivityIndicator
-          animating={this.state.animating}
-          style={{height: 80}}
-          size="large"
-          hidesWhenStopped={false}
-        />
-        <Button title="toggle" onPress={this.toggleState} />
-      </View>
+      <ActivityIndicator
+        animating={this.state.animating}
+        style={[styles.centering, {height: 80}]}
+        size="large"
+      />
     );
   }
 }
@@ -106,9 +67,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     padding: 8,
   },
-  spaced: {
-    marginBottom: 10,
-  },
 });
 
 exports.displayName = (undefined: ?string);
@@ -121,12 +79,10 @@ exports.examples = [
     title: 'Default (small, white)',
     render(): Node {
       return (
-        <View style={[styles.gray, styles.centering]}>
-          <Text style={styles.spaced}>
-            Please wait while we fetch your information...
-          </Text>
-          <ActivityIndicator color="white" />
-        </View>
+        <ActivityIndicator
+          style={[styles.centering, styles.gray]}
+          color="white"
+        />
       );
     },
   },
@@ -158,27 +114,31 @@ exports.examples = [
     title: 'Large',
     render(): Node {
       return (
-        <View style={[styles.centering, styles.gray]}>
-          <Text style={styles.spaced}>
-            Processing transaction, do not close this tab.
-          </Text>
-          <ActivityIndicator size="large" color="white" />
+        <ActivityIndicator
+          style={[styles.centering, styles.gray]}
+          size="large"
+          color="white"
+        />
+      );
+    },
+  },
+  {
+    title: 'Large, custom colors',
+    render(): Node {
+      return (
+        <View style={styles.horizontal}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <ActivityIndicator size="large" color="#aa00aa" />
+          <ActivityIndicator size="large" color="#aa3300" />
+          <ActivityIndicator size="large" color="#00aa00" />
         </View>
       );
     },
   },
   {
-    title:
-      'Start/stop, with the activity indicator disappearing when it stops animating',
+    title: 'Start/stop',
     render(): Node {
       return <ToggleAnimatingActivityIndicator />;
-    },
-  },
-  {
-    title:
-      'Button-toggled start/stop, with the activity indicator remaining visible when it is not animated',
-    render(): Node {
-      return <ButtonToggleActivityIndicator />;
     },
   },
   {
