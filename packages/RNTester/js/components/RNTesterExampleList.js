@@ -40,14 +40,30 @@ type Props = {
   ...
 };
 
-class RowComponent extends React.PureComponent<{
+type ButtonState = {|active: boolean|};
+type ButtonProps = {
   item: Object,
   onNavigate: Function,
   onPress?: Function,
   onShowUnderlay?: Function,
   onHideUnderlay?: Function,
   ...
-}> {
+};
+
+class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
+  constructor(props: ButtonProps) {
+    super(props);
+    this.state = {
+      active: false,
+    };
+  }
+
+  onButtonPress = () => {
+    this.setState({
+      active: !this.state.active,
+    });
+  };
+
   _onPress = () => {
     if (this.props.onPress) {
       this.props.onPress();
@@ -96,10 +112,16 @@ class RowComponent extends React.PureComponent<{
                     flex: 0.25,
                     alignItems: 'center',
                   }}>
-                  <TouchableHighlight style={styles.imageViewStyle}>
+                  <TouchableHighlight
+                    style={styles.imageViewStyle}
+                    onPress={this.onButtonPress}>
                     <Image
                       style={styles.imageStyle}
-                      source={require('../assets/bookmark-outline.png')}
+                      source={
+                        this.state.active
+                          ? require('../assets/bookmark-filled.png')
+                          : require('../assets/bookmark-outline.png')
+                      }
                     />
                   </TouchableHighlight>
                 </View>
