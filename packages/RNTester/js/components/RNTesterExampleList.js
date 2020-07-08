@@ -50,6 +50,26 @@ type ButtonProps = {
   ...
 };
 
+function PlatformLogoContainer({platform}): React.Component {
+  console.log(platform);
+  return (
+    <View style={{flexDirection: 'row'}}>
+      {(!platform || platform === 'ios') && (
+        <Image
+          style={styles.platformLogoStyle}
+          source={require('../assets/apple.png')}
+        />
+      )}
+      {(!platform || platform === 'android') && (
+        <Image
+          style={styles.platformLogoStyle}
+          source={require('../assets/android.png')}
+        />
+      )}
+    </View>
+  );
+}
+
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   constructor(props: ButtonProps) {
     super(props);
@@ -108,8 +128,8 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                 </View>
                 <View
                   style={{
-                    backgroundColor: 'red',
-                    flex: 0.25,
+                    flex: 0.15,
+                    justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
                   <TouchableHighlight
@@ -124,6 +144,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                       }
                     />
                   </TouchableHighlight>
+                  <PlatformLogoContainer platform={item.module.platform} />
                 </View>
               </View>
             </TouchableHighlight>
@@ -284,9 +305,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderColor: 'blue',
     borderWidth: 1,
+    overflow: 'hidden',
   },
   rowTextContent: {
-    flex: 0.75,
+    flex: 0.8,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
@@ -316,6 +338,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  platformLogoStyle: {
+    height: 35,
+    width: 30,
+    position: 'relative',
+    top: 20,
   },
 });
 
