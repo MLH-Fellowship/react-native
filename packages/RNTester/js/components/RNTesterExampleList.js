@@ -20,6 +20,7 @@ const {
   StyleSheet,
   Text,
   TouchableHighlight,
+  Image,
   View,
 } = require('react-native');
 
@@ -72,16 +73,36 @@ class RowComponent extends React.PureComponent<{
                   styles.row,
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
-                <Text style={[styles.rowTitleText, {color: theme.LabelColor}]}>
-                  {item.module.title}
-                </Text>
-                <Text
-                  style={[
-                    styles.rowDetailText,
-                    {color: theme.SecondaryLabelColor},
-                  ]}>
-                  {item.module.description}
-                </Text>
+                <View style={styles.rowTextContent}>
+                  <Text
+                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
+                    {item.module.title}
+                  </Text>
+                  <View style={{flexDirection: 'row', marginBottom: 5}}>
+                    <Text style={{color: 'blue'}}>Category: </Text>
+                    <Text>{item.module.category || 'Components/Basic'}</Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.rowDetailText,
+                      {color: theme.SecondaryLabelColor},
+                    ]}>
+                    {item.module.description}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    backgroundColor: 'red',
+                    flex: 0.25,
+                    alignItems: 'center',
+                  }}>
+                  <TouchableHighlight style={styles.imageViewStyle}>
+                    <Image
+                      style={styles.imageStyle}
+                      source={require('../assets/bookmark-outline.png')}
+                    />
+                  </TouchableHighlight>
+                </View>
               </View>
             </TouchableHighlight>
           );
@@ -146,11 +167,11 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
-                    ItemSeparatorComponent={ItemSeparator}
+                    // ItemSeparatorComponent={ItemSeparator}
                     contentContainerStyle={{
                       backgroundColor: theme.SeparatorColor,
                     }}
-                    style={{backgroundColor: theme.SystemBackgroundColor}}
+                    style={{backgroundColor: 'white'}}
                     sections={filteredSections}
                     renderItem={this._renderItem}
                     keyboardShouldPersistTaps="handled"
@@ -236,6 +257,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 15,
     paddingVertical: 8,
+    marginVertical: 4,
+    marginHorizontal: 15,
+    flexDirection: 'row',
+    borderColor: 'blue',
+    borderWidth: 1,
+  },
+  rowTextContent: {
+    flex: 0.75,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
@@ -248,10 +277,23 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '300',
     fontFamily: 'Times New Roman',
+    marginBottom: 10,
   },
   rowDetailText: {
     fontSize: 12,
     lineHeight: 20,
+  },
+  imageStyle: {
+    height: 25,
+    width: 25,
+  },
+  imageViewStyle: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
