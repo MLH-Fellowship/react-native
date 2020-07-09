@@ -13,6 +13,7 @@
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const RNTesterComponentTitle = require('./RNTesterComponentTitle');
+const RNTesterBookmarkButton = require('./RNTesterBookmarkButton');
 const React = require('react');
 
 const {
@@ -61,8 +62,8 @@ class PlatformLogoContainer extends React.Component<{|platform: string|}> {
   }
 }
 
-type ButtonState = {|active: boolean|};
-type ButtonProps = {
+type RowState = {|active: boolean|};
+type RowProps = {
   item: Object,
   onNavigate: Function,
   onPress?: Function,
@@ -71,8 +72,8 @@ type ButtonProps = {
   ...
 };
 
-class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
-  constructor(props: ButtonProps) {
+class RowComponent extends React.PureComponent<RowProps, RowState> {
+  constructor(props: RowProps) {
     super(props);
     this.state = {
       active: false,
@@ -135,18 +136,11 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                     justifyContent: 'space-between',
                     alignItems: 'center',
                   }}>
-                  <TouchableHighlight
-                    style={styles.imageViewStyle}
-                    onPress={this.onButtonPress}>
-                    <Image
-                      style={styles.imageStyle}
-                      source={
-                        this.state.active
-                          ? require('../assets/bookmark-filled.png')
-                          : require('../assets/bookmark-outline.png')
-                      }
-                    />
-                  </TouchableHighlight>
+                  <RNTesterBookmarkButton
+                    isActive={this.state.active}
+                    size={30}
+                    onPress={this.onButtonPress}
+                  />
                   <PlatformLogoContainer platform={item.module.platform} />
                 </View>
               </View>
