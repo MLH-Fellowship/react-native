@@ -209,10 +209,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
-                    // ItemSeparatorComponent={ItemSeparator}
-                    contentContainerStyle={{
-                      backgroundColor: 'white',
-                    }}
                     sections={filteredSections}
                     renderItem={this._renderItem}
                     keyboardShouldPersistTaps="handled"
