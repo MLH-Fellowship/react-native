@@ -12,6 +12,7 @@
 
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
+const RNTesterComponentTitle = require('./RNTesterComponentTitle');
 const React = require('react');
 
 const {
@@ -26,7 +27,6 @@ const {
 
 import type {ViewStyleProp} from 'react-native';
 import type {RNTesterExample} from '../types/RNTesterTypes';
-
 import {RNTesterThemeContext} from './RNTesterTheme';
 
 type Props = {
@@ -112,14 +112,15 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
                 <View style={styles.rowTextContent}>
-                  <Text
-                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
+                  <RNTesterComponentTitle>
                     {item.module.title}
-                  </Text>
+                  </RNTesterComponentTitle>
+
                   <View style={{flexDirection: 'row', marginBottom: 5}}>
                     <Text style={{color: 'blue'}}>Category: </Text>
                     <Text>{item.module.category || 'Components/Basic'}</Text>
                   </View>
+
                   <Text
                     style={[
                       styles.rowDetailText,
