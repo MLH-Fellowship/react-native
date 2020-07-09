@@ -10,11 +10,9 @@
 
 'use strict';
 
-const React = require('react');
-const {PanResponder, StyleSheet, View} = require('react-native');
-const RNTesterPage = require('../../components/RNTesterPage');
+import * as React from 'react';
+import {PanResponder, StyleSheet, View} from 'react-native';
 
-import ExamplePage from '../../components/ExamplePage.js';
 import UseCase from '../../components/UseCase.js';
 
 import type {
