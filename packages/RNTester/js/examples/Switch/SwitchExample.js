@@ -58,8 +58,8 @@ const ExampleSwitchBasic = () => {
 
 /** Disabled Switch example which user cannot interact with */
 const ExampleSwitchDisabled = () => {
-  const [switchAStatus, setSwitchAStatus] = useState(true);
-  const [switchBStatus, setSwitchBStatus] = useState(false);
+  const [switchAStatus, setSwitchAStatus] = useState(false);
+  const [switchBStatus, setSwitchBStatus] = useState(true);
 
   return (
     <View>
