@@ -40,6 +40,27 @@ type Props = {
   ...
 };
 
+class PlatformLogoContainer extends React.Component<{|platform: string|}> {
+  render() {
+    return (
+      <View style={{flexDirection: 'row'}}>
+        {(!this.props.platform || this.props.platform === 'ios') && (
+          <Image
+            style={styles.platformLogoStyle}
+            source={require('../assets/apple.png')}
+          />
+        )}
+        {(!this.props.platform || this.props.platform === 'android') && (
+          <Image
+            style={styles.platformLogoStyle}
+            source={require('../assets/android.png')}
+          />
+        )}
+      </View>
+    );
+  }
+}
+
 type ButtonState = {|active: boolean|};
 type ButtonProps = {
   item: Object,
@@ -49,25 +70,6 @@ type ButtonProps = {
   onHideUnderlay?: Function,
   ...
 };
-
-function PlatformLogoContainer({platform}): React.Component {
-  return (
-    <View style={{flexDirection: 'row'}}>
-      {(!platform || platform === 'ios') && (
-        <Image
-          style={styles.platformLogoStyle}
-          source={require('../assets/apple.png')}
-        />
-      )}
-      {(!platform || platform === 'android') && (
-        <Image
-          style={styles.platformLogoStyle}
-          source={require('../assets/android.png')}
-        />
-      )}
-    </View>
-  );
-}
 
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   constructor(props: ButtonProps) {
@@ -102,6 +104,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
               accessibilityLabel={
                 item.module.title + ' ' + item.module.description
               }
+              underlayColor={'rgb(242,242,242)'}
               onPress={this._onPress}>
               <View
                 style={[
