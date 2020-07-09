@@ -102,26 +102,20 @@ class PanResponderExample extends React.Component<Props, State> {
 
   render(): React.Node {
     return (
-      <UseCase
-        title="Use Case Title"
-        note="A basic Note"
-        ios={true}
-        android={true}>
-        <View
-          ref={circle => {
-            this.circle = circle;
-          }}
-          style={[
-            styles.circle,
-            {
-              translateX: this.state.left,
-              translateY: this.state.top,
-              backgroundColor: this.state.pressed ? 'blue' : 'green',
-            },
-          ]}
-          {...this._panResponder.panHandlers}
-        />
-      </UseCase>
+      <View
+        ref={(circle) => {
+          this.circle = circle;
+        }}
+        style={[
+          styles.circle,
+          {
+            translateX: this.state.left,
+            translateY: this.state.top,
+            backgroundColor: this.state.pressed ? 'blue' : 'green',
+          },
+        ]}
+        {...this._panResponder.panHandlers}
+      />
     );
   }
 }
@@ -149,8 +143,16 @@ exports.simpleExampleContainer = true;
 exports.examples = [
   {
     title: 'Basic gesture handling',
-    render: function(): React.Element<typeof PanResponderExample> {
-      return <PanResponderExample />;
+    render: function (): React.Element<typeof PanResponderExample> {
+      return (
+        <UseCase
+          title="Use Case Title"
+          note="A basic Note"
+          ios={true}
+          android={true}>
+          <PanResponderExample />
+        </UseCase>
+      );
     },
   },
 ];

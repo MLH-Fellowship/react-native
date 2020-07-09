@@ -10,7 +10,7 @@
 'use strict';
 
 const React = require('react');
-const {Platform} = require('react-native');
+const {Platform, Text} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const RNTesterPage = require('./RNTesterPage');
@@ -39,16 +39,22 @@ class RNTesterExampleContainer extends React.Component {
 
   render(): React.Element<any> {
     const {module} = this.props;
-    console.log(module.examples)
     if (module.simpleExampleContainer) {
       invariant(
         module.examples.length === 1,
         'If noExampleContainer is specified, only one example is allowed',
       );
-      return module.examples[0].render();
+      return (
+        <ExamplePage
+          title={module.title}
+          description={module.description}
+          android={module.android}
+          ios={module.ios}>
+          {module.examples[0].render()}
+        </ExamplePage>
+      );
     }
     if (module.examples.length === 1) {
-
       return (
         <ExamplePage
           title={module.title}
