@@ -26,8 +26,7 @@ exports.description = 'Simple React Native button component.';
 exports.examples = [
   {
     title: 'Button with default styling',
-    description: ('Note: Button with default styling with title="Submit Application"' +
-      'and onPress handler to be called when user taps on button': string),
+    description: '',
     render: function (): React.Node {
       return (
         <Button
@@ -57,7 +56,7 @@ exports.examples = [
   },
   {
     title: 'Two Buttons with Flexbox layout',
-    description: ('Note: Two buttons wrapped inside View with justifyContent: spaceBetween,' +
+    description: ('Two buttons wrapped inside view with justifyContent: spaceBetween,' +
       'This layout strategy lets the title define the width of the button': string),
     render: function (): React.Node {
       return (
@@ -82,8 +81,7 @@ exports.examples = [
   },
   {
     title: 'Three Buttons with Flexbox layout',
-    description: ('Note: Three buttons wrapped inside View with justifyContent: spaceBetween,' +
-      'This layout strategy lets the title define the width of the button': string),
+    description: '',
     render: function (): React.Node {
       return (
         <View style={styles.container}>
@@ -128,9 +126,9 @@ exports.examples = [
     },
   },
   {
-    title: 'Button with accessibilityLabel="label',
+    title: 'Button with accessibilityLabel="label"',
     description:
-      'Note: this prop changes the text that a screen ' +
+      'Note: This prop changes the text that a screen ' +
       'reader announces (there are no visual differences).',
     render: function (): React.Node {
       return (
