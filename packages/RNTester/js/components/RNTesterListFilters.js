@@ -15,6 +15,11 @@ const React = require('react');
 const {StyleSheet, Text, TouchableOpacity, View} = require('react-native');
 const filters = ['Basic', 'UI', 'ListViews', 'iOS', 'Android'];
 
+const filterToFieldMapping = filters.reduce((acc, filter) => {
+  acc[filter] = filter.toLowerCase() + 'Selected';
+  return acc;
+}, {});
+
 type State = {|
   basicSelected: boolean,
   uiSelected: boolean,
@@ -24,7 +29,7 @@ type State = {|
 |};
 
 type Props = {
-  onFilterButtonPress: function,
+  onFilterButtonPress?: function, //optional only for testing
   ...
 };
 
@@ -40,12 +45,22 @@ class RNTesterListFilters extends React.Component<State, Props> {
     };
   }
 
+  filterPressed = filterLabel => {
+    this.state.setState({
+      [filterToFieldMapping[filterLabel]]: !this.state[
+        filterToFieldMapping[filterLabel]
+      ],
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <View />
         {filters.map(filterLabel => {
-          <TouchableOpacity style={styles.pillStyle}>
+          <TouchableOpacity
+            style={styles.pillStyle}
+            onPress={() => filterPressed(filterLabel)}>
             <Text style={{color: 'white'}}>{filterLabel}</Text>
           </TouchableOpacity>;
         })}
