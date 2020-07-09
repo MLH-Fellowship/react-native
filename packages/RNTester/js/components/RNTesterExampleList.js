@@ -51,7 +51,6 @@ type ButtonProps = {
 };
 
 function PlatformLogoContainer({platform}): React.Component {
-  console.log(platform);
   return (
     <View style={{flexDirection: 'row'}}>
       {(!platform || platform === 'ios') && (
