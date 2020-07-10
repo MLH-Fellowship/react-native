@@ -15,11 +15,41 @@ import * as React from 'react';
 export type RNTesterBookmark = {
   Components: Object,
   Api: Object,
+  AddComponent: Function,
+  RemoveComponent: Function,
+  AddApi: Function,
+  RemoveApi: Function,
+  checkComponent: Function,
+};
+
+const AddComponent = (componentName, component) => {
+  bookmarks.Components[componentName] = component;
+};
+
+const RemoveComponent = (componentName) => {
+  delete bookmarks.Components[componentName];
+};
+
+const AddApi = (apiName, api) => {
+  bookmarks.Components[apiName] = api;
+};
+
+const RemoveApi = (apiName) => {
+  delete bookmarks.Components[apiName];
+};
+
+const checkComponent = (componentName) => {
+  return bookmarks.Components[componentName] === undefined;
 };
 
 export const bookmarks = {
   Components: {},
   Api: {},
+  AddComponent: AddComponent,
+  RemoveComponent: RemoveComponent,
+  AddApi: AddApi,
+  RemoveApi: RemoveApi,
+  checkComponent: checkComponent,
 };
 
 export const RNTesterThemeContext: React.Context<RNTesterBookmark> = React.createContext(
