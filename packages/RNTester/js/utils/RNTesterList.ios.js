@@ -24,11 +24,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
-    key: 'DatePickerIOSExample',
-    module: require('../examples/DatePicker/DatePickerIOSExample'),
-    supportsTVOS: false,
-  },
-  {
     key: 'FlatListExample',
     module: require('../examples/FlatList/FlatListExample'),
     supportsTVOS: true,
@@ -78,23 +73,8 @@ const ComponentExamples: Array<RNTesterExample> = [
     supportsTVOS: false,
   },
   {
-    key: 'PickerExample',
-    module: require('../examples/Picker/PickerExample'),
-    supportsTVOS: false,
-  },
-  {
-    key: 'PickerIOSExample',
-    module: require('../examples/Picker/PickerIOSExample'),
-    supportsTVOS: false,
-  },
-  {
     key: 'PressableExample',
     module: require('../examples/Pressable/PressableExample'),
-    supportsTVOS: true,
-  },
-  {
-    key: 'ProgressViewIOSExample',
-    module: require('../examples/ProgressViewIOS/ProgressViewIOSExample'),
     supportsTVOS: true,
   },
   {
@@ -126,16 +106,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     key: 'SectionListExample',
     module: require('../examples/SectionList/SectionListExample'),
     supportsTVOS: true,
-  },
-  {
-    key: 'SegmentedControlIOSExample',
-    module: require('../examples/SegmentedControlIOS/SegmentedControlIOSExample'),
-    supportsTVOS: false,
-  },
-  {
-    key: 'SliderExample',
-    module: require('../examples/Slider/SliderExample'),
-    supportsTVOS: false,
   },
   {
     key: 'StatusBarExample',
@@ -216,11 +186,6 @@ const APIExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
-    key: 'AsyncStorageExample',
-    module: require('../examples/AsyncStorage/AsyncStorageExample'),
-    supportsTVOS: true,
-  },
-  {
     key: 'BorderExample',
     module: require('../examples/Border/BorderExample'),
     supportsTVOS: true,
@@ -229,11 +194,6 @@ const APIExamples: Array<RNTesterExample> = [
     key: 'BoxShadowExample',
     module: require('../examples/BoxShadow/BoxShadowExample'),
     supportsTVOS: true,
-  },
-  {
-    key: 'ClipboardExample',
-    module: require('../examples/Clipboard/ClipboardExample'),
-    supportsTVOS: false,
   },
   {
     key: 'CrashExample',
