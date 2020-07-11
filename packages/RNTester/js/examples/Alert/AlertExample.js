@@ -9,8 +9,18 @@
 
 'use strict';
 
-import * as React from 'react';
+import React, {useState} from 'react';
 import {Alert, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+
+// Shows log on the screen
+const Log = ({message}) =>
+  message ? (
+    <View style={styles.logContainer}>
+      <Text>
+        <Text style={styles.bold}>Log</Text>: {message}
+      </Text>
+    </View>
+  ) : null;
 
 /**
  * Simple alert examples.
@@ -34,6 +44,8 @@ const AlertWithDefaultButton = () => {
 };
 
 const AlertWithTwoButtons = () => {
+  const [message, setMessage] = useState('');
+
   const alertMessage = 'Your subscription has expired!';
 
   return (
@@ -42,19 +54,22 @@ const AlertWithTwoButtons = () => {
         style={styles.wrapper}
         onPress={() =>
           Alert.alert('Action Required!', alertMessage, [
-            {text: 'Ignore', onPress: () => console.log('Ignore Pressed!')},
-            {text: 'Renew', onPress: () => console.log('Renew Pressed!')},
+            {text: 'Ignore', onPress: () => setMessage('Ignore Pressed!')},
+            {text: 'Renew', onPress: () => setMessage('Renew Pressed!')},
           ])
         }>
         <View style={styles.button}>
           <Text>Tap to view alert</Text>
         </View>
       </TouchableHighlight>
+      <Log message={message} />
     </View>
   );
 };
 
 const AlertWithThreeButtons = () => {
+  const [message, setMessage] = useState('');
+
   const alertMessage = 'Do you want to save your changes?';
 
   return (
@@ -64,26 +79,23 @@ const AlertWithThreeButtons = () => {
         style={styles.wrapper}
         onPress={() =>
           Alert.alert('Unsaved Changes!', alertMessage, [
-            {
-              text: 'Cancel',
-              onPress: () => {
-                // Show another alert indicating that this callback was called (needed for Detox test)
-                Alert.alert('Alert', 'Callback called for the Cancel button!');
-              },
-            },
-            {text: 'No', onPress: () => console.log('No Pressed!')},
-            {text: 'Yes', onPress: () => console.log('Yes Pressed!')},
+            {text: 'Cancel', onPress: () => setMessage('Cancel Pressed!')},
+            {text: 'No', onPress: () => setMessage('No Pressed!')},
+            {text: 'Yes', onPress: () => setMessage('Yes Pressed!')},
           ])
         }>
         <View style={styles.button}>
           <Text>Tap to view alert</Text>
         </View>
       </TouchableHighlight>
+      <Log message={message} />
     </View>
   );
 };
 
 const AlertWithManyButtons = () => {
+  const [message, setMessage] = useState('');
+
   const alertMessage =
     'Credibly reintermediate next-generation potentialities after goal-oriented ' +
     'catalysts for change. Dynamically revolutionize.';
@@ -98,7 +110,7 @@ const AlertWithManyButtons = () => {
             alertMessage,
             '..............'.split('').map((dot, index) => ({
               text: 'Button ' + index,
-              onPress: () => console.log('Pressed ' + index),
+              onPress: () => setMessage(`Button ${index} Pressed!`),
             })),
           )
         }>
@@ -106,11 +118,14 @@ const AlertWithManyButtons = () => {
           <Text>Tap to view alert</Text>
         </View>
       </TouchableHighlight>
+      <Log message={message} />
     </View>
   );
 };
 
 const AlertWithCancelableTrue = () => {
+  const [message, setMessage] = useState('');
+
   const alertMessage = 'Tapping outside this dialog will dismiss this alert.';
 
   return (
@@ -121,11 +136,11 @@ const AlertWithCancelableTrue = () => {
           Alert.alert(
             'Alert Title',
             alertMessage,
-            [{text: 'OK', onPress: () => console.log('OK Pressed!')}],
+            [{text: 'OK', onPress: () => setMessage('OK Pressed!')}],
             {
               cancelable: true,
               onDismiss: () =>
-                console.log(
+                setMessage(
                   'This alert was dismissed by tapping outside of the alert dialog.',
                 ),
             },
@@ -135,11 +150,14 @@ const AlertWithCancelableTrue = () => {
           <Text>Tap to view alert</Text>
         </View>
       </TouchableHighlight>
+      <Log message={message} />
     </View>
   );
 };
 
 const AlertWithStyles = () => {
+  const [message, setMessage] = useState('');
+
   const alertMessage = 'Look at the button styles!';
 
   return (
@@ -150,17 +168,17 @@ const AlertWithStyles = () => {
           Alert.alert('Styled Buttons!', alertMessage, [
             {
               text: 'Default',
-              onPress: () => console.log('Default Pressed!'),
+              onPress: () => setMessage('Default Pressed!'),
               style: 'default',
             },
             {
               text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed!'),
+              onPress: () => setMessage('Cancel Pressed!'),
               style: 'cancel',
             },
             {
               text: 'Destructive',
-              onPress: () => console.log('Destructive Pressed!'),
+              onPress: () => setMessage('Destructive Pressed!'),
               style: 'destructive',
             },
           ])
@@ -169,6 +187,7 @@ const AlertWithStyles = () => {
           <Text>Tap to view alert</Text>
         </View>
       </TouchableHighlight>
+      <Log message={message} />
     </View>
   );
 };
@@ -181,6 +200,13 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: '#eeeeee',
     padding: 10,
+  },
+  logContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 5,
+  },
+  bold: {
+    fontWeight: 'bold',
   },
 });
 

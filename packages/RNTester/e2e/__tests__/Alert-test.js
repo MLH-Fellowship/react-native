@@ -45,9 +45,6 @@ describe('Alert', () => {
     await openExampleWithTitle('Alert with three Buttons');
     await element(by.id('alert-with-three-buttons')).tap();
     await element(by.text('Cancel')).tap();
-    await expect(
-      element(by.text('Callback called for the Cancel button!')),
-    ).toBeVisible();
-    await element(by.text('OK')).tap();
+    await expect(element(by.text('Log: Cancel Pressed!'))).toBeVisible();
   });
 });
