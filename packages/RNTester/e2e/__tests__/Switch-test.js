@@ -21,7 +21,7 @@ describe('Switch', () => {
   });
 
   /** testing Basic Switch Example */
-  it('Basic Switch Should TOggle with Text Changes', async () => {
+  it('should toggle with text changes', async () => {
     await openExampleWithTitle('Basic Switch');
 
     /** ensure initial behavior of components */
@@ -40,7 +40,7 @@ describe('Switch', () => {
   });
 
   /** testing Disabled Switch Example */
-  it('Disabled Switch should not be interactable', async () => {
+  it('should not be interactable when disabled', async () => {
     await openExampleWithTitle('Disabled Switches');
 
     /** ensure initial behavior of components */
@@ -65,7 +65,7 @@ describe('Switch', () => {
   });
 
   /** testing onChange prop in Switch Example */
-  it('onChange prop', async () => {
+  it('should trigger function via onChange prop', async () => {
     await openExampleWithTitle('Watching Switch Interactions');
 
     /** ensure initial behavior of components */
@@ -83,7 +83,7 @@ describe('Switch', () => {
   });
 
   /** testing onValueChange prop in Switch Example */
-  it('onValueChange prop', async () => {
+  it('should return current value via onValueChange prop', async () => {
     await openExampleWithTitle('Reading data from switch component');
 
     /** ensure initial behavior of components */
@@ -107,7 +107,7 @@ describe('Switch', () => {
   });
 
   /** testing visibility of styled examples using thumbColor prop */
-  it('thumbColor prop', async () => {
+  it('should be visible with thumbColor prop', async () => {
     await openExampleWithTitle('Styling Switch Knob');
 
     /** ensure initial behavior of components */
@@ -125,7 +125,7 @@ describe('Switch', () => {
   });
 
   /** testing visibility of styled examples using trackColor prop */
-  it('trackColor prop', async () => {
+  it('should be visible with trackColor prop', async () => {
     await openExampleWithTitle('Styling Switch Track');
 
     /** ensure initial behavior of components */
@@ -143,7 +143,7 @@ describe('Switch', () => {
   });
 
   /** testing visibility of styled examples using trackColor and thumbColor prop both */
-  it('trackColor and thumbColor prop', async () => {
+  it('should be visible with trackColor and thumbColor prop', async () => {
     await openExampleWithTitle('Completely Styling Components');
 
     /** ensure initial behavior of components */
