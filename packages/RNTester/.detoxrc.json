@@ -7,7 +7,7 @@
       "build": "cd android && ./gradlew assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
       "type": "android.emulator",
       "device": {
-        "avdName": "Pixel_API_28"
+        "avdName": "Pixel_2_API_28_"
       }
     },
     "android.emu.release": {

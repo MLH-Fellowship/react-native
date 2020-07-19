@@ -19,7 +19,11 @@ describe('TextInput', () => {
     await device.reloadReactNative();
     await openComponentWithLabel(
       '<TextInput>',
+<<<<<<< HEAD
       '<TextInput> Single and multi-line text inputs.',
+=======
+      '<TextInput>Single and multi-line text inputs.',
+>>>>>>> 7002963599b296cc9c983a1ca6df3b88341620b8
     );
   });
 
