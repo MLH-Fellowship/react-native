@@ -31,11 +31,11 @@ const RemoveComponent = (componentName) => {
 };
 
 const AddApi = (apiName, api) => {
-  bookmarks.Components[apiName] = api;
+  bookmarks.Api[apiName] = api;
 };
 
 const RemoveApi = (apiName) => {
-  delete bookmarks.Components[apiName];
+  delete bookmarks.Api[apiName];
 };
 
 const checkComponent = (componentName) => {
@@ -52,6 +52,6 @@ export const bookmarks = {
   checkComponent: checkComponent,
 };
 
-export const RNTesterThemeContext: React.Context<RNTesterBookmark> = React.createContext(
+export const RNTesterBookmarkContext: React.Context<RNTesterBookmark> = React.createContext(
   bookmarks,
 );

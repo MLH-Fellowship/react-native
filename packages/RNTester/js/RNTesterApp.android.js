@@ -40,6 +40,10 @@ import AsyncStorage from '@react-native-community/async-storage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
+import {
+  RNTesterBookmarkContext,
+  bookmarks,
+} from './components/RNTesterBookmark';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);

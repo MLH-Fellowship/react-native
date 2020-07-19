@@ -13,6 +13,7 @@
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const React = require('react');
+const {useContext} = require('react');
 
 const {
   Platform,
@@ -28,6 +29,7 @@ import type {ViewStyleProp} from 'react-native';
 import type {RNTesterExample} from '../types/RNTesterTypes';
 
 import {RNTesterThemeContext} from './RNTesterTheme';
+import {RNTesterBookmarkContext} from './RNTesterBookmark';
 
 type Props = {
   onNavigate: Function,
@@ -74,13 +76,27 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     super(props);
     this.state = {
       active: false,
+      key: props.section.title,
     };
   }
-
-  onButtonPress = () => {
+  onButtonPress = (bookmark) => {
+    if (!this.state.active) {
+      if (this.state.key === 'APIS') {
+        bookmark.AddApi(this.props.item.module.title, this.props.item);
+      } else {
+        bookmark.AddComponent(this.props.item.module.title, this.props.item);
+      }
+    } else {
+      if (this.state.key === 'APIS') {
+        bookmark.RemoveApi(this.props.item.module.title);
+      } else {
+        bookmark.RemoveComponent(this.props.item.module.title);
+      }
+    }
     this.setState({
       active: !this.state.active,
     });
+    console.log(bookmark);
   };
 
   _onPress = () => {
@@ -94,59 +110,72 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
-            <TouchableHighlight
-              onShowUnderlay={this.props.onShowUnderlay}
-              onHideUnderlay={this.props.onHideUnderlay}
-              accessibilityLabel={
-                item.module.title + ' ' + item.module.description
-              }
-              onPress={this._onPress}>
-              <View
-                style={[
-                  styles.row,
-                  {backgroundColor: theme.SystemBackgroundColor},
-                ]}>
-                <View style={styles.rowTextContent}>
-                  <Text
-                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
-                    {item.module.title}
-                  </Text>
-                  <View style={{flexDirection: 'row', marginBottom: 5}}>
-                    <Text style={{color: 'blue'}}>Category: </Text>
-                    <Text>{item.module.category || 'Components/Basic'}</Text>
-                  </View>
-                  <Text
-                    style={[
-                      styles.rowDetailText,
-                      {color: theme.SecondaryLabelColor},
-                    ]}>
-                    {item.module.description}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 0.15,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
+            <RNTesterBookmarkContext.Consumer>
+              {(bookmark) => {
+                return (
                   <TouchableHighlight
-                    style={styles.imageViewStyle}
-                    onPress={this.onButtonPress}>
-                    <Image
-                      style={styles.imageStyle}
-                      source={
-                        this.state.active
-                          ? require('../assets/bookmark-filled.png')
-                          : require('../assets/bookmark-outline.png')
-                      }
-                    />
+                    onShowUnderlay={this.props.onShowUnderlay}
+                    onHideUnderlay={this.props.onHideUnderlay}
+                    accessibilityLabel={
+                      item.module.title + ' ' + item.module.description
+                    }
+                    onPress={this._onPress}>
+                    <View
+                      style={[
+                        styles.row,
+                        {backgroundColor: theme.SystemBackgroundColor},
+                      ]}>
+                      <View style={styles.rowTextContent}>
+                        <Text
+                          style={[
+                            styles.rowTitleText,
+                            {color: theme.LabelColor},
+                          ]}>
+                          {item.module.title}
+                        </Text>
+                        <View style={{flexDirection: 'row', marginBottom: 5}}>
+                          <Text style={{color: 'blue'}}>Category: </Text>
+                          <Text>
+                            {item.module.category || 'Components/Basic'}
+                          </Text>
+                        </View>
+                        <Text
+                          style={[
+                            styles.rowDetailText,
+                            {color: theme.SecondaryLabelColor},
+                          ]}>
+                          {item.module.description}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          flex: 0.15,
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}>
+                        <TouchableHighlight
+                          style={styles.imageViewStyle}
+                          onPress={() => this.onButtonPress(bookmark)}>
+                          <Image
+                            style={styles.imageStyle}
+                            source={
+                              this.state.active
+                                ? require('../assets/bookmark-outline.png')
+                                : require('../assets/bookmark-filled.png')
+                            }
+                          />
+                        </TouchableHighlight>
+                        <PlatformLogoContainer
+                          platform={item.module.platform}
+                        />
+                      </View>
+                    </View>
                   </TouchableHighlight>
-                  <PlatformLogoContainer platform={item.module.platform} />
-                </View>
-              </View>
-            </TouchableHighlight>
+                );
+              }}
+            </RNTesterBookmarkContext.Consumer>
           );
         }}
       </RNTesterThemeContext.Consumer>
@@ -156,7 +185,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
 const renderSectionHeader = ({section}) => (
   <RNTesterThemeContext.Consumer>
-    {theme => {
+    {(theme) => {
       return (
         <Text
           style={[
@@ -194,7 +223,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
     return (
       <RNTesterThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
             <View
               style={[
@@ -202,7 +231,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 this.props.style,
                 {backgroundColor: theme.SecondaryGroupedBackgroundColor},
               ]}>
-              {this._renderTitleRow()}
+              {/* {this._renderTitleRow()} */}
               <RNTesterExampleFilter
                 testID="explorer_search"
                 sections={sections}
@@ -225,9 +254,10 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     );
   }
 
-  _renderItem = ({item, separators}) => (
+  _renderItem = ({item, section, separators}) => (
     <RowComponent
       item={item}
+      section={section}
       onNavigate={this.props.onNavigate}
       onShowUnderlay={separators.highlight}
       onHideUnderlay={separators.unhighlight}
@@ -264,7 +294,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
 const ItemSeparator = ({highlighted}) => (
   <RNTesterThemeContext.Consumer>
-    {theme => {
+    {(theme) => {
       return (
         <View
           style={
