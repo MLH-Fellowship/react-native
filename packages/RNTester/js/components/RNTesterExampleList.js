@@ -47,6 +47,7 @@ type ButtonState = {|active: boolean|};
 type ButtonProps = {
   item: Object,
   section: Object,
+  active: Boolean,
   onNavigate: Function,
   onPress?: Function,
   onShowUnderlay?: Function,
@@ -93,7 +94,11 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   constructor(props: ButtonProps) {
 >>>>>>> check bookmark
     super(props);
+    if (props.active) {
+      console.log(props.active);
+    }
     this.state = {
+      active: props.active,
       title: props.item.title,
       key: props.section.title,
     };
@@ -101,7 +106,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   onButtonPress = () => {
     let bookmark = this.context;
-    if (!bookmark.checkBookmark(this.state.title, this.state.key)) {
+    if (!this.state.active) {
       if (this.state.key === 'APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
       } else {
@@ -114,6 +119,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
         bookmark.RemoveComponent(this.props.item.module.title);
       }
     }
+    this.setState({
+      active: !this.state.active,
+    });
     console.log(bookmark);
   };
 
@@ -125,7 +133,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
   };
   render() {
-    let active = this.context.checkBookmark(this.state.title, this.state.key);
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
@@ -172,7 +179,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                     <Image
                       style={styles.imageStyle}
                       source={
-                        active
+                        this.state.active
                           ? require('../assets/bookmark-outline.png')
                           : require('../assets/bookmark-filled.png')
                       }
@@ -209,6 +216,7 @@ const renderSectionHeader = ({section}) => (
 );
 
 class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
+  static contextType = RNTesterBookmarkContext;
   render(): React.Node {
     const filter = ({example, filterRegex, category}) =>
       filterRegex.test(example.module.title) &&
@@ -261,15 +269,19 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     );
   }
 
-  _renderItem = ({item, section, separators}) => (
-    <RowComponent
-      item={item}
-      section={section}
-      onNavigate={this.props.onNavigate}
-      onShowUnderlay={separators.highlight}
-      onHideUnderlay={separators.unhighlight}
-    />
-  );
+  _renderItem = ({item, section, separators}) => {
+    let bookmark = this.context;
+    return (
+      <RowComponent
+        item={item}
+        section={section}
+        active={!bookmark.checkBookmark(item.module.title, section.title)}
+        onNavigate={this.props.onNavigate}
+        onShowUnderlay={separators.highlight}
+        onHideUnderlay={separators.unhighlight}
+      />
+    );
+  };
 
   _renderTitleRow(): ?React.Element<any> {
     /* $FlowFixMe(>=0.68.0 site=react_native_fb) This comment suppresses an

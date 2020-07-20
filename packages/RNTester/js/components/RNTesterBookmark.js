@@ -19,7 +19,7 @@ export type RNTesterBookmark = {
   RemoveComponent: Function,
   AddApi: Function,
   RemoveApi: Function,
-  checkComponent: Function,
+  checkBookmark: Function,
 };
 
 const AddComponent = (componentName, component) => {
@@ -39,9 +39,11 @@ const RemoveApi = (apiName) => {
 };
 
 const checkBookmark = (title, key) => {
+  // console.log(bookmarks.Components);
   if (key === 'APIS') {
     return bookmarks.Api[title] === undefined;
   }
+  console.log(title);
   return bookmarks.Components[title] === undefined;
 };
 
