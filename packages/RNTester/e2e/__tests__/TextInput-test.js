@@ -26,7 +26,7 @@ describe('TextInput', () => {
   it('TextInput should accept input', async () => { 
     await openExampleWithTitle("TextInput with autoFocus={true}"); 
 
-    await element(by.id("TextInput that replaces spaces with underscore '_'")).typeText(
+    await element(by.id('rewrite_sp_underscore_input')).typeText(
       'this is a long sentence',
     );
     await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText(
