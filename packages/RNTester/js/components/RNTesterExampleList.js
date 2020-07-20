@@ -15,7 +15,6 @@ const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const RNTesterComponentTitle = require('./RNTesterComponentTitle');
 const RNTesterBookmarkButton = require('./RNTesterBookmarkButton');
 const React = require('react');
-const {useContext} = require('react');
 
 const {
   Platform,
