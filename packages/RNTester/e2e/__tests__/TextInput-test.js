@@ -23,40 +23,38 @@ describe('TextInput', () => {
     );
   });
 
-  it('Live rewrite with spaces should replace spaces', async () => {
+  it('TextInput should accept input', async () => { 
+    await openExampleWithTitle("TextInput with autoFocus={true}"); 
+
+    await element(by.id('check_text_input')).typeText("Check text input"); 
+    await expect(element(by.id('check_text_input'))).toHaveText("Check text input"); 
+  })
+
+  it('No-spaces-Input should not allow spaces', async () => {
     await openExampleWithTitle("TextInput that replaces spaces with underscore '_'");
 
     await element(by.id('rewrite_sp_underscore_input')).typeText(
       'this is a long sentence',
     );
-    await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText(
-      'this_is_a_long_sente',
-    );
+
+    await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText('this_is_a_long_sentence');
   });
 
-  // it('Live rewrite with no spaces should remove spaces', async () => {
-  //   await openExampleWithTitle('Live Re-Write \\(no spaces');
+  it('TextInput with maxLength should not exceed maximum length', async () => {
+    await openExampleWithTitle("TextInput with maxLength={limit}"); 
 
-  //   await element(by.id('rewrite_no_sp_input')).typeText(
-  //     'this is a long sentence',
-  //   );
-  //   await expect(element(by.id('rewrite_no_sp_input'))).toHaveText(
-  //     'thisisalongsentence',
-  //   );
-  // });
+    await element(by.id('max_length_input')).typeText(
+      'this is a very long sentence.'
+    );
 
-  // it('Live rewrite with clear should remove spaces and clear', async () => {
-  //   await openExampleWithTitle('and clear');
+    await expect(element(by.id('max_length_input'))).toHaveText('this is a very long ');
+  })
 
-  //   await element(by.id('rewrite_clear_input')).typeText(
-  //     'this is a long sentence',
-  //   );
-  //   await expect(element(by.id('rewrite_clear_input'))).toHaveText(
-  //     'thisisalongsentence',
-  //   );
+  it("TextInput should be cleared by tapping 'Clear' button", async () => { 
+    await openExampleWithTitle("TextInput along with 'Clear' button"); 
+    await element(by.id('clear_text_input')).typeText('this text needs to be cleared'); 
+    await element(by.id('rewrite_clear_button')).tap(); 
 
-  //   await element(by.id('rewrite_clear_button')).tap();
-
-  //   await expect(element(by.id('rewrite_clear_input'))).toHaveText('');
-  // });
+    await expect(element(by.id('clear_text_input'))).toHaveText('');
+  })
 });
