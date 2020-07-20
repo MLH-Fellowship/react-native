@@ -15,7 +15,7 @@
       "build": "cd android && ./gradlew assembleRelease app:assembleAndroidTest -DtestBuildType=release && cd ..",
       "type": "android.emulator",
       "device": {
-        "avdName": "Pixel_API_28"
+        "avdName": "Pixel_3a_API_29_x86"
       }
     },
     "ios.sim.release": {
