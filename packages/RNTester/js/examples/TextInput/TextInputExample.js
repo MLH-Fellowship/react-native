@@ -129,6 +129,7 @@ const MaxLengthExample = () => {
     <View style={styles.rewriteContainer}>
       <WithLabel label="Enter FileName">
         <TextInput
+          testID="max_length_input"
           autoCorrect={false}
           multiline={false}
           style={styles.default}
@@ -149,7 +150,7 @@ const RewriteExampleInvalidCharacters = () => {
   return (
     <View style={styles.rewriteContainer}>
       <WithLabel label="Enter email:">
-        <TextInput
+        <TextInput  
           testID="rewrite_no_sp_input"
           autoCorrect={false}
           multiline={false}
@@ -164,12 +165,13 @@ const RewriteExampleInvalidCharacters = () => {
   );
 };
 
-const RewriteInvalidCharactersAndClearExample = () => {
+const TextInputClearExample = () => {
   const [value, setValue] = useState('');
   return (
     <View style={styles.rewriteContainer}>
       <WithLabel label="Enter username:">
         <TextInput
+          testID="clear_text_input"
           autoCorrect={false}
           multiline={true}
           style={styles.default}
@@ -466,7 +468,7 @@ exports.examples = ([
     render: function(): React.Node {
       return (
         <WithLabel label="Enter Username">
-          <TextInput autoFocus={true} style={styles.default} />
+          <TextInput testID="check_text_input" autoFocus={true} style={styles.default} />
         </WithLabel>
       );
     },
@@ -507,9 +509,9 @@ exports.examples = ([
     },
   },
   {
-    title: 'TextInput along with "Clear" button',
+    title: "TextInput along with 'Clear' button",
     render: function(): React.Node {
-      return <RewriteInvalidCharactersAndClearExample />;
+      return <TextInputClearExample />;
     },
   },
   {
