@@ -23,10 +23,10 @@ describe('TextInput', () => {
     );
   });
 
-  it('Live rewrite with spaces should replace spaces and enforce max length', async () => {
-    await openExampleWithTitle('Live Re-Write \\(<sp>');
+  it('Live rewrite with spaces should replace spaces', async () => {
+    await openExampleWithTitle("TextInput that replaces spaces with underscore '_'");
 
-    await element(by.id("TextInput that replaces spaces with underscore '_'")).typeText(
+    await element(by.id('rewrite_sp_underscore_input')).typeText(
       'this is a long sentence',
     );
     await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText(
