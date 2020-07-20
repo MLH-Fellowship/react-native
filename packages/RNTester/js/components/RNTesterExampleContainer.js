@@ -13,10 +13,8 @@ const React = require('react');
 const {Platform, Text} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
-const RNTesterPage = require('./RNTesterPage');
 
 const invariant = require('invariant');
-import UseCase from './UseCase';
 import ExamplePage from './ExamplePage';
 
 class RNTesterExampleContainer extends React.Component {
@@ -78,7 +76,7 @@ class RNTesterExampleContainer extends React.Component {
 
     return (
       <ExamplePage
-        title={this.props.title}
+        title={module.title}
         description={module.description}
         android={module.android}
         ios={module.ios}>

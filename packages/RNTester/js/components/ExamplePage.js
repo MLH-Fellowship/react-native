@@ -22,11 +22,10 @@ import {
 
 import HeadingText from './HeadingText';
 import Background from './Background';
-import UseCase from './UseCase';
 
 type Props = $ReadOnly<{|
   children?: React.Node,
-  title?: ?string,
+  title: string,
   description?: ?string,
   ios?: ?boolean,
   android?: ?boolean,
@@ -51,9 +50,6 @@ export default function ExamplePage(props: Props): React.Node {
   ) : null;
 
   const docsImage = <Image source={imagePaths.docs} />;
-  // const children = React.Children.map(props.children, (child, index) => (
-  //   <UseCase key={index}>{child}</UseCase>
-  // ));
 
   return (
     <React.Fragment>
