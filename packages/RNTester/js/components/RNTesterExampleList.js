@@ -13,7 +13,6 @@
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 const React = require('react');
-const {useContext} = require('react');
 
 const {
   Platform,
