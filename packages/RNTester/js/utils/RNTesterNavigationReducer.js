@@ -32,6 +32,12 @@ function RNTesterNavigationReducer(
     };
   }
 
+  if (action.type === 'RNTesterBookmarkAction') {
+    return {
+      openExample: 'RNTesterBookmark',
+    };
+  }
+
   if (action.type === 'RNTesterExampleAction') {
     // Make sure we see the module before returning the new state
     const ExampleModule = RNTesterList.Modules[action.openExample];
