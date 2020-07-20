@@ -33,36 +33,48 @@ type Props = {
   ...
 };
 
-class RNTesterListFilters extends React.Component<State, Props> {
+class RNTesterListFilters extends React.Component<
+  Props,
+  {|currentFilter: string|},
+> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      basicSelected: false,
-      uiSelected: false,
-      listViewsSelected: false,
-      iosSelected: false,
-      androidSelected: false,
+      currentFilter: '',
     };
   }
 
-  filterPressed = filterLabel => {
-    this.state.setState({
-      [filterToFieldMapping[filterLabel]]: !this.state[
-        filterToFieldMapping[filterLabel]
-      ],
+  filterPressed: any = filterLabel => {
+    this.setState({
+      currentFilter:
+        this.state.currentFilter === filterLabel ? '' : filterLabel,
     });
   };
 
-  render() {
+  render(): React.Node {
     return (
       <View style={styles.container}>
-        <View />
         {filters.map(filterLabel => {
-          <TouchableOpacity
-            style={styles.pillStyle}
-            onPress={() => filterPressed(filterLabel)}>
-            <Text style={{color: 'white'}}>{filterLabel}</Text>
-          </TouchableOpacity>;
+          return (
+            <TouchableOpacity
+              key={filterLabel}
+              style={[
+                styles.pillStyle,
+                {
+                  backgroundColor:
+                    this.state.currentFilter === filterLabel ? 'blue' : 'white',
+                },
+              ]}
+              onPress={() => this.filterPressed(filterLabel)}>
+              <Text
+                style={{
+                  color:
+                    this.state.currentFilter === filterLabel ? 'white' : 'blue',
+                }}>
+                {filterLabel}
+              </Text>
+            </TouchableOpacity>
+          );
         })}
       </View>
     );
@@ -72,12 +84,16 @@ class RNTesterListFilters extends React.Component<State, Props> {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pillStyle: {
-    backgroundColor: 'blue',
-    padding: 5,
+    padding: 10,
     marginHorizontal: 5,
-    borderRadius: 8,
+    marginVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'blue',
   },
 });
 

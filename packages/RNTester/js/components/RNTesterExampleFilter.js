@@ -11,7 +11,7 @@
 'use strict';
 
 const React = require('react');
-
+const RNTesterListFilters = require('./RNTesterListFilters');
 const {StyleSheet, TextInput, View} = require('react-native');
 import {RNTesterThemeContext} from './RNTesterTheme';
 
@@ -93,6 +93,7 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
                 testID={this.props.testID}
                 value={this.state.filter}
               />
+              <RNTesterListFilters />
             </View>
           );
         }}
