@@ -26,7 +26,6 @@ exports.description = 'Simple React Native button component.';
 exports.examples = [
   {
     title: 'Button with default styling',
-    description: '',
     render: function (): React.Node {
       return (
         <Button
@@ -81,7 +80,6 @@ exports.examples = [
   },
   {
     title: 'Three Buttons with Flexbox layout',
-    description: '',
     render: function (): React.Node {
       return (
         <View style={styles.container}>
