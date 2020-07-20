@@ -200,21 +200,24 @@ const renderSectionHeader = ({section}) => (
   </RNTesterThemeContext.Consumer>
 );
 
-class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
+class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
   render(): React.Node {
+    console.log('HELLO');
+    const bookmark = this.context;
     const filter = ({example, filterRegex}) =>
       filterRegex.test(example.module.title) &&
       (!Platform.isTV || example.supportsTVOS);
 
+   
     const sections = [
       {
-        data: this.props.list.ComponentExamples,
+        data: Object.values(bookmark.Components),
         title: 'COMPONENTS',
         key: 'c',
       },
       {
-        data: this.props.list.APIExamples,
+        data: Object.values(bookmark.Api),
         title: 'APIS',
         key: 'a',
       },
@@ -374,4 +377,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = RNTesterExampleList;
+module.exports = RNTesterBookmarkList;
