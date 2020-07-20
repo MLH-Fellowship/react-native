@@ -12,8 +12,6 @@
 
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
-const RNTesterComponentTitle = require('./RNTesterComponentTitle');
-const RNTesterBookmarkButton = require('./RNTesterBookmarkButton');
 const React = require('react');
 
 const {
@@ -28,6 +26,7 @@ const {
 
 import type {ViewStyleProp} from 'react-native';
 import type {RNTesterExample} from '../types/RNTesterTypes';
+
 import {RNTesterThemeContext} from './RNTesterTheme';
 import {RNTesterBookmarkContext} from './RNTesterBookmark';
 
@@ -54,7 +53,7 @@ type ButtonProps = {
   ...
 };
 
-const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
+function PlatformLogoContainer({platform}): React.Component {
   return (
     <View style={{flexDirection: 'row'}}>
       {(!platform || platform === 'ios') && (
@@ -71,27 +70,12 @@ const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
       )}
     </View>
   );
-};
+}
 
-type RowState = {|active: boolean|};
-type RowProps = {
-  item: Object,
-  onNavigate: Function,
-  onPress?: Function,
-  onShowUnderlay?: Function,
-  onHideUnderlay?: Function,
-  ...
-};
-
-<<<<<<< HEAD
-class RowComponent extends React.PureComponent<RowProps, RowState> {
-  constructor(props: RowProps) {
-=======
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = RNTesterBookmarkContext;
 
   constructor(props: ButtonProps) {
->>>>>>> check bookmark
     super(props);
     if (props.active) {
       console.log(props.active);
@@ -216,22 +200,24 @@ const renderSectionHeader = ({section}) => (
   </RNTesterThemeContext.Consumer>
 );
 
-class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
+class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
   render(): React.Node {
-    const filter = ({example, filterRegex, category}) =>
+    console.log('HELLO');
+    const bookmark = this.context;
+    const filter = ({example, filterRegex}) =>
       filterRegex.test(example.module.title) &&
-      (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
+   
     const sections = [
       {
-        data: this.props.list.ComponentExamples,
+        data: Object.values(bookmark.Components),
         title: 'COMPONENTS',
         key: 'c',
       },
       {
-        data: this.props.list.APIExamples,
+        data: Object.values(bookmark.Api),
         title: 'APIS',
         key: 'a',
       },
@@ -391,4 +377,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = RNTesterExampleList;
+module.exports = RNTesterBookmarkList;

@@ -43,7 +43,6 @@ const checkBookmark = (title, key) => {
   if (key === 'APIS') {
     return bookmarks.Api[title] === undefined;
   }
-  console.log(title);
   return bookmarks.Components[title] === undefined;
 };
 
