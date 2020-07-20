@@ -29,34 +29,25 @@ describe('TextInput', () => {
     await element(by.id('rewrite_sp_underscore_input')).typeText(
       'this is a long sentence',
     );
-    await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText(
-      'this_is_a_long_sente',
-    );
+
+    await expect(element(by.id('rewrite_sp_underscore_input'))).toHaveText('this_is_a_long_sentence');
   });
 
-  // it('Live rewrite with no spaces should remove spaces', async () => {
-  //   await openExampleWithTitle('Live Re-Write \\(no spaces');
+  it('TextInput with maxLength should not exceed maximum length', async () => {
+    await openExampleWithTitle("TextInput with maxLength={limit}"); 
 
-  //   await element(by.id('rewrite_no_sp_input')).typeText(
-  //     'this is a long sentence',
-  //   );
-  //   await expect(element(by.id('rewrite_no_sp_input'))).toHaveText(
-  //     'thisisalongsentence',
-  //   );
-  // });
+    await element(by.id('max_length_input')).typeText(
+      'this is a very long sentence.'
+    );
 
-  // it('Live rewrite with clear should remove spaces and clear', async () => {
-  //   await openExampleWithTitle('and clear');
+    await expect(element(by.id('max_length_input'))).toHaveText('this is a very long ');
+  })
 
-  //   await element(by.id('rewrite_clear_input')).typeText(
-  //     'this is a long sentence',
-  //   );
-  //   await expect(element(by.id('rewrite_clear_input'))).toHaveText(
-  //     'thisisalongsentence',
-  //   );
+  it("TextInput should be cleared by tapping 'Clear' button", async () => { 
+    await openExampleWithTitle("TextInput along with 'Clear' button"); 
+    await element(by.id('clear_text_input')).typeText('this text needs to be cleared'); 
+    await element(by.id('rewrite_clear_button')).tap(); 
 
-  //   await element(by.id('rewrite_clear_button')).tap();
-
-  //   await expect(element(by.id('rewrite_clear_input'))).toHaveText('');
-  // });
+    await expect(element(by.id('clear_text_input'))).toHaveText('');
+  })
 });
