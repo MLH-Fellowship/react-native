@@ -37,7 +37,7 @@ function ExampleList(): RNTesterListAction {
   };
 }
 
-function ExampleList(): RNTesterListAction {
+function BookmarkList(): RNTesterListAction {
   return {
     type: 'RNTesterBookmarkAction',
   };

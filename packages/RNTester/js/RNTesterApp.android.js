@@ -13,6 +13,7 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
+const RNtesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
@@ -178,6 +179,31 @@ const RNTesterExampleListViaHook = ({
   );
 };
 
+const RNTesterBookmarkListViaHook = ({
+  title,
+  onPressDrawer,
+  onNavigate,
+}: {
+  title: string,
+  onPressDrawer?: () => mixed,
+  onNavigate?: () => mixed,
+  ...
+}) => {
+  const colorScheme = useColorScheme();
+  console.log('Hello');
+  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  return (
+    <RNTesterThemeContext.Provider value={theme}>
+      <RNTesterBookmarkContext.Provider value={bookmarks}>
+        <View style={styles.container}>
+          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNtesterBookmarkList onNavigate={onNavigate} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
+    </RNTesterThemeContext.Provider>
+  );
+};
+
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   UNSAFE_componentWillMount() {
     BackHandler.addEventListener(
@@ -251,8 +277,20 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   _renderApp() {
     const {openExample} = this.state;
+    console.log(openExample);
 
-    if (openExample) {
+    if (openExample === 'RNTesterBookmark') {
+      console.log('!!');
+      return (
+        <RNTesterBookmarkListViaHook
+          title={'RNTester'}
+          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
+           * when making Flow check .android.js files. */
+          onPressDrawer={() => this.drawer.openDrawer()}
+          onNavigate={this._handleAction}
+        />
+      );
+    } else if (openExample) {
       const ExampleModule = RNTesterList.Modules[openExample];
       if (ExampleModule.external) {
         return (
