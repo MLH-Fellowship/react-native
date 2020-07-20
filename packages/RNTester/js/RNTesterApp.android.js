@@ -104,10 +104,12 @@ const RNTesterExampleContainerViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
-        <RNTesterExampleContainer module={module} ref={exampleRef} />
-      </View>
+      <RNTesterBookmarkContext.Provider value={bookmarks}>
+        <View style={styles.container}>
+          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNTesterExampleContainer module={module} ref={exampleRef} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
   );
 };
@@ -128,18 +130,20 @@ const RNTesterDrawerContentViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <View
-        style={[
-          styles.drawerContentWrapper,
-          {backgroundColor: theme.SystemBackgroundColor},
-        ]}>
-        <RNTesterExampleList
-          list={list}
-          displayTitleRow={true}
-          disableSearch={true}
-          onNavigate={onNavigate}
-        />
-      </View>
+      <RNTesterBookmarkContext.Provider value={bookmarks}>
+        <View
+          style={[
+            styles.drawerContentWrapper,
+            {backgroundColor: theme.SystemBackgroundColor},
+          ]}>
+          <RNTesterExampleList
+            list={list}
+            displayTitleRow={true}
+            disableSearch={true}
+            onNavigate={onNavigate}
+          />
+        </View>
+      </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
   );
 };
@@ -164,10 +168,12 @@ const RNTesterExampleListViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
-        <RNTesterExampleList onNavigate={onNavigate} list={list} />
-      </View>
+      <RNTesterBookmarkContext.Provider value={bookmarks}>
+        <View style={styles.container}>
+          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNTesterExampleList onNavigate={onNavigate} list={list} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
   );
 };

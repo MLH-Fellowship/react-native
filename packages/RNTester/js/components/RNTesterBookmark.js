@@ -38,8 +38,11 @@ const RemoveApi = (apiName) => {
   delete bookmarks.Api[apiName];
 };
 
-const checkComponent = (componentName) => {
-  return bookmarks.Components[componentName] === undefined;
+const checkBookmark = (title, key) => {
+  if (key === 'APIS') {
+    return bookmarks.Api[title] === undefined;
+  }
+  return bookmarks.Components[title] === undefined;
 };
 
 export const bookmarks = {
@@ -49,7 +52,7 @@ export const bookmarks = {
   RemoveComponent: RemoveComponent,
   AddApi: AddApi,
   RemoveApi: RemoveApi,
-  checkComponent: checkComponent,
+  checkBookmark: checkBookmark,
 };
 
 export const RNTesterBookmarkContext: React.Context<RNTesterBookmark> = React.createContext(

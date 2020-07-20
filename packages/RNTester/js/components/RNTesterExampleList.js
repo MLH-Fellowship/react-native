@@ -45,6 +45,7 @@ type Props = {
 type ButtonState = {|active: boolean|};
 type ButtonProps = {
   item: Object,
+  section: Object,
   onNavigate: Function,
   onPress?: Function,
   onShowUnderlay?: Function,
@@ -72,15 +73,19 @@ function PlatformLogoContainer({platform}): React.Component {
 }
 
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
+  static contextType = RNTesterBookmarkContext;
+
   constructor(props: ButtonProps) {
     super(props);
     this.state = {
-      active: false,
+      title: props.item.title,
       key: props.section.title,
     };
   }
-  onButtonPress = (bookmark) => {
-    if (!this.state.active) {
+
+  onButtonPress = () => {
+    let bookmark = this.context;
+    if (!bookmark.checkBookmark(this.state.title, this.state.key)) {
       if (this.state.key === 'APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
       } else {
@@ -93,9 +98,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
         bookmark.RemoveComponent(this.props.item.module.title);
       }
     }
-    this.setState({
-      active: !this.state.active,
-    });
     console.log(bookmark);
   };
 
@@ -107,75 +109,63 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
   };
   render() {
+    let active = this.context.checkBookmark(this.state.title, this.state.key);
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
         {(theme) => {
           return (
-            <RNTesterBookmarkContext.Consumer>
-              {(bookmark) => {
-                return (
+            <TouchableHighlight
+              onShowUnderlay={this.props.onShowUnderlay}
+              onHideUnderlay={this.props.onHideUnderlay}
+              accessibilityLabel={
+                item.module.title + ' ' + item.module.description
+              }
+              onPress={this._onPress}>
+              <View
+                style={[
+                  styles.row,
+                  {backgroundColor: theme.SystemBackgroundColor},
+                ]}>
+                <View style={styles.rowTextContent}>
+                  <Text
+                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
+                    {item.module.title}
+                  </Text>
+                  <View style={{flexDirection: 'row', marginBottom: 5}}>
+                    <Text style={{color: 'blue'}}>Category: </Text>
+                    <Text>{item.module.category || 'Components/Basic'}</Text>
+                  </View>
+                  <Text
+                    style={[
+                      styles.rowDetailText,
+                      {color: theme.SecondaryLabelColor},
+                    ]}>
+                    {item.module.description}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 0.15,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
                   <TouchableHighlight
-                    onShowUnderlay={this.props.onShowUnderlay}
-                    onHideUnderlay={this.props.onHideUnderlay}
-                    accessibilityLabel={
-                      item.module.title + ' ' + item.module.description
-                    }
-                    onPress={this._onPress}>
-                    <View
-                      style={[
-                        styles.row,
-                        {backgroundColor: theme.SystemBackgroundColor},
-                      ]}>
-                      <View style={styles.rowTextContent}>
-                        <Text
-                          style={[
-                            styles.rowTitleText,
-                            {color: theme.LabelColor},
-                          ]}>
-                          {item.module.title}
-                        </Text>
-                        <View style={{flexDirection: 'row', marginBottom: 5}}>
-                          <Text style={{color: 'blue'}}>Category: </Text>
-                          <Text>
-                            {item.module.category || 'Components/Basic'}
-                          </Text>
-                        </View>
-                        <Text
-                          style={[
-                            styles.rowDetailText,
-                            {color: theme.SecondaryLabelColor},
-                          ]}>
-                          {item.module.description}
-                        </Text>
-                      </View>
-                      <View
-                        style={{
-                          flex: 0.15,
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}>
-                        <TouchableHighlight
-                          style={styles.imageViewStyle}
-                          onPress={() => this.onButtonPress(bookmark)}>
-                          <Image
-                            style={styles.imageStyle}
-                            source={
-                              this.state.active
-                                ? require('../assets/bookmark-outline.png')
-                                : require('../assets/bookmark-filled.png')
-                            }
-                          />
-                        </TouchableHighlight>
-                        <PlatformLogoContainer
-                          platform={item.module.platform}
-                        />
-                      </View>
-                    </View>
+                    style={styles.imageViewStyle}
+                    onPress={() => this.onButtonPress()}>
+                    <Image
+                      style={styles.imageStyle}
+                      source={
+                        active
+                          ? require('../assets/bookmark-outline.png')
+                          : require('../assets/bookmark-filled.png')
+                      }
+                    />
                   </TouchableHighlight>
-                );
-              }}
-            </RNTesterBookmarkContext.Consumer>
+                  <PlatformLogoContainer platform={item.module.platform} />
+                </View>
+              </View>
+            </TouchableHighlight>
           );
         }}
       </RNTesterThemeContext.Consumer>
