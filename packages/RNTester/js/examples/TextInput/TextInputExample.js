@@ -23,7 +23,7 @@ const {
 } = require('react-native');
 
 import type {RNTesterExampleModuleItem} from '../../types/RNTesterTypes';
-import {useState, useRef} from 'react';
+import {useState, useEffect} from 'react';
 
 const styles = StyleSheet.create({
   default: {
@@ -63,6 +63,12 @@ const styles = StyleSheet.create({
   remainder: {
     textAlign: 'right',
     width: 24,
+  },
+  row: {
+    flex: 1,
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   hashtag: {
     color: 'blue',
@@ -390,27 +396,32 @@ class SelectionExample extends React.Component<
 const TextInputWithAutoFill = () => {
   const [enable, setEnabled] = useState(false);
   const [excludeDescendants, setExcludeDescendants] = useState(false);
-  const [importantForAutofill, setImportantForAutofill] = useState();
+  const [importantForAutofill, setImportantForAutofill] = useState(
+    'noExcludeDescendants',
+  );
   const toggleEnable = () => setEnabled(!enable);
   const toggleDescendants = () => setExcludeDescendants(!excludeDescendants);
   useEffect(() => {
-    setImportantForAutofill(
+    const value =
       enable && excludeDescendants
         ? 'yesExcludeDescendants'
         : excludeDescendants
         ? 'noExcludeDescendants'
         : enable
         ? 'yes'
-        : 'no',
-    );
-    console.log(importantForAutofill);
+        : 'no';
+    setImportantForAutofill(value);
   });
   return (
     <View>
-      Impotant for Autofill{' '}
-      <Switch value={enable} onValueChange={toggleEnable} />
-      Exclude Descendants{' '}
-      <Switch value={excludeDescendants} onValueChange={toggleDescendants} />
+      <View style={styles.row}>
+        <Text>Impotant for Autofill</Text>
+        <Switch value={enable} onValueChange={toggleEnable} />
+      </View>
+      <View style={styles.row}>
+        <Text>Exclude Descendants</Text>
+        <Switch value={excludeDescendants} onValueChange={toggleDescendants} />
+      </View>
       <WithLabel label="Username:">
         <TextInput
           style={styles.default}
@@ -1185,7 +1196,8 @@ exports.examples = ([
     },
   },
   {
-    title:'TextInput with different Style properties: fontFamily, fontWeight and fontStyle',
+    title:
+      'TextInput with different Style properties: fontFamily, fontWeight and fontStyle',
     render: function(): React.Node {
       const fontFamilyA = Platform.OS === 'ios' ? 'Cochin' : 'sans-serif';
       const fontFamilyB = Platform.OS === 'ios' ? 'Courier' : 'serif';
