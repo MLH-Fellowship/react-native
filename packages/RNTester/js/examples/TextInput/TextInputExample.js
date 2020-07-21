@@ -150,7 +150,7 @@ const RewriteExampleInvalidCharacters = () => {
   return (
     <View style={styles.rewriteContainer}>
       <WithLabel label="Enter email:">
-        <TextInput  
+        <TextInput
           testID="rewrite_no_sp_input"
           autoCorrect={false}
           multiline={false}
@@ -459,6 +459,303 @@ const TextInputWithInputAccessoryView = () => {
   );
 };
 
+const EventHanderOnBlur = () => {
+  return (
+    <View style={styles.rewriteContainer}>
+      <WithLabel label="Enter username:">
+        <TextInput
+          testID="EventHanderOnBlur"
+          style={styles.default}
+          onBlur={() => {
+            Alert.alert('Alert', 'input element no longer in focus');
+          }}
+        />
+      </WithLabel>
+    </View>
+  );
+};
+
+const EventHanderOnChange = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnChange"
+            style={styles.default}
+            onChange={event => setText(event.nativeEvent.text)}
+          />
+        </WithLabel>
+      </View>
+      <Text>
+        {text === ''
+          ? `Enter username to check if it's available`
+          : ` Username "${text}" is available `}
+      </Text>
+    </View>
+  );
+};
+
+const EventHanderOnChangeText = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnChangeText"
+            style={styles.default}
+            onChangeText={changedText => setText(changedText)}
+          />
+        </WithLabel>
+      </View>
+      <Text>
+        {text === ''
+          ? `Enter username to check if it's available`
+          : ` Username "${text}" is available `}
+      </Text>
+    </View>
+  );
+};
+
+const EventHanderOnEndEditing = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnEndEditing"
+            style={styles.default}
+            onChangeText={changedText => setText(changedText)}
+            onEndEditing={event => {
+              Alert.alert(
+                'Alert',
+                `input element editing ended, returned "${event.nativeEvent.text}" `,
+              );
+            }}
+          />
+        </WithLabel>
+      </View>
+    </View>
+  );
+};
+
+const EventHanderOnFocus = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnFocus"
+            style={styles.default}
+            onChangeText={changedText => setText(changedText)}
+            onFocus={event => {
+              Alert.alert('Alert', `please ensure that username is unique`);
+            }}
+          />
+        </WithLabel>
+      </View>
+    </View>
+  );
+};
+
+const EventHanderOnKeyPress = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnKeyPress"
+            style={styles.default}
+            onChangeText={changedText => setText(changedText)}
+          />
+        </WithLabel>
+      </View>
+      <Text>
+        {text === ''
+          ? `Enter username to check if it's available`
+          : ` Username "${text}" is available `}
+      </Text>
+    </View>
+  );
+};
+
+const EventHanderOnLayout = () => {
+  const [layout, setLayout] = useState({
+    height: 0,
+    width: 0,
+    x: 0,
+    y: 0,
+  });
+  const [counter, setCounter] = useState(0);
+
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnLayout"
+            style={styles.default}
+            onLayout={event => {
+              setLayout(event.nativeEvent.layout);
+              setCounter(counter + 1);
+            }}
+          />
+        </WithLabel>
+      </View>
+      <Text>{`
+    Height: ${layout.height}
+    Width: ${layout.width}
+    X: ${layout.x}
+    Y: ${layout.y}
+    Times Layout Changed: ${counter - 1}
+      `}</Text>
+    </View>
+  );
+};
+
+const EventHanderOnScroll = () => {
+  const [stats, setStats] = useState({
+    contentInset: {
+      bottom: 0,
+      left: 0,
+      right: 0,
+      top: 0,
+    },
+    contentOffset: {
+      x: 0,
+      y: 0,
+    },
+    contentSize: {
+      height: 0,
+      width: 0,
+    },
+    layoutMeasurement: {
+      height: 0,
+      width: 0,
+    },
+    responderIgnoreScroll: false,
+    velocity: {
+      x: 0,
+      y: 0,
+    },
+  });
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnScroll"
+            style={styles.default}
+            multiline={true}
+            onScroll={event => {
+              setStats(event.nativeEvent);
+            }}
+          />
+        </WithLabel>
+      </View>
+      <Text>{`
+        contentOffset:
+            x: ${stats.contentOffset.x}
+            y: ${stats.contentOffset.y}
+            
+        layoutMeasurement: 
+            width: ${stats.layoutMeasurement.width}
+            height: ${stats.layoutMeasurement.height}
+      `}</Text>
+    </View>
+  );
+};
+
+const EventHanderOnSelectionChange = () => {
+  const [selection, setSelection] = useState({
+    start: 0,
+    end: 0,
+  });
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnSelectionChange"
+            style={styles.default}
+            onSelectionChange={event => {
+              setSelection(event.nativeEvent.selection);
+            }}
+          />
+        </WithLabel>
+      </View>
+      <Text>{`
+    Selection Start: ${selection.start}
+    Selection End: ${selection.end}
+    Characters Selected: ${selection.end - selection.start}
+      `}</Text>
+    </View>
+  );
+};
+
+const EventHanderOnSubmitEditing = () => {
+  const [text, setText] = useState('');
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHanderOnSubmitEditing"
+            style={styles.default}
+            onSubmitEditing={event => {
+              setText(event.nativeEvent.text);
+            }}
+          />
+        </WithLabel>
+      </View>
+      <Text>
+        {text === ''
+          ? `Enter username to check if it's available`
+          : ` Username "${text}" is available `}
+      </Text>
+    </View>
+  );
+};
+
+const EventHandlerOnTextInput = () => {
+  const [stats, setStats] = useState({
+    previousText: '',
+    range: {
+      end: 0,
+      start: 0,
+    },
+    text: '',
+  });
+  return (
+    <View>
+      <View style={styles.rewriteContainer}>
+        <WithLabel label="Enter username:">
+          <TextInput
+            testID="EventHandlerOnTextInput"
+            style={styles.default}
+            multiline={true}
+            onTextInput={event => {
+              setStats(event.nativeEvent);
+            }}
+          />
+        </WithLabel>
+      </View>
+      <Text>{`
+    previousText: ${stats.previousText}
+    text: ${stats.text}
+    range
+        start: ${stats.range.start}
+        end: ${stats.range.end}
+      `}</Text>
+    </View>
+  );
+};
+
 exports.title = '<TextInput>';
 exports.description =
   'A foundational component for inputting text into the app via a keyboard.';
@@ -468,7 +765,11 @@ exports.examples = ([
     render: function(): React.Node {
       return (
         <WithLabel label="Enter Username">
-          <TextInput testID="check_text_input" autoFocus={true} style={styles.default} />
+          <TextInput
+            testID="check_text_input"
+            autoFocus={true}
+            style={styles.default}
+          />
         </WithLabel>
       );
     },
@@ -1244,5 +1545,71 @@ exports.examples = ([
     render: function(): React.Node {
       return <TokenizedTextExample />;
     },
+  },
+  {
+    title: 'onBlur handler',
+    description:
+      'onBlur handler can be used to perform operations after the element is moved out of focus, for example checking if input is valid or invalid',
+    render: () => <EventHanderOnBlur />,
+  },
+  {
+    title: 'onChange handler',
+    description:
+      'this handler is triggered when the text in the input component changes, and passes an event with the changed text to the listening function',
+    render: () => <EventHanderOnChange />,
+  },
+  {
+    title: 'onChangeText handler',
+    description:
+      'this handler is triggered when the text in the input component changes, and passes only the changed text  to the listening function',
+    render: () => <EventHanderOnChangeText />,
+  },
+  {
+    title: 'onEndEditing handler',
+    description:
+      'this handler is triggered when the editing event of the input component ends !!Verify!!',
+    render: () => <EventHanderOnEndEditing />,
+  },
+  {
+    title: 'onFocus handler',
+    description:
+      'this handler is triggered when the input element comes to user focus',
+    render: () => <EventHanderOnFocus />,
+  },
+  {
+    title: 'onKeyPress handler',
+    description:
+      'this handler is triggered when the user presses a key on the keyboard. On android, only inputs from soft keyboard are handled. It reports before the onChange bindings',
+    render: () => <EventHanderOnKeyPress />,
+  },
+  {
+    title: 'onLayout handler',
+    description:
+      'this handler is triggered when the layout of the input component changes. For example, the orientation of device is changed, and the layout of the component is changed. Also triggered when component mounts.',
+    render: () => <EventHanderOnLayout />,
+  },
+  {
+    title: 'onScroll handler',
+    description:
+      'this handler is triggered when the content inside the input component offsets due to size limitations. This is bound to happen when user enters text which exceeds the width of the component.',
+    render: () => <EventHanderOnScroll />,
+  },
+  {
+    title: 'onSelectionChange handler',
+    description:
+      'this handler is used to get the location of the currently selected text in the text component',
+    render: () => <EventHanderOnSelectionChange />,
+  },
+  {
+    title: 'onSubmitEditing handler',
+    description:
+      'this handler is used to receive the current value of the text input when the user presses the enter/go key on the soft keyboard.',
+    render: () => <EventHanderOnSubmitEditing />,
+  },
+  {
+    title: 'onTextInput handler',
+    description:
+      'this handler is used to keep track of input from the text component, and passes the current word and positions',
+    render: () => <EventHandlerOnTextInput />,
   },
 ]: Array<RNTesterExampleModuleItem>);
