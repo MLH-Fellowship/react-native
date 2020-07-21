@@ -5,9 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.reactnativecommunity.asyncstorage;
+package com.asyncstorage;
 
 import javax.annotation.Nullable;
+
+import com.rntester.BuildConfig;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
