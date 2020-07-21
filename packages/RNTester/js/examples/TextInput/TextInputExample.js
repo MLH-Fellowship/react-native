@@ -1018,18 +1018,16 @@ exports.examples = ([
   {
     title: 'TextInput with maxFontSizeMultiplier={1.5}',
     description:
-      'Specifies largest possible scale a font can reach when allowFontScaling is enabled.' +
+      'Specifies largest possible scale a font can reach when allowFontScaling is enabled. /n' +
       "Default Value is null/undefined./n Value '0' means no maximum size and ignores parent/global default. ",
     render: function(): React.Node {
-      return(
       <WithLabel label="Enter Name:">
         <TextInput
           style={styles.default}
           allowFontScaling={true}
           maxFontSizeMultiplier={1.5}
         />
-      </WithLabel>
-      );
+      </WithLabel>;
     },
   },
   {
@@ -1492,6 +1490,12 @@ exports.examples = ([
           value="Contact at 98293274 or email at abc@xyz.com. \n Meeting on 15/08/2020 in Menlo Park, California"
         />
       </WithLabel>;
+    },
+  },
+  {
+    title: 'Event handling',
+    render: function(): React.Element<any> {
+      return <TextEventsExample />;
     },
   },
   {
