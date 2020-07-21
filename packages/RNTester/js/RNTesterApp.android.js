@@ -36,7 +36,7 @@ const {
   useColorScheme,
   View,
 } = require('react-native');
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -214,24 +214,24 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   componentDidMount() {
     Linking.getInitialURL().then((url) => {
-      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        const exampleAction = URIActionMap(
-          this.props.exampleFromAppetizeParams,
-        );
-        const urlAction = URIActionMap(url);
-        const launchAction = exampleAction || urlAction;
-        if (err || !storedString) {
-          const initialAction = launchAction || {type: 'InitialAction'};
-          this.setState(RNTesterNavigationReducer(null, initialAction));
-          return;
-        }
-        const storedState = JSON.parse(storedString);
-        if (launchAction) {
-          this.setState(RNTesterNavigationReducer(storedState, launchAction));
-          return;
-        }
-        this.setState(storedState);
-      });
+      // AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
+      //   const exampleAction = URIActionMap(
+      //     this.props.exampleFromAppetizeParams,
+      //   );
+      //   const urlAction = URIActionMap(url);
+      //   const launchAction = exampleAction || urlAction;
+      //   if (err || !storedString) {
+      //     const initialAction = launchAction || {type: 'InitialAction'};
+      //     this.setState(RNTesterNavigationReducer(null, initialAction));
+      //     return;
+      //   }
+      //   const storedState = JSON.parse(storedString);
+      //   if (launchAction) {
+      //     this.setState(RNTesterNavigationReducer(storedState, launchAction));
+      //     return;
+      //   }
+      //   this.setState(storedState);
+      // });
     });
   }
 
@@ -342,7 +342,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     const newState = RNTesterNavigationReducer(this.state, action);
     if (this.state !== newState) {
       this.setState(newState, () =>
-        AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
+        // AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
       );
       return true;
     }

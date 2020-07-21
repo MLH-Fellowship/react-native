@@ -5,11 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.reactnativecommunity.asyncstorage;
+package com.asyncstorage;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteStatement;
 import android.os.AsyncTask;
+
+import com.rntester.BuildConfig;
 
 import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.Arguments;

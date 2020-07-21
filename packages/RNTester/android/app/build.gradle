@@ -120,6 +120,22 @@ def jscFlavor = 'org.webkit:android-jsc:+'
  */
 def enableHermes = project.ext.react.get("enableHermes", false);
 
+// AsyncStorage has default size of 6MB.
+// This is a sane limit to protect the user from the app storing too much data in the database.
+// This also protects the database from filling up the disk cache and becoming malformed.
+// If you really need bigger size, please keep in mind the potential consequences.
+long dbSizeInMB = 6L
+
+def newDbSize = rootProject.properties['AsyncStorage_db_size_in_MB']
+
+if( newDbSize != null && newDbSize.isLong()) {
+    dbSizeInMB = newDbSize.toLong()
+}
+
+def useDedicatedExecutor = rootProject.hasProperty('AsyncStorage_dedicatedExecutor')
+        ? rootProject.properties['AsyncStorage_dedicatedExecutor']
+        : false
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
 
@@ -136,6 +152,8 @@ android {
         versionName "1.0"
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        buildConfigField "Long", "AsyncStorage_db_size", "${dbSizeInMB}L"
+        buildConfigField("boolean", "AsyncStorage_useDedicatedExecutor", "${useDedicatedExecutor}")
     }
     splits {
         abi {

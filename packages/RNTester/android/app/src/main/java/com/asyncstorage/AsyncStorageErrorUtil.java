@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-package com.reactnativecommunity.asyncstorage;
+package com.asyncstorage;
 
 import javax.annotation.Nullable;
 
