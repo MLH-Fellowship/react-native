@@ -12,6 +12,8 @@
 
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
+const RNTesterComponentTitle = require('./RNTesterComponentTitle');
+const RNTesterBookmarkButton = require('./RNTesterBookmarkButton');
 const React = require('react');
 
 const {
@@ -20,12 +22,12 @@ const {
   StyleSheet,
   Text,
   TouchableHighlight,
+  Image,
   View,
 } = require('react-native');
 
 import type {ViewStyleProp} from 'react-native';
 import type {RNTesterExample} from '../types/RNTesterTypes';
-
 import {RNTesterThemeContext} from './RNTesterTheme';
 
 type Props = {
@@ -39,14 +41,53 @@ type Props = {
   ...
 };
 
-class RowComponent extends React.PureComponent<{
+type PlatformLogoPropsType = {|
+  platform: string,
+|};
+
+const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
+  return (
+    <View style={{flexDirection: 'row'}}>
+      {(!platform || platform === 'ios') && (
+        <Image
+          style={styles.platformLogoStyle}
+          source={require('../assets/apple.png')}
+        />
+      )}
+      {(!platform || platform === 'android') && (
+        <Image
+          style={styles.platformLogoStyle}
+          source={require('../assets/android.png')}
+        />
+      )}
+    </View>
+  );
+};
+
+type RowState = {|active: boolean|};
+type RowProps = {
   item: Object,
   onNavigate: Function,
   onPress?: Function,
   onShowUnderlay?: Function,
   onHideUnderlay?: Function,
   ...
-}> {
+};
+
+class RowComponent extends React.PureComponent<RowProps, RowState> {
+  constructor(props: RowProps) {
+    super(props);
+    this.state = {
+      active: false,
+    };
+  }
+
+  onButtonPress = () => {
+    this.setState({
+      active: !this.state.active,
+    });
+  };
+
   _onPress = () => {
     if (this.props.onPress) {
       this.props.onPress();
@@ -58,7 +99,7 @@ class RowComponent extends React.PureComponent<{
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <TouchableHighlight
               onShowUnderlay={this.props.onShowUnderlay}
@@ -66,22 +107,44 @@ class RowComponent extends React.PureComponent<{
               accessibilityLabel={
                 item.module.title + ' ' + item.module.description
               }
+              underlayColor={'rgb(242,242,242)'}
               onPress={this._onPress}>
               <View
                 style={[
                   styles.row,
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
-                <Text style={[styles.rowTitleText, {color: theme.LabelColor}]}>
-                  {item.module.title}
-                </Text>
-                <Text
-                  style={[
-                    styles.rowDetailText,
-                    {color: theme.SecondaryLabelColor},
-                  ]}>
-                  {item.module.description}
-                </Text>
+                <View style={styles.rowTextContent}>
+                  <RNTesterComponentTitle>
+                    {item.module.title}
+                  </RNTesterComponentTitle>
+
+                  <View style={{flexDirection: 'row', marginBottom: 5}}>
+                    <Text style={{color: 'blue'}}>Category: </Text>
+                    <Text>{item.module.category || 'Components/Basic'}</Text>
+                  </View>
+
+                  <Text
+                    style={[
+                      styles.rowDetailText,
+                      {color: theme.SecondaryLabelColor},
+                    ]}>
+                    {item.module.description}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flex: 0.15,
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}>
+                  <RNTesterBookmarkButton
+                    isActive={this.state.active}
+                    size={30}
+                    onPress={this.onButtonPress}
+                  />
+                  <PlatformLogoContainer platform={item.module.platform} />
+                </View>
               </View>
             </TouchableHighlight>
           );
@@ -93,7 +156,7 @@ class RowComponent extends React.PureComponent<{
 
 const renderSectionHeader = ({section}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <Text
           style={[
@@ -131,7 +194,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <View
               style={[
@@ -146,11 +209,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
-                    ItemSeparatorComponent={ItemSeparator}
-                    contentContainerStyle={{
-                      backgroundColor: theme.SeparatorColor,
-                    }}
-                    style={{backgroundColor: theme.SystemBackgroundColor}}
                     sections={filteredSections}
                     renderItem={this._renderItem}
                     keyboardShouldPersistTaps="handled"
@@ -206,7 +264,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
 const ItemSeparator = ({highlighted}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <View
           style={
@@ -236,6 +294,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 15,
     paddingVertical: 8,
+    marginVertical: 4,
+    marginHorizontal: 15,
+    flexDirection: 'row',
+    borderColor: 'blue',
+    borderWidth: 1,
+    overflow: 'hidden',
+  },
+  rowTextContent: {
+    flex: 0.8,
   },
   separator: {
     height: StyleSheet.hairlineWidth,
@@ -245,12 +312,32 @@ const styles = StyleSheet.create({
     height: StyleSheet.hairlineWidth,
   },
   rowTitleText: {
-    fontSize: 17,
-    fontWeight: '500',
+    fontSize: 20,
+    fontWeight: '300',
+    fontFamily: 'Times New Roman',
+    marginBottom: 10,
   },
   rowDetailText: {
-    fontSize: 15,
+    fontSize: 12,
     lineHeight: 20,
+  },
+  imageStyle: {
+    height: 25,
+    width: 25,
+  },
+  imageViewStyle: {
+    height: 30,
+    width: 30,
+    borderRadius: 15,
+    backgroundColor: 'blue',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  platformLogoStyle: {
+    height: 35,
+    width: 30,
+    position: 'relative',
+    top: 20,
   },
 });
 
