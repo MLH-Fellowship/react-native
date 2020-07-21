@@ -181,8 +181,8 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                       style={styles.imageStyle}
                       source={
                         this.state.active
-                          ? require('../assets/bookmark-outline.png')
-                          : require('../assets/bookmark-filled.png')
+                          ? require('../assets/bookmark-filled.png')
+                          : require('../assets/bookmark-outline.png')
                       }
                     />
                   </TouchableHighlight>
