@@ -93,9 +93,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   constructor(props: ButtonProps) {
 >>>>>>> check bookmark
     super(props);
-    if (props.active) {
-      console.log(props.active);
-    }
     this.state = {
       active: props.active,
       title: props.item.title,
