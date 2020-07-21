@@ -193,6 +193,7 @@ const APIExamples: Array<RNTesterExample> = [
   {
     key: 'AccessibilityIOSExample',
     module: require('../examples/Accessibility/AccessibilityIOSExample'),
+    category: 'iOS',
     supportsTVOS: false,
   },
   {
@@ -204,6 +205,7 @@ const APIExamples: Array<RNTesterExample> = [
   {
     key: 'AlertIOSExample',
     module: require('../examples/Alert/AlertIOSExample'),
+    category: 'iOS',
     supportsTVOS: true,
   },
   {
