@@ -39,7 +39,6 @@ const RemoveApi = (apiName) => {
 };
 
 const checkBookmark = (title, key) => {
-  // console.log(bookmarks.Components);
   if (key === 'APIS') {
     return bookmarks.Api[title] === undefined;
   }

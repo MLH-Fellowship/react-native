@@ -33,7 +33,7 @@ const {
   LogBox,
 } = require('react-native');
 
-// import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from './utils/AsyncStorage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -146,18 +146,18 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   componentDidMount() {
     this._mounted = true;
     Linking.getInitialURL().then((url) => {
-      // AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-      //   if (!this._mounted) {
-      //     return;
-      //   }
-      //   const exampleAction = URIActionMap(
-      //     this.props.exampleFromAppetizeParams,
-      //   );
-      //   const urlAction = URIActionMap(url);
-      //   const launchAction = exampleAction || urlAction;
-      //   const initialAction = launchAction || {type: 'InitialAction'};
-      //   this.setState(RNTesterNavigationReducer(undefined, initialAction));
-      // });
+      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
+        if (!this._mounted) {
+          return;
+        }
+        const exampleAction = URIActionMap(
+          this.props.exampleFromAppetizeParams,
+        );
+        const urlAction = URIActionMap(url);
+        const launchAction = exampleAction || urlAction;
+        const initialAction = launchAction || {type: 'InitialAction'};
+        this.setState(RNTesterNavigationReducer(undefined, initialAction));
+      });
     });
 
     Linking.addEventListener('url', (url) => {
@@ -180,7 +180,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     const newState = RNTesterNavigationReducer(this.state, action);
     if (this.state !== newState) {
       this.setState(newState, () =>
-        // AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
+        AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
       );
     }
   };

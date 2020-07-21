@@ -77,9 +77,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   constructor(props: ButtonProps) {
     super(props);
-    if (props.active) {
-      console.log(props.active);
-    }
     this.state = {
       active: props.active,
       title: props.item.title,
@@ -203,13 +200,11 @@ const renderSectionHeader = ({section}) => (
 class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
   render(): React.Node {
-    console.log('HELLO');
     const bookmark = this.context;
     const filter = ({example, filterRegex}) =>
       filterRegex.test(example.module.title) &&
       (!Platform.isTV || example.supportsTVOS);
 
-   
     const sections = [
       {
         data: Object.values(bookmark.Components),
