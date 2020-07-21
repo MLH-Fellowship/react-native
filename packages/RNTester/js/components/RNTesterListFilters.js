@@ -15,19 +15,6 @@ const React = require('react');
 const {StyleSheet, Text, TouchableOpacity, View} = require('react-native');
 const filters = ['Basic', 'UI', 'ListViews', 'iOS', 'Android'];
 
-const filterToFieldMapping = filters.reduce((acc, filter) => {
-  acc[filter] = filter.toLowerCase() + 'Selected';
-  return acc;
-}, {});
-
-type State = {|
-  basicSelected: boolean,
-  uiSelected: boolean,
-  listViewsSelected: boolean,
-  iosSelected: boolean,
-  androidSelected: boolean,
-|};
-
 type Props = {
   onFilterButtonPress: function, //optional only for testing
   ...
