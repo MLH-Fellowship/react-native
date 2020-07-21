@@ -150,7 +150,7 @@ const RewriteExampleInvalidCharacters = () => {
   return (
     <View style={styles.rewriteContainer}>
       <WithLabel label="Enter email:">
-        <TextInput  
+        <TextInput
           testID="rewrite_no_sp_input"
           autoCorrect={false}
           multiline={false}
