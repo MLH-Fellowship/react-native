@@ -7,7 +7,7 @@
       "build": "cd android && ./gradlew assembleDebug app:assembleAndroidTest -DtestBuildType=debug && cd ..",
       "type": "android.emulator",
       "device": {
-        "avdName": "test"
+        "avdName": "testAVD"
       }
     },
     "android.emu.release": {
