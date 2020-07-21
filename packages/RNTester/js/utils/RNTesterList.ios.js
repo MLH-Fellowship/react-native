@@ -21,6 +21,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'ButtonExample',
     module: require('../examples/Button/ButtonExample'),
+    category: 'UI',
     supportsTVOS: true,
   },
   {
@@ -31,11 +32,13 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'FlatListExample',
     module: require('../examples/FlatList/FlatListExample'),
+    category: 'ListViews',
     supportsTVOS: true,
   },
   {
     key: 'ImageExample',
     module: require('../examples/Image/ImageExample'),
+    category: 'Basic',
     supportsTVOS: true,
   },
   {
@@ -105,6 +108,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'ScrollViewSimpleExample',
     module: require('../examples/ScrollView/ScrollViewSimpleExample'),
+    category: 'Basic',
     supportsTVOS: true,
   },
   {
@@ -115,6 +119,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'ScrollViewExample',
     module: require('../examples/ScrollView/ScrollViewExample'),
+    category: 'Basic',
     supportsTVOS: true,
   },
   {
@@ -125,6 +130,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'SectionListExample',
     module: require('../examples/SectionList/SectionListExample'),
+    category: 'ListViews',
     supportsTVOS: true,
   },
   {
@@ -145,16 +151,19 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'SwitchExample',
     module: require('../examples/Switch/SwitchExample'),
+    category: 'UI',
     supportsTVOS: false,
   },
   {
     key: 'TextExample',
     module: require('../examples/Text/TextExample.ios'),
+    category: 'Basic',
     supportsTVOS: true,
   },
   {
     key: 'TextInputExample',
     module: require('../examples/TextInput/TextInputExample.ios'),
+    category: 'Basic',
     supportsTVOS: true,
   },
   {
@@ -170,6 +179,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   {
     key: 'ViewExample',
     module: require('../examples/View/ViewExample'),
+    category: 'Basic',
     supportsTVOS: true,
   },
 ];
@@ -188,6 +198,7 @@ const APIExamples: Array<RNTesterExample> = [
   {
     key: 'ActionSheetIOSExample',
     module: require('../examples/ActionSheetIOS/ActionSheetIOSExample'),
+    category: 'iOS',
     supportsTVOS: true,
   },
   {
@@ -353,7 +364,7 @@ const APIExamples: Array<RNTesterExample> = [
 
 const Modules: {...} = {};
 
-APIExamples.concat(ComponentExamples).forEach((Example) => {
+APIExamples.concat(ComponentExamples).forEach(Example => {
   Modules[Example.key] = Example.module;
 });
 

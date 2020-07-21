@@ -115,7 +115,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                   </Text>
                   <View style={{flexDirection: 'row', marginBottom: 5}}>
                     <Text style={{color: 'blue'}}>Category: </Text>
-                    <Text>{item.module.category || 'Components/Basic'}</Text>
+                    <Text>{item.category || 'Other'}</Text>
                   </View>
                   <Text
                     style={[
@@ -175,8 +175,9 @@ const renderSectionHeader = ({section}) => (
 
 class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
   render(): React.Node {
-    const filter = ({example, filterRegex}) =>
+    const filter = ({example, filterRegex, category}) =>
       filterRegex.test(example.module.title) &&
+      (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
     const sections = [

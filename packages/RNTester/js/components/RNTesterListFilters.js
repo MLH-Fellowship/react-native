@@ -29,7 +29,7 @@ type State = {|
 |};
 
 type Props = {
-  onFilterButtonPress?: function, //optional only for testing
+  onFilterButtonPress: function, //optional only for testing
   ...
 };
 
@@ -45,10 +45,12 @@ class RNTesterListFilters extends React.Component<
   }
 
   filterPressed: any = filterLabel => {
+    const newFilter =
+      this.state.currentFilter === filterLabel ? '' : filterLabel;
     this.setState({
-      currentFilter:
-        this.state.currentFilter === filterLabel ? '' : filterLabel,
+      currentFilter: newFilter,
     });
+    this.props.onFilterButtonPress(newFilter);
   };
 
   render(): React.Node {
