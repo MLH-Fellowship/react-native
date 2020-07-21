@@ -13,7 +13,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class AsyncStoragePackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNDefaultPreferenceModule(reactContext));
+      return Arrays.<NativeModule>asList(new AsyncStorageModule(reactContext));
     }
 
     public List<Class<? extends JavaScriptModule>> createJSModules() {

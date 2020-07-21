@@ -17,12 +17,12 @@ import com.facebook.react.bridge.WritableMap;
 
 import java.util.Map;
 
-public class AsyncStorage extends ReactContextBaseJavaModule {
+public class AsyncStorageModule extends ReactContextBaseJavaModule {
   private String preferencesName = "react-native";
 
   private final ReactApplicationContext reactContext;
 
-  public AsyncStorage(ReactApplicationContext reactContext) {
+  public AsyncStorageModule(ReactApplicationContext reactContext) {
     super(reactContext);
     this.reactContext = reactContext;
   }
