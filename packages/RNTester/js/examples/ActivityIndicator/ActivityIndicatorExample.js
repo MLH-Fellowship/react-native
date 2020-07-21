@@ -175,8 +175,9 @@ exports.examples = [
     },
   },
   {
-    title:
-      'Button-toggled start/stop, with the activity indicator remaining visible when it is not animated',
+    title: 'Button-toggled start/stop',
+    description:
+      'The activity indicator remains visible when it is not animated',
     render(): Node {
       return <ButtonToggleActivityIndicator />;
     },
