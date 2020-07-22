@@ -102,6 +102,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   onButtonPress = () => {
     let bookmark = this.context;
+    console.log(this.state.active, this.props.item);
     if (!this.state.active) {
       if (this.state.key === 'APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
