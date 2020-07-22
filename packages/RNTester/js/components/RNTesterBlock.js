@@ -5,103 +5,103 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow
  */
 
 'use strict';
 
-const React = require('react');
+// type Props = $ReadOnly<{|
+//   children?: React.Node,
+//   title?: ?string,
+//   description?: ?string,
+//   isDisabled: ?boolean,
+// |}>;
 
-const {StyleSheet, Text, View} = require('react-native');
+import React, {useState} from 'react';
 import {RNTesterThemeContext} from './RNTesterTheme';
+import {StyleSheet, Text, View} from 'react-native';
 
-type Props = $ReadOnly<{|
-  children?: React.Node,
-  title?: ?string,
-  description?: ?string,
-  isDisabled: ?boolean,
-|}>;
+/** functional component for generating example blocks */
+const RNTesterBlock = ({description, isDisabled, title, children}) => {
+  let descComponent = null;
 
-type State = {|
-  description: ?string,
-|};
-
-class RNTesterBlock extends React.Component<Props, State> {
-  state: State = {description: null};
-
-  render(): React.Node {
-    const description = this.props.description ? (
+  /** generating description component if description passed */
+  if (description) {
+    descComponent = (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <Text style={[styles.descriptionText, {color: theme.LabelColor}]}>
-              {this.props.description}
+              {description}
             </Text>
-          );
-        }}
-      </RNTesterThemeContext.Consumer>
-    ) : null;
-
-    return (
-      <RNTesterThemeContext.Consumer>
-        {(theme) => {
-          return (
-            <View
-              style={[
-                styles.container,
-                {
-                  borderColor: theme.SeparatorColor,
-                  backgroundColor: theme.SystemBackgroundColor,
-                },
-              ]}>
-              {/* Show an overlay on top of the container if example is not available on the current platform */}
-              {this.props.isDisabled && <View style={styles.disabledOverlay} />}
-              <View
-                style={[
-                  styles.titleContainer,
-                  {
-                    borderBottomColor: theme.SeparatorColor,
-                    backgroundColor: theme.QuaternarySystemFillColor,
-                  },
-                ]}>
-                <Text style={[styles.titleText, {color: theme.LabelColor}]}>
-                  {this.props.title}
-                </Text>
-                {description}
-              </View>
-              <View style={styles.children}>{this.props.children}</View>
-            </View>
           );
         }}
       </RNTesterThemeContext.Consumer>
     );
   }
-}
+
+  /** render the example card */
+  return (
+    <RNTesterThemeContext.Consumer>
+      {theme => {
+        return (
+          <View
+            style={[
+              styles.container,
+              {
+                borderColor: theme.SeparatorColor,
+                backgroundColor: theme.SystemBackgroundColor,
+              },
+            ]}>
+            {/* Show an overlay on top of the container if example is not available on the current platform */}
+            {isDisabled && <View style={styles.disabledOverlay} />}
+            <View
+              style={[
+                styles.titleContainer,
+                {
+                  borderBottomColor: theme.SeparatorColor,
+                  backgroundColor: theme.QuaternarySystemFillColor,
+                },
+              ]}>
+              <Text style={[styles.titleText, {color: theme.LabelColor}]}>
+                {title}
+              </Text>
+              {descComponent}
+            </View>
+            <View style={styles.children}>{children}</View>
+          </View>
+        );
+      }}
+    </RNTesterThemeContext.Consumer>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 3,
-    borderWidth: 0.5,
+    borderRadius: 0,
+    borderWidth: 1,
+    borderColor: 'blue',
     margin: 10,
     marginVertical: 5,
     overflow: 'hidden',
     position: 'relative',
   },
   titleContainer: {
-    borderBottomWidth: 0.5,
-    borderTopLeftRadius: 3,
-    borderTopRightRadius: 2.5,
+    borderBottomWidth: 1,
     paddingHorizontal: 10,
     paddingVertical: 5,
   },
   titleText: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 20,
+    fontFamily: 'Times New Roman',
+    fontWeight: '300',
   },
   descriptionText: {
-    fontSize: 14,
+    fontSize: 12,
   },
   children: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    backgroundColor: '#F3F8FF',
     margin: 10,
   },
   disabledOverlay: {
