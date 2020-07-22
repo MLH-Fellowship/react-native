@@ -19,6 +19,7 @@ const {
   SectionList,
   StyleSheet,
   Text,
+  Button,
   TouchableHighlight,
   Image,
   View,
@@ -86,6 +87,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   onButtonPress = () => {
     let bookmark = this.context;
+    this.setState({
+      active: !this.state.active,
+    });
     console.log(this.state.active, this.props.item);
     if (!this.state.active) {
       if (this.state.key === 'APIS') {
@@ -100,9 +104,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
         bookmark.RemoveComponent(this.props.item.module.title);
       }
     }
-    this.setState({
-      active: !this.state.active,
-    });
   };
 
   _onPress = () => {
@@ -110,9 +111,10 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
       this.props.onPress();
       return;
     }
-    this.props.onNavigate(
-      RNTesterActions.BookmarkList('RNTesterBookmarkAction'),
-    );
+    // this.props.onNavigate(
+    //   RNTesterActions.BookmarkList('RNTesterBookmarkAction'),
+    // );
+    this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
   };
   render() {
     const {item} = this.props;
@@ -227,6 +229,15 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 this.props.style,
                 {backgroundColor: theme.SecondaryGroupedBackgroundColor},
               ]}>
+              {/* Remove this when navigation is set up */}
+              <Button
+                title="Bookmark"
+                onPress={() =>
+                  this.props.onNavigate(
+                    RNTesterActions.BookmarkList('RNTesterBookmarkAction'),
+                  )
+                }
+              />
               {/* {this._renderTitleRow()} */}
               <RNTesterExampleFilter
                 testID="explorer_search"
