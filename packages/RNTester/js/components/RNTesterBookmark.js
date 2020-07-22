@@ -11,7 +11,6 @@
 'use strict';
 
 import * as React from 'react';
-import AsyncStorage from '../utils/AsyncStorage';
 
 export type RNTesterBookmark = {
   Components: Object,
@@ -23,41 +22,14 @@ export type RNTesterBookmark = {
   checkBookmark: Function,
 };
 
-const AddComponent = (componentName, component) => {
-  bookmarks.Components[componentName] = component;
-  AsyncStorage.setItem('Components', JSON.stringify(bookmarks.Components));
-};
-
-const RemoveComponent = (componentName) => {
-  delete bookmarks.Components[componentName];
-  AsyncStorage.setItem('Components', JSON.stringify(bookmarks.Components));
-};
-
-const AddApi = (apiName, api) => {
-  bookmarks.Api[apiName] = api;
-  AsyncStorage.setItem('Api', JSON.stringify(bookmarks.Api));
-};
-
-const RemoveApi = (apiName) => {
-  delete bookmarks.Api[apiName];
-  AsyncStorage.setItem('Api', JSON.stringify(bookmarks.Api));
-};
-
-const checkBookmark = (title, key) => {
-  if (key === 'APIS') {
-    return bookmarks.Api[title] === undefined;
-  }
-  return bookmarks.Components[title] === undefined;
-};
-
 export const bookmarks = {
   Components: {},
   Api: {},
-  AddComponent: AddComponent,
-  RemoveComponent: RemoveComponent,
-  AddApi: AddApi,
-  RemoveApi: RemoveApi,
-  checkBookmark: checkBookmark,
+  AddComponent: () => {},
+  RemoveComponent: () => {},
+  AddApi: () => {},
+  RemoveApi: () => {},
+  checkBookmark: () => {},
 };
 
 export const RNTesterBookmarkContext: React.Context<RNTesterBookmark> = React.createContext(

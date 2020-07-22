@@ -208,6 +208,44 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       openExample: null,
       Components: bookmarks.Components,
       Api: bookmarks.Api,
+      AddApi: (apiName, api) => {
+        const stateApi = Object.assign({}, this.state.Api);
+        stateApi[apiName] = api;
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      AddComponent: (componentName, component) => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        stateComponent[componentName] = component;
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      RemoveApi: (apiName) => {
+        const stateApi = Object.assign({}, this.state.Api);
+        delete stateApi[apiName];
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      RemoveComponent: (componentName) => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        delete stateComponent[componentName];
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      checkBookmark: (title, key) => {
+        if (key === 'APIS') {
+          return this.state.Api[title] === undefined;
+        }
+        return this.state.Components[title] === undefined;
+      },
     };
   }
   UNSAFE_componentWillMount() {
@@ -261,7 +299,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   render(): React.Node {
-    console.log(this.state);
     if (!this.state) {
       return null;
     }
@@ -290,11 +327,11 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         {this._renderApp({
           Components: this.state.Components,
           Api: this.state.Api,
-          AddApi: bookmarks.AddApi,
-          AddComponent: bookmarks.AddComponent,
-          RemoveApi: bookmarks.RemoveApi,
-          RemoveComponent: bookmarks.RemoveComponent,
-          checkBookmark: bookmarks.checkBookmark,
+          AddApi: this.state.AddApi,
+          AddComponent: this.state.AddComponent,
+          RemoveApi: this.state.RemoveApi,
+          RemoveComponent: this.state.RemoveComponent,
+          checkBookmark: this.state.checkBookmark,
         })}
       </DrawerLayoutAndroid>
     );

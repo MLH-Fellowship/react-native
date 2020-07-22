@@ -86,6 +86,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   onButtonPress = () => {
     let bookmark = this.context;
+    this.setState({
+      active: !this.state.active,
+    });
     if (!this.state.active) {
       if (this.state.key === 'APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
@@ -99,9 +102,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
         bookmark.RemoveComponent(this.props.item.module.title);
       }
     }
-    this.setState({
-      active: !this.state.active,
-    });
   };
 
   _onPress = () => {
@@ -109,9 +109,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
       this.props.onPress();
       return;
     }
-    this.props.onNavigate(
-      RNTesterActions.BookmarkList('RNTesterBookmarkAction'),
-    );
+    this.props.onNavigate(RNTesterActions.ExampleAction(this.props.item.key));
   };
   render() {
     const {item} = this.props;
