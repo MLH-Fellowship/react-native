@@ -5,23 +5,24 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
+ * @flow
  */
 
 'use strict';
 
-// type Props = $ReadOnly<{|
-//   children?: React.Node,
-//   title?: ?string,
-//   description?: ?string,
-//   isDisabled: ?boolean,
-// |}>;
+type Props = $ReadOnly<{|
+  children?: React.Node,
+  title?: ?string,
+  description?: ?string,
+  isDisabled: ?boolean,
+|}>;
 
 import React, {useState} from 'react';
 import {RNTesterThemeContext} from './RNTesterTheme';
 import {StyleSheet, Text, View} from 'react-native';
 
 /** functional component for generating example blocks */
-const RNTesterBlock = ({description, isDisabled, title, children}) => {
+const RNTesterBlock = ({description, isDisabled, title, children}: Props) => {
   let descComponent = null;
 
   /** generating description component if description passed */
@@ -29,48 +30,26 @@ const RNTesterBlock = ({description, isDisabled, title, children}) => {
     descComponent = (
       <RNTesterThemeContext.Consumer>
         {theme => {
-          return (
-            <Text style={[styles.descriptionText, {color: theme.LabelColor}]}>
-              {description}
-            </Text>
-          );
+          return <Text style={[styles.descriptionText]}>{description}</Text>;
         }}
       </RNTesterThemeContext.Consumer>
     );
   }
 
-  /** render the example card */
   return (
     <RNTesterThemeContext.Consumer>
-      {theme => {
-        return (
-          <View
-            style={[
-              styles.container,
-              {
-                borderColor: theme.SeparatorColor,
-                backgroundColor: theme.SystemBackgroundColor,
-              },
-            ]}>
-            {/* Show an overlay on top of the container if example is not available on the current platform */}
-            {isDisabled && <View style={styles.disabledOverlay} />}
-            <View
-              style={[
-                styles.titleContainer,
-                {
-                  borderBottomColor: theme.SeparatorColor,
-                  backgroundColor: theme.QuaternarySystemFillColor,
-                },
-              ]}>
-              <Text style={[styles.titleText, {color: theme.LabelColor}]}>
-                {title}
-              </Text>
-              {descComponent}
-            </View>
-            <View style={styles.children}>{children}</View>
+      {theme => (
+        <View style={[styles.container]}>
+          {/* Show an overlay on top of the container if example is not available on the current platform */}
+          {isDisabled && <View style={styles.disabledOverlay} />}
+
+          <View style={[styles.titleContainer]}>
+            <Text style={[styles.titleText]}>{title}</Text>
+            {descComponent}
           </View>
-        );
-      }}
+          <View style={styles.children}>{children}</View>
+        </View>
+      )}
     </RNTesterThemeContext.Consumer>
   );
 };
@@ -79,28 +58,28 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 0,
     borderWidth: 1,
-    borderColor: 'blue',
-    margin: 10,
+    margin: 15,
     marginVertical: 5,
-    overflow: 'hidden',
-    position: 'relative',
-  },
-  titleContainer: {
-    borderBottomWidth: 1,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    borderColor: '#005DFF',
+    backgroundColor: 'white',
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 18,
     fontFamily: 'Times New Roman',
     fontWeight: '300',
   },
+  titleContainer: {
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+  },
   descriptionText: {
     fontSize: 12,
+    color: 'gray',
+    opacity: 1,
   },
   children: {
     paddingVertical: 10,
-    paddingHorizontal: 5,
+    paddingHorizontal: 10,
     backgroundColor: '#F3F8FF',
     margin: 10,
   },
@@ -108,10 +87,8 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    backgroundColor: '#D3D3D3',
-    opacity: 0.5,
-    top: 0,
-    left: 0,
+    backgroundColor: '#F3F8FF',
+    opacity: 0.8,
     zIndex: 1,
   },
 });
