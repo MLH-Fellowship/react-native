@@ -11,6 +11,7 @@
 'use strict';
 
 import * as React from 'react';
+import AsyncStorage from '../utils/AsyncStorage';
 
 export type RNTesterBookmark = {
   Components: Object,
@@ -24,18 +25,23 @@ export type RNTesterBookmark = {
 
 const AddComponent = (componentName, component) => {
   bookmarks.Components[componentName] = component;
+  console.log('A', bookmarks.Components);
+  AsyncStorage.setItem('Components', JSON.stringify(bookmarks.Components));
 };
 
 const RemoveComponent = (componentName) => {
   delete bookmarks.Components[componentName];
+  AsyncStorage.setItem('Components', JSON.stringify(bookmarks.Components));
 };
 
 const AddApi = (apiName, api) => {
   bookmarks.Api[apiName] = api;
+  AsyncStorage.setItem('Api', JSON.stringify(bookmarks.Api));
 };
 
 const RemoveApi = (apiName) => {
   delete bookmarks.Api[apiName];
+  AsyncStorage.setItem('Api', JSON.stringify(bookmarks.Api));
 };
 
 const checkBookmark = (title, key) => {
@@ -45,8 +51,15 @@ const checkBookmark = (title, key) => {
   return bookmarks.Components[title] === undefined;
 };
 
+const getSavedComponents = async () => {
+  AsyncStorage.clear();
+  return JSON.parse(await AsyncStorage.getItem('Components')) || {};
+};
+
+const savedApi = AsyncStorage.getItem('Api') || {};
+
 export const bookmarks = {
-  Components: {},
+  Components: getSavedComponents(),
   Api: {},
   AddComponent: AddComponent,
   RemoveComponent: RemoveComponent,
