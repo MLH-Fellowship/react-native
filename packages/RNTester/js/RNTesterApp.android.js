@@ -105,12 +105,10 @@ const RNTesterExampleContainerViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmarks}>
-        <View style={styles.container}>
-          <Header title={title} onPressDrawer={onPressDrawer} />
-          <RNTesterExampleContainer module={module} ref={exampleRef} />
-        </View>
-      </RNTesterBookmarkContext.Provider>
+      <View style={styles.container}>
+        <Header title={title} onPressDrawer={onPressDrawer} />
+        <RNTesterExampleContainer module={module} ref={exampleRef} />
+      </View>
     </RNTesterThemeContext.Provider>
   );
 };
@@ -131,20 +129,18 @@ const RNTesterDrawerContentViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmarks}>
-        <View
-          style={[
-            styles.drawerContentWrapper,
-            {backgroundColor: theme.SystemBackgroundColor},
-          ]}>
-          <RNTesterExampleList
-            list={list}
-            displayTitleRow={true}
-            disableSearch={true}
-            onNavigate={onNavigate}
-          />
-        </View>
-      </RNTesterBookmarkContext.Provider>
+      <View
+        style={[
+          styles.drawerContentWrapper,
+          {backgroundColor: theme.SystemBackgroundColor},
+        ]}>
+        <RNTesterExampleList
+          list={list}
+          displayTitleRow={true}
+          disableSearch={true}
+          onNavigate={onNavigate}
+        />
+      </View>
     </RNTesterThemeContext.Provider>
   );
 };
@@ -153,6 +149,7 @@ const RNTesterExampleListViaHook = ({
   title,
   onPressDrawer,
   onNavigate,
+  bookmark,
   list,
 }: {
   title: string,
@@ -169,7 +166,7 @@ const RNTesterExampleListViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmarks}>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
           <Header title={title} onPressDrawer={onPressDrawer} />
           <RNTesterExampleList onNavigate={onNavigate} list={list} />
@@ -182,6 +179,7 @@ const RNTesterExampleListViaHook = ({
 const RNTesterBookmarkListViaHook = ({
   title,
   onPressDrawer,
+  bookmark,
   onNavigate,
 }: {
   title: string,
@@ -193,7 +191,7 @@ const RNTesterBookmarkListViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmarks}>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
           <Header title={title} onPressDrawer={onPressDrawer} />
           <RNtesterBookmarkList onNavigate={onNavigate} />
@@ -204,6 +202,14 @@ const RNTesterBookmarkListViaHook = ({
 };
 
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
+  constructor() {
+    super();
+    this.state = {
+      openExample: null,
+      Components: bookmarks.Components,
+      Api: bookmarks.Api,
+    };
+  }
   UNSAFE_componentWillMount() {
     BackHandler.addEventListener(
       'hardwareBackPress',
@@ -232,9 +238,30 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         this.setState(storedState);
       });
     });
+    AsyncStorage.getItem('Components', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const components = JSON.parse(storedString);
+      bookmarks.Components = components;
+      this.setState({
+        Components: components,
+      });
+    });
+    AsyncStorage.getItem('Api', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const api = JSON.parse(storedString);
+      bookmarks.Api = api;
+      this.setState({
+        Api: api,
+      });
+    });
   }
 
   render(): React.Node {
+    console.log(this.state);
     if (!this.state) {
       return null;
     }
@@ -260,12 +287,20 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         }}
         renderNavigationView={this._renderDrawerContent}
         statusBarBackgroundColor="#589c90">
-        {this._renderApp()}
+        {this._renderApp({
+          Components: this.state.Components,
+          Api: this.state.Api,
+          AddApi: bookmarks.AddApi,
+          AddComponent: bookmarks.AddComponent,
+          RemoveApi: bookmarks.RemoveApi,
+          RemoveComponent: bookmarks.RemoveComponent,
+          checkBookmark: bookmarks.checkBookmark,
+        })}
       </DrawerLayoutAndroid>
     );
   }
 
-  _renderDrawerContent = () => {
+  _renderDrawerContent = (bookmark) => {
     return (
       <RNTesterDrawerContentViaHook
         onNavigate={this._handleAction}
@@ -274,17 +309,17 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     );
   };
 
-  _renderApp() {
+  _renderApp(bookmark) {
     const {openExample} = this.state;
 
     if (openExample === 'RNTesterBookmark') {
-      console.log('!!');
       return (
         <RNTesterBookmarkListViaHook
           title={'RNTester'}
           /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
            * when making Flow check .android.js files. */
           onPressDrawer={() => this.drawer.openDrawer()}
+          bookmark={bookmark}
           onNavigate={this._handleAction}
         />
       );
@@ -328,6 +363,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
          * when making Flow check .android.js files. */
         onPressDrawer={() => this.drawer.openDrawer()}
         onNavigate={this._handleAction}
+        bookmark={bookmark}
         list={RNTesterList}
       />
     );

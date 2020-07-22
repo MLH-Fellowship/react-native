@@ -102,7 +102,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.setState({
       active: !this.state.active,
     });
-    console.log(bookmark);
   };
 
   _onPress = () => {
@@ -162,8 +161,8 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                       style={styles.imageStyle}
                       source={
                         this.state.active
-                          ? require('../assets/bookmark-outline.png')
-                          : require('../assets/bookmark-filled.png')
+                          ? require('../assets/bookmark-filled.png')
+                          : require('../assets/bookmark-outline.png')
                       }
                     />
                   </TouchableHighlight>
