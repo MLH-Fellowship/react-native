@@ -25,7 +25,6 @@ export type RNTesterBookmark = {
 
 const AddComponent = (componentName, component) => {
   bookmarks.Components[componentName] = component;
-  console.log('A', bookmarks.Components);
   AsyncStorage.setItem('Components', JSON.stringify(bookmarks.Components));
 };
 
@@ -51,15 +50,8 @@ const checkBookmark = (title, key) => {
   return bookmarks.Components[title] === undefined;
 };
 
-const getSavedComponents = async () => {
-  AsyncStorage.clear();
-  return JSON.parse(await AsyncStorage.getItem('Components')) || {};
-};
-
-const savedApi = AsyncStorage.getItem('Api') || {};
-
 export const bookmarks = {
-  Components: getSavedComponents(),
+  Components: {},
   Api: {},
   AddComponent: AddComponent,
   RemoveComponent: RemoveComponent,

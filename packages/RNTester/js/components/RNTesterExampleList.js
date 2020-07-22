@@ -119,7 +119,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.setState({
       active: !this.state.active,
     });
-    console.log(bookmark);
   };
 
   _onPress = () => {
