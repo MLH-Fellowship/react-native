@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
 
 exports.title = 'Linking';
 exports.description = 'Shows how to use Linking to open URLs.';
+exports.documentationURL = 'https://reactnative.dev/docs/linking';
 exports.examples = [
   {
     title: 'Simple list of items',

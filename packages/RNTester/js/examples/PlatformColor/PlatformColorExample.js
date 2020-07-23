@@ -296,6 +296,7 @@ const styles = StyleSheet.create({
 exports.title = 'PlatformColor';
 exports.description =
   'Examples that show how PlatformColors may be used in an app.';
+exports.documentationURL = 'https://reactnative.dev/docs/platformcolor';
 exports.examples = [
   {
     title: 'Platform Colors',

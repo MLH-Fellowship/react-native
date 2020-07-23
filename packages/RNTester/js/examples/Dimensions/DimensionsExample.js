@@ -42,6 +42,7 @@ class DimensionsSubscription extends React.Component<
 
 exports.title = 'Dimensions';
 exports.description = 'Dimensions of the viewport';
+exports.documentationURL = 'https://reactnative.dev/docs/dimensions';
 exports.examples = [
   {
     title: 'useWindowDimensions hook',

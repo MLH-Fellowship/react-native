@@ -78,6 +78,7 @@ const ThemedText = props => (
 
 exports.title = 'Appearance';
 exports.description = 'Light and dark user interface examples.';
+exports.documentationURL = 'https://reactnative.dev/docs/appearance';
 exports.examples = [
   {
     title: 'useColorScheme hook',

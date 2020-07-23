@@ -752,6 +752,7 @@ class AnnounceForAccessibility extends React.Component<{}> {
 
 exports.title = 'Accessibility';
 exports.description = 'Examples of using Accessibility APIs.';
+exports.documentationURL = 'https://reactnative.dev/docs/accessibilityinfo';
 exports.examples = [
   {
     title: 'Accessibility elements',

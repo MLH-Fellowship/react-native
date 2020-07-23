@@ -28,6 +28,7 @@ exports.displayName = (undefined: ?string);
 exports.framework = 'React';
 exports.title = '<Modal>';
 exports.description = 'Component for presenting modal views.';
+exports.documentationURL = 'https://reactnative.dev/docs/modal';
 
 class Button extends React.Component<$FlowFixMeProps, $FlowFixMeState> {
   state = {

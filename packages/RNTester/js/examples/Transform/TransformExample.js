@@ -238,6 +238,7 @@ const styles = StyleSheet.create({
 
 exports.title = 'Transforms';
 exports.description = 'View transforms';
+exports.documentationURL = 'https://reactnative.dev/docs/transforms';
 exports.examples = [
   {
     title: 'Perspective, Rotate, Animation',

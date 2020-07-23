@@ -205,6 +205,7 @@ class EventSwitchExample extends React.Component<{...}, $FlowFixMeState> {
 exports.title = '<Switch>';
 exports.displayName = 'SwitchExample';
 exports.description = 'Native boolean input';
+exports.documentationURL = 'https://reactnative.dev/docs/switch';
 exports.examples = [
   {
     title: 'Switches can be set to true or false',

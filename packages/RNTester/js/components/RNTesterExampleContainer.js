@@ -47,7 +47,8 @@ class RNTesterExampleContainer extends React.Component {
           title={module.title}
           description={module.description}
           android={module.android}
-          ios={module.ios}>
+          ios={module.ios}
+          documentationURL={module.documentationURL}>
           {module.examples[0].render()}
         </ExamplePage>
       );
@@ -58,7 +59,8 @@ class RNTesterExampleContainer extends React.Component {
           title={module.title}
           description={module.description}
           android={module.android}
-          ios={module.ios}>
+          ios={module.ios}
+          documentationURL={module.documentationURL}>
           {module.examples[0].render()}
         </ExamplePage>
       );

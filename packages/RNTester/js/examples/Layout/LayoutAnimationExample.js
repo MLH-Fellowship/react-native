@@ -346,6 +346,7 @@ const styles = StyleSheet.create({
 
 exports.title = 'Layout Animation';
 exports.description = 'Layout animation';
+exports.documentationURL = 'https://reactnative.dev/docs/layoutanimation';
 exports.examples = [
   {
     title: 'Add and remove views',

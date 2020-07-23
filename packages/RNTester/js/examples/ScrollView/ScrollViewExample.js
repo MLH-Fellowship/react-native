@@ -29,6 +29,7 @@ exports.displayName = 'ScrollViewExample';
 exports.title = '<ScrollView>';
 exports.description =
   'Component that enables scrolling through child components';
+exports.documentationURL = 'https://reactnative.dev/docs/scrollview';
 exports.examples = [
   {
     title: '<ScrollView>\n',

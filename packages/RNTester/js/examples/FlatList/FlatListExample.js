@@ -275,6 +275,7 @@ const styles = StyleSheet.create({
 exports.title = '<FlatList>';
 exports.description = 'Performant, scrollable list of data.';
 exports.simpleExampleContainer = true;
+exports.documentationURL = 'https://reactnative.dev/docs/flatlist';
 exports.examples = [
   {
     title: 'Simple list of items',

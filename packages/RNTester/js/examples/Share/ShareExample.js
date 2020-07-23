@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
 exports.framework = 'React';
 exports.title = 'Share';
 exports.description = 'Share data with other Apps.';
+exports.documentationURL = 'https://reactnative.dev/docs/share';
 exports.examples = [
   {
     title: 'Share Text Content',
