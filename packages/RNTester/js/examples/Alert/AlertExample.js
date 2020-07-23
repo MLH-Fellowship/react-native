@@ -29,6 +29,7 @@ const alertMessage =
  * Simple alert examples.
  */
 type Props = $ReadOnly<{||}>;
+exports.title = 'Alert';
 
 class SimpleAlertExampleBlock extends React.Component<Props> {
   render() {
