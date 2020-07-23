@@ -9,21 +9,18 @@
 
 'use strict';
 
-const React = require('react');
-const {
-  Alert,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} = require('react-native');
+import React, {useState} from 'react';
+import {Alert, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 
-const RNTesterBlock = require('../../components/RNTesterBlock');
-
-// corporate ipsum > lorem ipsum
-const alertMessage =
-  'Credibly reintermediate next-generation potentialities after goal-oriented ' +
-  'catalysts for change. Dynamically revolutionize.';
+// Shows log on the screen
+const Log = ({message}) =>
+  message ? (
+    <View style={styles.logContainer}>
+      <Text>
+        <Text style={styles.bold}>Log</Text>: {message}
+      </Text>
+    </View>
+  ) : null;
 
 /**
  * Simple alert examples.
@@ -151,9 +148,66 @@ const styles = StyleSheet.create({
     backgroundColor: '#eeeeee',
     padding: 10,
   },
+  logContainer: {
+    paddingVertical: 8,
+    paddingHorizontal: 5,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
 });
 
-module.exports = {
-  AlertExample,
-  SimpleAlertExampleBlock,
-};
+exports.title = 'Alerts';
+exports.description =
+  'Alerts display a concise and informative message ' +
+  'and prompt the user to make a decision.';
+exports.examples = [
+  {
+    title: 'Alert with default Button',
+    description:
+      "It can be used to show some information to user that doesn't require an action.",
+    render(): React.Node {
+      return <AlertWithDefaultButton />;
+    },
+  },
+  {
+    title: 'Alert with two Buttons',
+    description: 'It can be used when an action is required from the user.',
+    render(): React.Node {
+      return <AlertWithTwoButtons />;
+    },
+  },
+  {
+    title: 'Alert with three Buttons',
+    description: 'It can be used when there are three possible actions',
+    render(): React.Node {
+      return <AlertWithThreeButtons />;
+    },
+  },
+  {
+    title: 'Alert with many Buttons',
+    platform: 'ios',
+    description: 'It can be used when more than three actions are required.',
+    render(): React.Node {
+      return <AlertWithManyButtons />;
+    },
+  },
+  {
+    title: 'Alert with cancelable={true}',
+    platform: 'android',
+    description:
+      'By passing cancelable={false} prop to alerts on Android, they can be dismissed by tapping outside of the alert box.',
+    render(): React.Node {
+      return <AlertWithCancelableTrue />;
+    },
+  },
+  {
+    title: 'Alert with styles',
+    platform: 'ios',
+    description:
+      "Alert buttons can be styled. There are three button styles - 'default' | 'cancel' | 'destructive'.",
+    render(): React.Node {
+      return <AlertWithStyles />;
+    },
+  },
+];
