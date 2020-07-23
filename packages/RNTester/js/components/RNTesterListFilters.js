@@ -13,6 +13,7 @@
 const React = require('react');
 
 const {StyleSheet, Text, TouchableOpacity, View} = require('react-native');
+
 const filters = ['Basic', 'UI', 'ListViews', 'iOS', 'Android'];
 
 type Props = {
