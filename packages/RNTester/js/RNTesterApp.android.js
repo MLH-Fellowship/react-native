@@ -273,7 +273,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           this.setState(RNTesterNavigationReducer(storedState, launchAction));
           return;
         }
-        this.setState(storedState);
+        this.setState({
+          openExample: storedState.openExample,
+        });
       });
     });
     AsyncStorage.getItem('Components', (err, storedString) => {
@@ -281,7 +283,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         return;
       }
       const components = JSON.parse(storedString);
-      bookmarks.Components = components;
       this.setState({
         Components: components,
       });
@@ -291,7 +292,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         return;
       }
       const api = JSON.parse(storedString);
-      bookmarks.Api = api;
       this.setState({
         Api: api,
       });
@@ -337,7 +337,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     );
   }
 
-  _renderDrawerContent = (bookmark) => {
+  _renderDrawerContent = () => {
     return (
       <RNTesterDrawerContentViaHook
         onNavigate={this._handleAction}

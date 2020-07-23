@@ -198,10 +198,12 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
   render(): React.Node {
     const bookmark = this.context;
-    const filter = ({example, filterRegex}) =>
-      filterRegex.test(example.module.title) &&
-      (!Platform.isTV || example.supportsTVOS);
-
+    const filter = ({example, filterRegex}) => {
+      return (
+        filterRegex.test(example.module.title) &&
+        (!Platform.isTV || example.supportsTVOS)
+      );
+    };
     const sections = [
       {
         data: Object.values(bookmark.Components),
