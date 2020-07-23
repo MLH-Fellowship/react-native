@@ -25,119 +25,174 @@ const Log = ({message}) =>
 /**
  * Simple alert examples.
  */
-type Props = $ReadOnly<{||}>;
-exports.title = 'Alert';
 
-class SimpleAlertExampleBlock extends React.Component<Props> {
-  render() {
-    return (
-      <View>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() => Alert.alert('Alert Title', alertMessage)}>
-          <View style={styles.button}>
-            <Text>Alert with message and default button</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert('Alert Title', alertMessage, [
-              {text: 'OK', onPress: () => console.log('OK Pressed!')},
-            ])
-          }>
-          <View style={styles.button}>
-            <Text>Alert with one button</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert('Alert Title', alertMessage, [
-              {text: 'Cancel', onPress: () => console.log('Cancel Pressed!')},
-              {text: 'OK', onPress: () => console.log('OK Pressed!')},
-            ])
-          }>
-          <View style={styles.button}>
-            <Text>Alert with two buttons</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert('Alert Title', null, [
-              {text: 'Foo', onPress: () => console.log('Foo Pressed!')},
-              {text: 'Bar', onPress: () => console.log('Bar Pressed!')},
-              {text: 'Baz', onPress: () => console.log('Baz Pressed!')},
-            ])
-          }>
-          <View style={styles.button}>
-            <Text>Alert with three buttons</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert(
-              'Foo Title',
-              alertMessage,
-              '..............'.split('').map((dot, index) => ({
-                text: 'Button ' + index,
-                onPress: () => console.log('Pressed ' + index),
-              })),
-            )
-          }>
-          <View style={styles.button}>
-            <Text>Alert with too many buttons</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert(
-              'Alert Title',
-              null,
-              [{text: 'OK', onPress: () => console.log('OK Pressed!')}],
-              {
-                cancelable: false,
-              },
-            )
-          }>
-          <View style={styles.button}>
-            <Text>Alert that cannot be dismissed</Text>
-          </View>
-        </TouchableHighlight>
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() =>
-            Alert.alert('', alertMessage, [
-              {text: 'OK', onPress: () => console.log('OK Pressed!')},
-            ])
-          }>
-          <View style={styles.button}>
-            <Text>Alert without title</Text>
-          </View>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-}
+export const title = 'Alert';
 
-class AlertExample extends React.Component {
-  static title = 'Alert';
+const AlertWithDefaultButton = () => {
+  const alertMessage = 'An external USB drive has been detected!';
 
-  static description =
-    'Alerts display a concise and informative message ' +
-    'and prompt the user to make a decision.';
+  return (
+    <View>
+      <TouchableHighlight
+        testID="alert-with-default-button"
+        style={styles.wrapper}
+        onPress={() => Alert.alert('Alert', alertMessage)}>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+    </View>
+  );
+};
 
-  render() {
-    return (
-      <RNTesterBlock title={'Alert'}>
-        <SimpleAlertExampleBlock />
-      </RNTesterBlock>
-    );
-  }
-}
+const AlertWithTwoButtons = () => {
+  const [message, setMessage] = useState('');
+
+  const alertMessage = 'Your subscription has expired!';
+
+  return (
+    <View>
+      <TouchableHighlight
+        style={styles.wrapper}
+        onPress={() =>
+          Alert.alert('Action Required!', alertMessage, [
+            {text: 'Ignore', onPress: () => setMessage('Ignore Pressed!')},
+            {text: 'Renew', onPress: () => setMessage('Renew Pressed!')},
+          ])
+        }>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+      <Log message={message} />
+    </View>
+  );
+};
+
+const AlertWithThreeButtons = () => {
+  const [message, setMessage] = useState('');
+
+  const alertMessage = 'Do you want to save your changes?';
+
+  return (
+    <View>
+      <TouchableHighlight
+        testID="alert-with-three-buttons"
+        style={styles.wrapper}
+        onPress={() =>
+          Alert.alert('Unsaved Changes!', alertMessage, [
+            {text: 'Cancel', onPress: () => setMessage('Cancel Pressed!')},
+            {text: 'No', onPress: () => setMessage('No Pressed!')},
+            {text: 'Yes', onPress: () => setMessage('Yes Pressed!')},
+          ])
+        }>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+      <Log message={message} />
+    </View>
+  );
+};
+
+const AlertWithManyButtons = () => {
+  const [message, setMessage] = useState('');
+
+  const alertMessage =
+    'Credibly reintermediate next-generation potentialities after goal-oriented ' +
+    'catalysts for change. Dynamically revolutionize.';
+
+  return (
+    <View>
+      <TouchableHighlight
+        style={styles.wrapper}
+        onPress={() =>
+          Alert.alert(
+            'Foo Title',
+            alertMessage,
+            '..............'.split('').map((dot, index) => ({
+              text: 'Button ' + index,
+              onPress: () => setMessage(`Button ${index} Pressed!`),
+            })),
+          )
+        }>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+      <Log message={message} />
+    </View>
+  );
+};
+
+const AlertWithCancelableTrue = () => {
+  const [message, setMessage] = useState('');
+
+  const alertMessage = 'Tapping outside this dialog will dismiss this alert.';
+
+  return (
+    <View>
+      <TouchableHighlight
+        style={styles.wrapper}
+        onPress={() =>
+          Alert.alert(
+            'Alert Title',
+            alertMessage,
+            [{text: 'OK', onPress: () => setMessage('OK Pressed!')}],
+            {
+              cancelable: true,
+              onDismiss: () =>
+                setMessage(
+                  'This alert was dismissed by tapping outside of the alert dialog.',
+                ),
+            },
+          )
+        }>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+      <Log message={message} />
+    </View>
+  );
+};
+
+const AlertWithStyles = () => {
+  const [message, setMessage] = useState('');
+
+  const alertMessage = 'Look at the button styles!';
+
+  return (
+    <View>
+      <TouchableHighlight
+        style={styles.wrapper}
+        onPress={() =>
+          Alert.alert('Styled Buttons!', alertMessage, [
+            {
+              text: 'Default',
+              onPress: () => setMessage('Default Pressed!'),
+              style: 'default',
+            },
+            {
+              text: 'Cancel',
+              onPress: () => setMessage('Cancel Pressed!'),
+              style: 'cancel',
+            },
+            {
+              text: 'Destructive',
+              onPress: () => setMessage('Destructive Pressed!'),
+              style: 'destructive',
+            },
+          ])
+        }>
+        <View style={styles.button}>
+          <Text>Tap to view alert</Text>
+        </View>
+      </TouchableHighlight>
+      <Log message={message} />
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   wrapper: {
