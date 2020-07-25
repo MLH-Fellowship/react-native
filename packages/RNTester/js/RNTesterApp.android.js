@@ -14,9 +14,7 @@ const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
 const RNTesterList = require('./utils/RNTesterList');
-const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
-const URIActionMap = require('./utils/URIActionMap');
 
 // const nativeImageSource = require('react-native');
 
@@ -25,17 +23,13 @@ const {
   BackHandler,
   Dimensions,
   DrawerLayoutAndroid,
-  Image,
-  Linking,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableWithoutFeedback,
   UIManager,
   useColorScheme,
   View,
 } = require('react-native');
-import AsyncStorage from '@react-native-community/async-storage';
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -48,7 +42,10 @@ const DRAWER_WIDTH_LEFT = 56;
 
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
-const APP_STATE_KEY = 'RNTesterAppState.v2';
+import {
+  handleNavigation,
+  initializeInitialState,
+} from './utils/StateManagement';
 
 // const HEADER_NAV_ICON = nativeImageSource({
 //   android: 'ic_menu_black_24dp',
@@ -177,26 +174,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then((url) => {
-      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        const exampleAction = URIActionMap(
-          this.props.exampleFromAppetizeParams,
-        );
-        const urlAction = URIActionMap(url);
-        const launchAction = exampleAction || urlAction;
-        if (err || !storedString) {
-          const initialAction = launchAction || {type: 'InitialAction'};
-          this.setState(RNTesterNavigationReducer(null, initialAction));
-          return;
-        }
-        const storedState = JSON.parse(storedString);
-        if (launchAction) {
-          this.setState(RNTesterNavigationReducer(storedState, launchAction));
-          return;
-        }
-        this.setState(storedState);
-      });
-    });
+    initializeInitialState(this);
   }
 
   render(): React.Node {
@@ -233,7 +211,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _renderDrawerContent = () => {
     return (
       <RNTesterDrawerContentViaHook
-        onNavigate={this._handleAction}
+        onNavigate={() => handleNavigation(this)}
         list={RNTesterList}
       />
     );
@@ -248,7 +226,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         return (
           <ExampleModule
             onExampleExit={() => {
-              this._handleAction(RNTesterActions.Back());
+              handleNavigation(this, RNTesterActions.Back());
             }}
             ref={(example) => {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
@@ -281,25 +259,11 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
          * when making Flow check .android.js files. */
         onPressDrawer={() => this.drawer.openDrawer()}
-        onNavigate={this._handleAction}
+        onNavigate={() => handleNavigation(this)}
         list={RNTesterList}
       />
     );
   }
-
-  _handleAction = (action: Object): boolean => {
-    /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-     * when making Flow check .android.js files. */
-    this.drawer && this.drawer.closeDrawer();
-    const newState = RNTesterNavigationReducer(this.state, action);
-    if (this.state !== newState) {
-      this.setState(newState, () =>
-        AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
-      );
-      return true;
-    }
-    return false;
-  };
 
   _handleBackButtonPress = () => {
     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
@@ -326,7 +290,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     ) {
       return true;
     }
-    return this._handleAction(RNTesterActions.Back());
+    return handleNavigation(RNTesterActions.Back());
   };
 }
 
