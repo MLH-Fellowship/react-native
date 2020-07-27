@@ -281,7 +281,7 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
         }}
         onNavigate={this.props.onNavigate}
         onPress={() => {
-          this.props.onNavigate(RNTesterActions.ExampleList());
+          this.props.onNavigate(RNTesterActions.OpenList());
         }}
       />
     );

@@ -25,21 +25,17 @@ export type RNTesterAction =
   | RNTesterListAction
   | RNTesterExampleAction;
 
-function Back(): RNTesterBackAction {
+function Back(screen: string): RNTesterBackAction {
   return {
     type: 'RNTesterBackAction',
+    screen, 
   };
 }
 
-function ExampleList(): RNTesterListAction {
+function OpenList(screen: string): RNTesterListAction {
   return {
     type: 'RNTesterListAction',
-  };
-}
-
-function BookmarkList(): RNTesterListAction {
-  return {
-    type: 'RNTesterBookmarkAction',
+    screen,
   };
 }
 

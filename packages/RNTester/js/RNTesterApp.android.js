@@ -151,6 +151,7 @@ const RNTesterExampleListViaHook = ({
   onNavigate,
   bookmark,
   list,
+  screen
 }: {
   title: string,
   onPressDrawer?: () => mixed,
@@ -169,7 +170,7 @@ const RNTesterExampleListViaHook = ({
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
           <Header title={title} onPressDrawer={onPressDrawer} />
-          <RNTesterExampleList onNavigate={onNavigate} list={list} />
+          <RNTesterExampleList onNavigate={onNavigate} list={list} screen={screen}/>
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -208,6 +209,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       openExample: null,
       Components: bookmarks.Components,
       Api: bookmarks.Api,
+      screen: "component", 
       AddApi: (apiName, api) => {
         const stateApi = Object.assign({}, this.state.Api);
         stateApi[apiName] = api;
@@ -347,7 +349,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   };
 
   _renderApp(bookmark) {
-    const {openExample} = this.state;
+    const {openExample, screen} = this.state;
 
     if (openExample === 'RNTesterBookmark') {
       return (
@@ -402,6 +404,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         onNavigate={this._handleAction}
         bookmark={bookmark}
         list={RNTesterList}
+        screen={screen}
       />
     );
   }

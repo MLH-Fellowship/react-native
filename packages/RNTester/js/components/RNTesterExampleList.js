@@ -84,15 +84,10 @@ type RowProps = {
   ...
 };
 
-<<<<<<< HEAD
-class RowComponent extends React.PureComponent<RowProps, RowState> {
-  constructor(props: RowProps) {
-=======
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = RNTesterBookmarkContext;
 
   constructor(props: ButtonProps) {
->>>>>>> check bookmark
     super(props);
     this.state = {
       active: props.active,
@@ -226,18 +221,26 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
-    const sections = [
-      {
-        data: this.props.list.ComponentExamples,
-        title: 'COMPONENTS',
-        key: 'c',
-      },
-      {
-        data: this.props.list.APIExamples,
-        title: 'APIS',
-        key: 'a',
-      },
-    ];
+    const {screen} = this.props; 
+    let sections = []; 
+    if (screen === "component"){ 
+      sections = [
+        {
+          data: this.props.list.ComponentExamples,
+          key: 'c',
+        }
+      ];
+    } else if (screen === "api") { 
+      sections = [
+        {
+          data: this.props.list.APIExamples,
+          key: 'a',
+        }
+      ];
+    } else if (screen === "bookmark") { 
+      sections = []; //TODO: Bookmark 
+    }
+    
 
     return (
       <RNTesterThemeContext.Consumer>
@@ -254,7 +257,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 title="Bookmark"
                 onPress={() =>
                   this.props.onNavigate(
-                    RNTesterActions.BookmarkList('RNTesterBookmarkAction'),
+                    RNTesterActions.OpenList('bookmark'),
                   )
                 }
               />
@@ -270,7 +273,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                     keyboardShouldPersistTaps="handled"
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
-                    renderSectionHeader={renderSectionHeader}
                   />
                 )}
               />
@@ -312,11 +314,11 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         }}
         onNavigate={this.props.onNavigate}
         onPress={() => {
-          this.props.onNavigate(RNTesterActions.ExampleList());
+          this.props.onNavigate(RNTesterActions.OpenList());
         }}
       />
     );
-  }
+  } //To be removed 
 
   _handleRowPress(exampleKey: string): void {
     this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));
