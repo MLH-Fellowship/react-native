@@ -10,12 +10,12 @@
 'use strict';
 
 const React = require('react');
-const {Platform} = require('react-native');
+const {Platform, Text} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
-const RNTesterPage = require('./RNTesterPage');
 
 const invariant = require('invariant');
+import ExamplePage from './ExamplePage';
 
 class RNTesterExampleContainer extends React.Component {
   renderExample(example, i) {
@@ -43,13 +43,25 @@ class RNTesterExampleContainer extends React.Component {
         module.examples.length === 1,
         'If noExampleContainer is specified, only one example is allowed',
       );
-      return module.examples[0].render();
+      return (
+        <ExamplePage
+          title={module.title}
+          description={module.description}
+          android={module.android}
+          ios={module.ios}>
+          {module.examples[0].render()}
+        </ExamplePage>
+      );
     }
     if (module.examples.length === 1) {
       return (
-        <RNTesterPage title={this.props.title}>
-          {this.renderExample(module.examples[0])}
-        </RNTesterPage>
+        <ExamplePage
+          title={module.title}
+          description={module.description}
+          android={module.android}
+          ios={module.ios}>
+          {module.examples[0].render()}
+        </ExamplePage>
       );
     }
 
@@ -64,7 +76,11 @@ class RNTesterExampleContainer extends React.Component {
     ];
 
     return (
-      <RNTesterPage title={this.props.title}>
+      <ExamplePage
+        title={module.title}
+        description={module.description}
+        android={module.android}
+        ios={module.ios}>
         <RNTesterExampleFilter
           testID="example_search"
           sections={sections}
@@ -73,7 +89,7 @@ class RNTesterExampleContainer extends React.Component {
             filteredSections[0].data.map(this.renderExample)
           }
         />
-      </RNTesterPage>
+      </ExamplePage>
     );
   }
 }
