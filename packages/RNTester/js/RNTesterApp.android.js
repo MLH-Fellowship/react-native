@@ -209,7 +209,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       openExample: null,
       Components: bookmarks.Components,
       Api: bookmarks.Api,
-      screen: "api", 
+      screen: "component", 
       AddApi: (apiName, api) => {
         console.log(apiName);
         const stateApi = Object.assign({}, this.state.Api);
