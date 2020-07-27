@@ -66,7 +66,7 @@ export default function ExamplePage(props: Props): React.Node {
 
       <Background height={ScreenHeight} width={ScreenWidth}>
         <ScrollView style={styles.scrollView}>
-          <Text> {description} </Text>
+          <Text style={styles.description}>{description}</Text>
           {props.children}
         </ScrollView>
       </Background>
@@ -80,34 +80,43 @@ const imagePaths = {
   docs: require('../assets/docs-icon.png'),
 };
 
+const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
+const TitleViewHeight = Math.round(ScreenHeight * 0.1);
+const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
+// Since the scroll view is positioned absolutely, we need to limit its
+// max height in order to make it scroll properly.
+const ScrollViewMaxHeight =
+  ScreenHeight - HeaderHeight - TitleViewHeight - IconContainerMarginTop;
+
 const styles = StyleSheet.create({
   titleView: {
-    maxHeight: Math.round(ScreenHeight * 0.1),
+    height: HeaderHeight,
     backgroundColor: '#F3F8FF',
     padding: 20,
     overflow: 'hidden',
   },
-
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
-    marginTop: Math.round(ScreenHeight * 0.1 * 0.65),
-    marginLeft: Math.round(ScreenWidth * 0.65),
+    marginTop: IconContainerMarginTop,
+    marginLeft: HeaderHeight,
   },
-
   scrollView: {
     width: ScreenWidth,
+    maxHeight: ScrollViewMaxHeight,
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
     bottom: 0,
     left: 0,
     right: 0,
+  },
+  description: {
+    paddingHorizontal: 20,
   },
 });
