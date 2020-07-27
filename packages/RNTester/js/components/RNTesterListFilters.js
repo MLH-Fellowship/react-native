@@ -13,41 +13,58 @@
 const React = require('react');
 
 const {StyleSheet, Text, TouchableOpacity, View} = require('react-native');
+
 const filters = ['Basic', 'UI', 'ListViews', 'iOS', 'Android'];
 
-type State = {|
-  basicSelected: boolean,
-  uiSelected: boolean,
-  listViewsSelected: boolean,
-  iosSelected: boolean,
-  androidSelected: boolean,
-|};
-
 type Props = {
-  onFilterButtonPress: function,
+  onFilterButtonPress: function, //optional only for testing
   ...
 };
 
-class RNTesterListFilters extends React.Component<State, Props> {
+class RNTesterListFilters extends React.Component<
+  Props,
+  {|currentFilter: string|},
+> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      basicSelected: false,
-      uiSelected: false,
-      listViewsSelected: false,
-      iosSelected: false,
-      androidSelected: false,
+      currentFilter: '',
     };
   }
 
-  render() {
+  filterPressed: any = filterLabel => {
+    const newFilter =
+      this.state.currentFilter === filterLabel ? '' : filterLabel;
+    this.setState({
+      currentFilter: newFilter,
+    });
+    this.props.onFilterButtonPress(newFilter);
+  };
+
+  render(): React.Node {
     return (
       <View style={styles.container}>
-        <View />
         {filters.map(filterLabel => {
-          <TouchableOpacity style={styles.pillStyle}>
-            <Text style={{color: 'white'}}>{filterLabel}</Text>
-          </TouchableOpacity>;
+          return (
+            <TouchableOpacity
+              key={filterLabel}
+              style={[
+                styles.pillStyle,
+                {
+                  backgroundColor:
+                    this.state.currentFilter === filterLabel ? 'blue' : 'white',
+                },
+              ]}
+              onPress={() => this.filterPressed(filterLabel)}>
+              <Text
+                style={{
+                  color:
+                    this.state.currentFilter === filterLabel ? 'white' : 'blue',
+                }}>
+                {filterLabel}
+              </Text>
+            </TouchableOpacity>
+          );
         })}
       </View>
     );
@@ -57,12 +74,16 @@ class RNTesterListFilters extends React.Component<State, Props> {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   pillStyle: {
-    backgroundColor: 'blue',
-    padding: 5,
+    padding: 10,
     marginHorizontal: 5,
-    borderRadius: 8,
+    marginVertical: 10,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: 'blue',
   },
 });
 

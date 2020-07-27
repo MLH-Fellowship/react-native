@@ -11,7 +11,7 @@
 'use strict';
 
 const React = require('react');
-
+const RNTesterListFilters = require('./RNTesterListFilters');
 const {StyleSheet, TextInput, View} = require('react-native');
 import {RNTesterThemeContext} from './RNTesterTheme';
 
@@ -24,10 +24,10 @@ type Props = {
   ...
 };
 
-type State = {filter: string, ...};
+type State = {filter: string, category: string, ...};
 
 class RNTesterExampleFilter extends React.Component<Props, State> {
-  state: State = {filter: ''};
+  state: State = {filter: '', category: ''};
 
   render(): React.Node {
     const filterText = this.state.filter;
@@ -43,8 +43,13 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
       );
     }
 
-    const filter = example =>
-      this.props.disableSearch || this.props.filter({example, filterRegex});
+    const filter = example => {
+      const category = this.state.category;
+      return (
+        this.props.disableSearch ||
+        this.props.filter({example, filterRegex, category})
+      );
+    };
 
     const filteredSections = this.props.sections.map(section => ({
       ...section,
@@ -92,6 +97,11 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
                 ]}
                 testID={this.props.testID}
                 value={this.state.filter}
+              />
+              <RNTesterListFilters
+                onFilterButtonPress={filterLabel =>
+                  this.setState({category: filterLabel})
+                }
               />
             </View>
           );
