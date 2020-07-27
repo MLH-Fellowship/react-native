@@ -209,8 +209,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       openExample: null,
       Components: bookmarks.Components,
       Api: bookmarks.Api,
-      screen: "component", 
+      screen: "api", 
       AddApi: (apiName, api) => {
+        console.log(apiName);
         const stateApi = Object.assign({}, this.state.Api);
         stateApi[apiName] = api;
         this.setState({
@@ -219,6 +220,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         AsyncStorage.setItem('Api', JSON.stringify(stateApi));
       },
       AddComponent: (componentName, component) => {
+        console.log(componentName, "C");
         const stateComponent = Object.assign({}, this.state.Components);
         stateComponent[componentName] = component;
         this.setState({
@@ -253,7 +255,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   UNSAFE_componentWillMount() {
     BackHandler.addEventListener(
       'hardwareBackPress',
-      this._handleBackButtonPress,
+      () => this._handleBackButtonPress(this.state.screen),
     );
   }
 
@@ -351,7 +353,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _renderApp(bookmark) {
     const {openExample, screen} = this.state;
 
-    if (openExample === 'RNTesterBookmark') {
+    if (screen === 'bookmark') {
       return (
         <RNTesterBookmarkListViaHook
           title={'RNTester'}
@@ -368,7 +370,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         return (
           <ExampleModule
             onExampleExit={() => {
-              this._handleAction(RNTesterActions.Back());
+              this._handleAction(RNTesterActions.Back(screen));
             }}
             ref={(example) => {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
@@ -423,7 +425,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     return false;
   };
 
-  _handleBackButtonPress = () => {
+  _handleBackButtonPress = (screen) => {
     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
      * when making Flow check .android.js files. */
     if (this._overrideBackPressForDrawerLayout) {
@@ -448,7 +450,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     ) {
       return true;
     }
-    return this._handleAction(RNTesterActions.Back());
+    return this._handleAction(RNTesterActions.Back(screen));
   };
 }
 

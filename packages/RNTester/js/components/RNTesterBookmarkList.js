@@ -80,7 +80,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.state = {
       active: props.active,
       title: props.item.title,
-      key: props.section.title,
+      key: props.section.key,
     };
   }
 
@@ -208,12 +208,12 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
       {
         data: Object.values(bookmark.Components),
         title: 'COMPONENTS',
-        key: 'c',
+        key: 'COMPONENTS',
       },
       {
         data: Object.values(bookmark.Api),
         title: 'APIS',
-        key: 'a',
+        key: 'APIS',
       },
     ];
 
@@ -227,7 +227,6 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
                 this.props.style,
                 {backgroundColor: theme.SecondaryGroupedBackgroundColor},
               ]}>
-              {/* {this._renderTitleRow()} */}
               <RNTesterExampleFilter
                 testID="explorer_search"
                 sections={sections}
@@ -256,36 +255,13 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
       <RowComponent
         item={item}
         section={section}
-        active={!bookmark.checkBookmark(item.module.title, section.title)}
+        active={!bookmark.checkBookmark(item.module.title, section.key)}
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
       />
     );
   };
-
-  _renderTitleRow(): ?React.Element<any> {
-    /* $FlowFixMe(>=0.68.0 site=react_native_fb) This comment suppresses an
-     * error found when Flow v0.68 was deployed. To see the error delete this
-     * comment and run Flow. */
-    if (!this.props.displayTitleRow) {
-      return null;
-    }
-    return (
-      <RowComponent
-        item={{
-          module: {
-            title: 'RNTester',
-            description: 'React Native Examples',
-          },
-        }}
-        onNavigate={this.props.onNavigate}
-        onPress={() => {
-          this.props.onNavigate(RNTesterActions.OpenList());
-        }}
-      />
-    );
-  }
 
   _handleRowPress(exampleKey: string): void {
     this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));

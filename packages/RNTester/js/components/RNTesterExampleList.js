@@ -74,16 +74,6 @@ const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
   );
 };
 
-type RowState = {|active: boolean|};
-type RowProps = {
-  item: Object,
-  onNavigate: Function,
-  onPress?: Function,
-  onShowUnderlay?: Function,
-  onHideUnderlay?: Function,
-  ...
-};
-
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = RNTesterBookmarkContext;
 
@@ -92,7 +82,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.state = {
       active: props.active,
       title: props.item.module.title,
-      key: props.section.title,
+      key: props.section.key,
     };
   }
 
@@ -142,6 +132,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
               accessibilityLabel={
                 item.module.title + ' ' + item.module.description
               }
+              underlayColor={'rgb(242,242,242)'}
               onPress={this._onPress}>
               <View
                 style={[
@@ -149,14 +140,15 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
                 <View style={styles.rowTextContent}>
-                  <Text
-                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
+                  <RNTesterComponentTitle>
                     {item.module.title}
-                  </Text>
+                  </RNTesterComponentTitle>
+
                   <View style={{flexDirection: 'row', marginBottom: 5}}>
                     <Text style={{color: 'blue'}}>Category: </Text>
                     <Text>{item.module.category || 'Components/Basic'}</Text>
                   </View>
+
                   <Text
                     style={[
                       styles.rowDetailText,
@@ -221,26 +213,26 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
-    const {screen} = this.props; 
-    let sections = []; 
-    if (screen === "component"){ 
-      sections = [
-        {
-          data: this.props.list.ComponentExamples,
-          key: 'c',
-        }
-      ];
-    } else if (screen === "api") { 
-      sections = [
-        {
-          data: this.props.list.APIExamples,
-          key: 'a',
-        }
-      ];
-    } else if (screen === "bookmark") { 
-      sections = []; //TODO: Bookmark 
-    }
-    
+      const {screen} = this.props; 
+      let sections = []; 
+      if (screen === "component"){ 
+        sections = [
+          {
+            data: this.props.list.ComponentExamples,
+            key: 'Components',
+          }
+        ];
+      } else if (screen === "api") { 
+        sections = [
+          {
+            data: this.props.list.APIExamples,
+            key: 'APIS',
+          }
+        ];
+      } else { 
+        sections = []; 
+      }
+      
 
     return (
       <RNTesterThemeContext.Consumer>
@@ -273,6 +265,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                     keyboardShouldPersistTaps="handled"
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
+                    renderSectionHeader={renderSectionHeader}
                   />
                 )}
               />
@@ -289,7 +282,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       <RowComponent
         item={item}
         section={section}
-        active={!bookmark.checkBookmark(item.module.title, section.title)}
+        active={!bookmark.checkBookmark(item.module.title, section.key)}
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
@@ -297,28 +290,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     );
   };
 
-  _renderTitleRow(): ?React.Element<any> {
-    /* $FlowFixMe(>=0.68.0 site=react_native_fb) This comment suppresses an
-     * error found when Flow v0.68 was deployed. To see the error delete this
-     * comment and run Flow. */
-    if (!this.props.displayTitleRow) {
-      return null;
-    }
-    return (
-      <RowComponent
-        item={{
-          module: {
-            title: 'RNTester',
-            description: 'React Native Examples',
-          },
-        }}
-        onNavigate={this.props.onNavigate}
-        onPress={() => {
-          this.props.onNavigate(RNTesterActions.OpenList());
-        }}
-      />
-    );
-  } //To be removed 
 
   _handleRowPress(exampleKey: string): void {
     this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));

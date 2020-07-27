@@ -48,8 +48,8 @@ function ExampleAction(openExample: string): RNTesterExampleAction {
 
 const RNTesterActions = {
   Back,
-  ExampleList,
-  BookmarkList,
+  OpenList,
+
   ExampleAction,
 };
 
