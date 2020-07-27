@@ -33,13 +33,16 @@ const {
   LogBox,
 } = require('react-native');
 
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from './utils/AsyncStorage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
 import type {ColorSchemeName} from 'react-native/Libraries/Utilities/NativeAppearance';
-
+import {
+  RNTesterBookmarkContext,
+  bookmarks,
+} from './components/RNTesterBookmark';
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 // LogBox.ignoreLogs(['Module RCTImagePickerManager requires main queue setup']);
@@ -55,7 +58,7 @@ const Header = ({
   ...
 }) => (
   <RNTesterThemeContext.Consumer>
-    {theme => {
+    {(theme) => {
       return (
         <SafeAreaView
           style={[
@@ -114,6 +117,7 @@ const RNTesterExampleContainerViaHook = ({
 
 const RNTesterExampleListViaHook = ({
   onNavigate,
+  bookmark,
   list,
 }: {
   onNavigate?: () => mixed,
@@ -128,10 +132,35 @@ const RNTesterExampleListViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <View style={styles.exampleContainer}>
-        <Header title="RNTester" />
-        <RNTesterExampleList onNavigate={onNavigate} list={list} />
-      </View>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
+        <View style={styles.exampleContainer}>
+          <Header title="RNTester" />
+          <RNTesterExampleList onNavigate={onNavigate} list={list} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
+    </RNTesterThemeContext.Provider>
+  );
+};
+
+const RNTesterBookmarkListViaHook = ({
+  bookmark,
+  onNavigate,
+}: {
+  title: string,
+  onPressDrawer?: () => mixed,
+  onNavigate?: () => mixed,
+  ...
+}) => {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  return (
+    <RNTesterThemeContext.Provider value={theme}>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
+        <View style={styles.container}>
+          <Header title="RNTester" />
+          <RNtesterBookmarkList onNavigate={onNavigate} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
   );
 };
@@ -139,13 +168,60 @@ const RNTesterExampleListViaHook = ({
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _mounted: boolean;
 
+  constructor() {
+    super();
+    this.state = {
+      openExample: null,
+      Components: bookmarks.Components,
+      Api: bookmarks.Api,
+      AddApi: (apiName, api) => {
+        const stateApi = Object.assign({}, this.state.Api);
+        stateApi[apiName] = api;
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      AddComponent: (componentName, component) => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        stateComponent[componentName] = component;
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      RemoveApi: (apiName) => {
+        const stateApi = Object.assign({}, this.state.Api);
+        delete stateApi[apiName];
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      RemoveComponent: (componentName) => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        delete stateComponent[componentName];
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      checkBookmark: (title, key) => {
+        if (key === 'APIS') {
+          return this.state.Api[title] === undefined;
+        }
+        return this.state.Components[title] === undefined;
+      },
+    };
+  }
+
   UNSAFE_componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this._handleBack);
   }
 
   componentDidMount() {
     this._mounted = true;
-    Linking.getInitialURL().then(url => {
+    Linking.getInitialURL().then((url) => {
       AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
         if (!this._mounted) {
           return;
@@ -160,8 +236,27 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       });
     });
 
-    Linking.addEventListener('url', url => {
+    Linking.addEventListener('url', (url) => {
       this._handleAction(URIActionMap(url));
+    });
+
+    AsyncStorage.getItem('Components', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const components = JSON.parse(storedString);
+      this.setState({
+        Components: components,
+      });
+    });
+    AsyncStorage.getItem('Api', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const api = JSON.parse(storedString);
+      this.setState({
+        Api: api,
+      });
     });
   }
 
@@ -186,6 +281,15 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   };
 
   render(): React.Node | null {
+    const bookmark = {
+      Components: this.state.Components,
+      Api: this.state.Api,
+      AddApi: this.state.AddApi,
+      AddComponent: this.state.AddComponent,
+      RemoveApi: this.state.RemoveApi,
+      RemoveComponent: this.state.RemoveComponent,
+      checkBookmark: this.state.checkBookmark,
+    }
     if (!this.state) {
       return null;
     }
@@ -203,9 +307,18 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         );
       }
     }
+    else if (this.state.openDrawer === 'RNTesterBookmark') {
+      return (
+        <RNTesterBookmarkListViaHook
+          bookmark={bookmark}
+          onNavigate={this._handleAction}
+        />
+      );
+    }
     return (
       <RNTesterExampleListViaHook
         onNavigate={this._handleAction}
+        bookmark={bookmark}
         list={RNTesterList}
       />
     );

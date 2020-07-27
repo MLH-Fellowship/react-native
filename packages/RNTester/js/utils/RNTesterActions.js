@@ -37,6 +37,12 @@ function ExampleList(): RNTesterListAction {
   };
 }
 
+function BookmarkList(): RNTesterListAction {
+  return {
+    type: 'RNTesterBookmarkAction',
+  };
+}
+
 function ExampleAction(openExample: string): RNTesterExampleAction {
   return {
     type: 'RNTesterExampleAction',
@@ -47,6 +53,7 @@ function ExampleAction(openExample: string): RNTesterExampleAction {
 const RNTesterActions = {
   Back,
   ExampleList,
+  BookmarkList,
   ExampleAction,
 };
 
