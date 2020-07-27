@@ -65,7 +65,7 @@ export default function ExamplePage(props: Props): React.Node {
       </View>
 
       <Background height={ScreenHeight} width={ScreenWidth}>
-        <ScrollView bounces={true} style={styles.scrollView}>
+        <ScrollView style={styles.scrollView}>
           <Text style={styles.description}>{description}</Text>
           {props.children}
         </ScrollView>
