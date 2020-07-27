@@ -19,6 +19,7 @@ type Props = $ReadOnly<{|
   children?: React.Node,
   title?: ?string,
   description?: ?string,
+  isDisabled: ?boolean,
 |}>;
 
 type State = {|
@@ -31,7 +32,7 @@ class RNTesterBlock extends React.Component<Props, State> {
   render(): React.Node {
     const description = this.props.description ? (
       <RNTesterThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
             <Text style={[styles.descriptionText, {color: theme.LabelColor}]}>
               {this.props.description}
@@ -43,7 +44,7 @@ class RNTesterBlock extends React.Component<Props, State> {
 
     return (
       <RNTesterThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
             <View
               style={[
@@ -53,6 +54,8 @@ class RNTesterBlock extends React.Component<Props, State> {
                   backgroundColor: theme.SystemBackgroundColor,
                 },
               ]}>
+              {/* Show an overlay on top of the container if example is not available on the current platform */}
+              {this.props.isDisabled && <View style={styles.disabledOverlay} />}
               <View
                 style={[
                   styles.titleContainer,
@@ -82,6 +85,7 @@ const styles = StyleSheet.create({
     margin: 10,
     marginVertical: 5,
     overflow: 'hidden',
+    position: 'relative',
   },
   titleContainer: {
     borderBottomWidth: 0.5,
@@ -99,6 +103,16 @@ const styles = StyleSheet.create({
   },
   children: {
     margin: 10,
+  },
+  disabledOverlay: {
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    backgroundColor: '#D3D3D3',
+    opacity: 0.5,
+    top: 0,
+    left: 0,
+    zIndex: 1,
   },
 });
 
