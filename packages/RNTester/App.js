@@ -12,7 +12,8 @@
 
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import RNTesterApp from './js/RNTesterApp'; 
+// import RNTesterApp from './js/RNTesterApp';
+import RNTesterApp from './js/RNTesterTabBarMock';
 
 const App: () => React$Node = () => {
   return (
