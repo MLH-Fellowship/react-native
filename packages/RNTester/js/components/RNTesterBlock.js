@@ -17,21 +17,18 @@ type Props = $ReadOnly<{|
   isDisabled: ?boolean,
 |}>;
 
-import React, {useState} from 'react';
+import React from 'react';
 import {RNTesterThemeContext} from './RNTesterTheme';
 import {StyleSheet, Text, View} from 'react-native';
 
 /** functional component for generating example blocks */
 const RNTesterBlock = ({description, isDisabled, title, children}: Props) => {
   let descComponent = null;
-  isDisabled = [false, true, false, false, false, false, true, false, true][
-    Math.floor(Math.random() * 6 + 1)
-  ];
   /** generating description component if description passed */
   if (description) {
     descComponent = (
       <RNTesterThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return <Text style={[styles.descriptionText]}>{description}</Text>;
         }}
       </RNTesterThemeContext.Consumer>
@@ -40,7 +37,7 @@ const RNTesterBlock = ({description, isDisabled, title, children}: Props) => {
 
   return (
     <RNTesterThemeContext.Consumer>
-      {theme => (
+      {(theme) => (
         <View
           style={[isDisabled ? styles.disabledContainer : styles.container]}>
           {/* Show an overlay on top of the container if example is not available on the current platform */}
@@ -83,8 +80,8 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 12,
-    opacity: 1,
-    color: '#a4a4a4',
+    opacity: 0.5,
+    color: 'black',
   },
   children: {
     paddingVertical: 10,
@@ -96,9 +93,11 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     position: 'absolute',
-    backgroundColor: '#F3F8FF',
-    opacity: 0.4,
+    backgroundColor: 'gray',
+    opacity: 0.2,
     zIndex: 1,
+    borderColor: 'gray',
+    borderWidth: 1,
   },
 });
 
