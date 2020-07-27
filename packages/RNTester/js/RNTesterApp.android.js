@@ -24,7 +24,6 @@ const {
   AppRegistry,
   BackHandler,
   Dimensions,
-  DrawerLayoutAndroid,
   Image,
   Linking,
   StatusBar,
@@ -44,8 +43,6 @@ import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
 
-const DRAWER_WIDTH_LEFT = 56;
-
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
@@ -57,10 +54,8 @@ const APP_STATE_KEY = 'RNTesterAppState.v2';
 // });
 
 const Header = ({
-  onPressDrawer,
   title,
 }: {
-  onPressDrawer?: () => mixed,
   title: string,
   ...
 }) => (
@@ -73,11 +68,6 @@ const Header = ({
               {title}
             </Text>
           </View>
-          {/* <View style={styles.toolbarLeft}> */}
-          {/* <TouchableWithoutFeedback onPress={onPressDrawer}> */}
-          {/* <Image source={HEADER_NAV_ICON} /> */}
-          {/* </TouchableWithoutFeedback> */}
-          {/* </View> */}
         </View>
       );
     }}
@@ -85,12 +75,10 @@ const Header = ({
 );
 
 const RNTesterExampleContainerViaHook = ({
-  onPressDrawer,
   title,
   module,
   exampleRef,
 }: {
-  onPressDrawer?: () => mixed,
   title: string,
   module: RNTesterExample,
   exampleRef: () => void,
@@ -101,53 +89,51 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
+        <Header title={title} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
   );
 };
 
-const RNTesterDrawerContentViaHook = ({
-  onNavigate,
-  list,
-}: {
-  onNavigate?: () => mixed,
-  list: {
-    ComponentExamples: Array<RNTesterExample>,
-    APIExamples: Array<RNTesterExample>,
-    ...
-  },
-  ...
-}) => {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  return (
-    <RNTesterThemeContext.Provider value={theme}>
-      <View
-        style={[
-          styles.drawerContentWrapper,
-          {backgroundColor: theme.SystemBackgroundColor},
-        ]}>
-        <RNTesterExampleList
-          list={list}
-          displayTitleRow={true}
-          disableSearch={true}
-          onNavigate={onNavigate}
-        />
-      </View>
-    </RNTesterThemeContext.Provider>
-  );
-};
+// const RNTesterDrawerContentViaHook = ({
+//   onNavigate,
+//   list,
+// }: {
+//   onNavigate?: () => mixed,
+//   list: {
+//     ComponentExamples: Array<RNTesterExample>,
+//     APIExamples: Array<RNTesterExample>,
+//     ...
+//   },
+//   ...
+// }) => {
+//   const colorScheme = useColorScheme();
+//   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+//   return (
+//     <RNTesterThemeContext.Provider value={theme}>
+//       <View
+//         style={[
+//           styles.drawerContentWrapper,
+//           {backgroundColor: theme.SystemBackgroundColor},
+//         ]}>
+//         <RNTesterExampleList
+//           list={list}
+//           displayTitleRow={true}
+//           disableSearch={true}
+//           onNavigate={onNavigate}
+//         />
+//       </View>
+//     </RNTesterThemeContext.Provider>
+//   );
+// };
 
 const RNTesterExampleListViaHook = ({
   title,
-  onPressDrawer,
   onNavigate,
   list,
 }: {
   title: string,
-  onPressDrawer?: () => mixed,
   onNavigate?: () => mixed,
   list: {
     ComponentExamples: Array<RNTesterExample>,
@@ -161,7 +147,7 @@ const RNTesterExampleListViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
+        <Header title={title} />
         <RNTesterExampleList onNavigate={onNavigate} list={list} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -199,47 +185,50 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     });
   }
 
-  render(): React.Node {
+  // render(): React.Node {
+  //   if (!this.state) {
+  //     return null;
+  //   }
+  //   return (
+  //     <DrawerLayoutAndroid
+  //       drawerPosition="left"
+  //       drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
+  //       keyboardDismissMode="on-drag"
+  //       onDrawerOpen={() => {
+  //         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+  //          * found when making Flow check .android.js files. */
+  //         this._overrideBackPressForDrawerLayout = true;
+  //       }}
+  //       onDrawerClose={() => {
+  //         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+  //          * found when making Flow check .android.js files. */
+  //         this._overrideBackPressForDrawerLayout = false;
+  //       }}
+  //       ref={(drawer) => {
+  //         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+  //          * found when making Flow check .android.js files. */
+  //         this.drawer = drawer;
+  //       }}
+  //       renderNavigationView={this._renderDrawerContent}
+  //       statusBarBackgroundColor="#589c90">
+  //       {this._renderApp()}
+  //     </DrawerLayoutAndroid>
+  //   );
+  // }
+
+  // _renderDrawerContent = () => {
+  //   return (
+  //     <RNTesterDrawerContentViaHook
+  //       onNavigate={this._handleAction}
+  //       list={RNTesterList}
+  //     />
+  //   );
+  // };
+
+  render(): React.Node() {
     if (!this.state) {
       return null;
     }
-    return (
-      <DrawerLayoutAndroid
-        drawerPosition="left"
-        drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
-        keyboardDismissMode="on-drag"
-        onDrawerOpen={() => {
-          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
-           * found when making Flow check .android.js files. */
-          this._overrideBackPressForDrawerLayout = true;
-        }}
-        onDrawerClose={() => {
-          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
-           * found when making Flow check .android.js files. */
-          this._overrideBackPressForDrawerLayout = false;
-        }}
-        ref={(drawer) => {
-          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
-           * found when making Flow check .android.js files. */
-          this.drawer = drawer;
-        }}
-        renderNavigationView={this._renderDrawerContent}
-        statusBarBackgroundColor="#589c90">
-        {this._renderApp()}
-      </DrawerLayoutAndroid>
-    );
-  }
-
-  _renderDrawerContent = () => {
-    return (
-      <RNTesterDrawerContentViaHook
-        onNavigate={this._handleAction}
-        list={RNTesterList}
-      />
-    );
-  };
-
-  _renderApp() {
     const {openExample} = this.state;
 
     if (openExample) {
@@ -262,7 +251,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           <RNTesterExampleContainerViaHook
             /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
              * when making Flow check .android.js files. */
-            onPressDrawer={() => this.drawer.openDrawer()}
             title={ExampleModule.title}
             module={ExampleModule}
             exampleRef={(example) => {
@@ -280,7 +268,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         title={'RNTester'}
         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
          * when making Flow check .android.js files. */
-        onPressDrawer={() => this.drawer.openDrawer()}
         onNavigate={this._handleAction}
         list={RNTesterList}
       />
@@ -290,7 +277,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _handleAction = (action: Object): boolean => {
     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
      * when making Flow check .android.js files. */
-    this.drawer && this.drawer.closeDrawer();
     const newState = RNTesterNavigationReducer(this.state, action);
     if (this.state !== newState) {
       this.setState(newState, () =>
@@ -302,17 +288,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   };
 
   _handleBackButtonPress = () => {
-    /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-     * when making Flow check .android.js files. */
-    if (this._overrideBackPressForDrawerLayout) {
-      // This hack is necessary because drawer layout provides an imperative API
-      // with open and close methods. This code would be cleaner if the drawer
-      // layout provided an `isOpen` prop and allowed us to pass a `onDrawerClose` handler.
-      /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-       * when making Flow check .android.js files. */
-      this.drawer && this.drawer.closeDrawer();
-      return true;
-    }
     if (
       /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
        * when making Flow check .android.js files. */
@@ -352,10 +327,6 @@ const styles = StyleSheet.create({
     fontSize: 19,
     fontWeight: '600',
     textAlign: 'center',
-  },
-  drawerContentWrapper: {
-    flex: 1,
-    paddingTop: StatusBar.currentHeight,
   },
 });
 
