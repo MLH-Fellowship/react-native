@@ -82,7 +82,8 @@ class RNTesterExampleContainer extends React.Component {
         title={module.title}
         description={module.description}
         android={module.android}
-        ios={module.ios}>
+        ios={module.ios}
+        documentationURL={module.documentationURL}>
         <RNTesterExampleFilter
           testID="example_search"
           sections={sections}
