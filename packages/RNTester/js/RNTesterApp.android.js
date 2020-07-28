@@ -361,7 +361,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _renderApp(bookmark) {
     const {openExample, screen} = this.state;
 
-    if (screen === 'bookmark') {
+    console.log(openExample, screen, "BAAAAAAAAAA");
+
+    if (screen === 'bookmark' && !openExample) {
       return (
         <RNTesterBookmarkListViaHook
           title={'RNTester'}
