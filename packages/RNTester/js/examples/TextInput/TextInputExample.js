@@ -20,6 +20,8 @@ const {
   StyleSheet,
   Alert,
   Switch,
+  ScrollView, 
+  InputAccessoryView,
 } = require('react-native');
 
 import type {RNTesterExampleModuleItem} from '../../types/RNTesterTypes';
