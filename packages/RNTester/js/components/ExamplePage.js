@@ -117,8 +117,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     position: 'absolute',
-    marginTop: Math.round(ScreenHeight * 0.1 * 0.65),
-    marginLeft: Math.round(ScreenWidth * 0.65),
+    marginTop: IconContainerMarginTop,
+    marginLeft: HeaderHeight,
   },
   scrollView: {
     width: ScreenWidth,
@@ -130,12 +130,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
+    paddingBottom: 10,
   },
   platformIcon: {
     height: 35,
     width: 30,
     margin: 2,
-    paddingBottom: 10,
   },
   description: {
     paddingHorizontal: 20,

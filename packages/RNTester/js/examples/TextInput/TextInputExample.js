@@ -107,7 +107,7 @@ class RewriteExample extends React.Component<$FlowFixMeProps, any> {
             testID="rewrite_sp_underscore_input"
             autoCorrect={false}
             multiline={false}
-            onChangeText={(text) => {
+            onChangeText={text => {
               text = text.replace(/ /g, '_');
               this.setState({text});
             }}
@@ -134,7 +134,7 @@ const MaxLengthExample = () => {
           multiline={false}
           style={styles.default}
           maxLength={limit}
-          onChangeText={(text) => setText(text)}
+          onChangeText={text => setText(text)}
           value={text}
         />
         <Text style={[styles.remainder, {color: remainderColor}]}>
@@ -154,7 +154,7 @@ const RewriteExampleInvalidCharacters = () => {
           testID="rewrite_no_sp_input"
           autoCorrect={false}
           multiline={false}
-          onChangeText={(text) => {
+          onChangeText={text => {
             setText(text.replace(/\s/g, ''));
           }}
           style={styles.default}
@@ -175,7 +175,7 @@ const TextInputClearExample = () => {
           autoCorrect={false}
           multiline={true}
           style={styles.default}
-          onChangeText={(text) => setValue(text)}
+          onChangeText={text => setValue(text)}
           value={value}
         />
         <Button
@@ -196,8 +196,8 @@ class TextEventsExample extends React.Component<{...}, $FlowFixMeState> {
     prev3Text: '<No Event>',
   };
 
-  updateText = (text) => {
-    this.setState((state) => {
+  updateText = text => {
+    this.setState(state => {
       return {
         curText: text,
         prevText: state.curText,
@@ -217,22 +217,22 @@ class TextEventsExample extends React.Component<{...}, $FlowFixMeState> {
           multiline
           onFocus={() => this.updateText('onFocus')}
           onBlur={() => this.updateText('onBlur')}
-          onChange={(event) =>
+          onChange={event =>
             this.updateText('onChange text: ' + event.nativeEvent.text)
           }
-          onContentSizeChange={(event) =>
+          onContentSizeChange={event =>
             this.updateText(
               'onContentSizeChange size: ' +
                 JSON.stringify(event.nativeEvent.contentSize),
             )
           }
-          onEndEditing={(event) =>
+          onEndEditing={event =>
             this.updateText('onEndEditing text: ' + event.nativeEvent.text)
           }
-          onSubmitEditing={(event) =>
+          onSubmitEditing={event =>
             this.updateText('onSubmitEditing text: ' + event.nativeEvent.text)
           }
-          onKeyPress={(event) =>
+          onKeyPress={event =>
             this.updateText('onKeyPress key: ' + event.nativeEvent.key)
           }
           style={styles.singleLine}
@@ -284,7 +284,7 @@ class TokenizedTextExample extends React.Component<
     parts.push(_text);
 
     //highlight hashtags
-    parts = parts.map((text) => {
+    parts = parts.map(text => {
       if (/^#/.test(text)) {
         return (
           <Text key={text} style={styles.hashtag}>
@@ -301,7 +301,7 @@ class TokenizedTextExample extends React.Component<
         <TextInput
           multiline={true}
           style={styles.multiline}
-          onChangeText={(text) => {
+          onChangeText={text => {
             this.setState({text});
           }}>
           <Text>{parts}</Text>
@@ -371,9 +371,9 @@ class SelectionExample extends React.Component<
       <View>
         <TextInput
           multiline={this.props.multiline}
-          onChangeText={(value) => this.setState({value})}
+          onChangeText={value => this.setState({value})}
           onSelectionChange={this.onSelectionChange.bind(this)}
-          ref={(textInput) => (this._textInput = textInput)}
+          ref={textInput => (this._textInput = textInput)}
           selection={this.state.selection}
           style={this.props.style}
           value={this.state.value}
@@ -448,7 +448,7 @@ const TextInputWithInputAccessoryView = () => {
             marginTop: 50,
           }}
           inputAccessoryViewID={inputAccessoryViewID}
-          onChangeText={(text) => setText(text)}
+          onChangeText={text => setText(text)}
           value={text}
         />
       </ScrollView>
@@ -484,13 +484,13 @@ const EventHanderOnChange = () => {
           <TextInput
             testID="EventHanderOnChange"
             style={styles.default}
-            onChange={(event) => setText(event.nativeEvent.text)}
+            onChange={event => setText(event.nativeEvent.text)}
           />
         </WithLabel>
       </View>
       <Text>
         {text === ''
-          ? "Enter username to check if it's available"
+          ? `Enter username to check if it's available`
           : ` Username "${text}" is available `}
       </Text>
     </View>
@@ -506,13 +506,13 @@ const EventHanderOnChangeText = () => {
           <TextInput
             testID="EventHanderOnChangeText"
             style={styles.default}
-            onChangeText={(changedText) => setText(changedText)}
+            onChangeText={changedText => setText(changedText)}
           />
         </WithLabel>
       </View>
       <Text>
         {text === ''
-          ? "Enter username to check if it's available"
+          ? `Enter username to check if it's available`
           : ` Username "${text}" is available `}
       </Text>
     </View>
@@ -528,8 +528,8 @@ const EventHanderOnEndEditing = () => {
           <TextInput
             testID="EventHanderOnEndEditing"
             style={styles.default}
-            onChangeText={(changedText) => setText(changedText)}
-            onEndEditing={(event) => {
+            onChangeText={changedText => setText(changedText)}
+            onEndEditing={event => {
               Alert.alert(
                 'Alert',
                 `input element editing ended, returned "${event.nativeEvent.text}" `,
@@ -551,9 +551,9 @@ const EventHanderOnFocus = () => {
           <TextInput
             testID="EventHanderOnFocus"
             style={styles.default}
-            onChangeText={(changedText) => setText(changedText)}
-            onFocus={(event) => {
-              Alert.alert('Alert', 'please ensure that username is unique');
+            onChangeText={changedText => setText(changedText)}
+            onFocus={event => {
+              Alert.alert('Alert', `please ensure that username is unique`);
             }}
           />
         </WithLabel>
@@ -571,13 +571,13 @@ const EventHanderOnKeyPress = () => {
           <TextInput
             testID="EventHanderOnKeyPress"
             style={styles.default}
-            onChangeText={(changedText) => setText(changedText)}
+            onChangeText={changedText => setText(changedText)}
           />
         </WithLabel>
       </View>
       <Text>
         {text === ''
-          ? "Enter username to check if it's available"
+          ? `Enter username to check if it's available`
           : ` Username "${text}" is available `}
       </Text>
     </View>
@@ -600,7 +600,7 @@ const EventHanderOnLayout = () => {
           <TextInput
             testID="EventHanderOnLayout"
             style={styles.default}
-            onLayout={(event) => {
+            onLayout={event => {
               setLayout(event.nativeEvent.layout);
               setCounter(counter + 1);
             }}
@@ -652,7 +652,7 @@ const EventHanderOnScroll = () => {
             testID="EventHanderOnScroll"
             style={styles.default}
             multiline={true}
-            onScroll={(event) => {
+            onScroll={event => {
               setStats(event.nativeEvent);
             }}
           />
@@ -683,7 +683,7 @@ const EventHanderOnSelectionChange = () => {
           <TextInput
             testID="EventHanderOnSelectionChange"
             style={styles.default}
-            onSelectionChange={(event) => {
+            onSelectionChange={event => {
               setSelection(event.nativeEvent.selection);
             }}
           />
@@ -707,7 +707,7 @@ const EventHanderOnSubmitEditing = () => {
           <TextInput
             testID="EventHanderOnSubmitEditing"
             style={styles.default}
-            onSubmitEditing={(event) => {
+            onSubmitEditing={event => {
               setText(event.nativeEvent.text);
             }}
           />
@@ -715,7 +715,7 @@ const EventHanderOnSubmitEditing = () => {
       </View>
       <Text>
         {text === ''
-          ? "Enter username to check if it's available"
+          ? `Enter username to check if it's available`
           : ` Username "${text}" is available `}
       </Text>
     </View>
@@ -739,7 +739,7 @@ const EventHandlerOnTextInput = () => {
             testID="EventHandlerOnTextInput"
             style={styles.default}
             multiline={true}
-            onTextInput={(event) => {
+            onTextInput={event => {
               setStats(event.nativeEvent);
             }}
           />
@@ -763,7 +763,7 @@ exports.documentationURL = 'https://reactnative.dev/docs/textinput';
 exports.examples = ([
   {
     title: 'TextInput with autoFocus={true}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Username">
           <TextInput
@@ -777,32 +777,32 @@ exports.examples = ([
   },
   {
     title: 'TextInput with maxLength={limit}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <MaxLengthExample />;
     },
   },
   {
     title: 'TextInput that does not allow spaces',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <RewriteExampleInvalidCharacters />;
     },
   },
   {
     title: "TextInput that replaces spaces with underscore '_'",
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <RewriteExample />;
     },
   },
   {
     title: 'TextInput with blurOnSubmit={true}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Email Address:">
           <TextInput
             style={styles.default}
             returnKeyType="next"
             blurOnSubmit={true}
-            onSubmitEditing={(event) =>
+            onSubmitEditing={event =>
               Alert.alert('Alert', 'Submitted Value: ' + event.nativeEvent.text)
             }
           />
@@ -812,14 +812,14 @@ exports.examples = ([
   },
   {
     title: "TextInput along with 'Clear' button",
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <TextInputClearExample />;
     },
   },
   {
     title: 'TextInput with clearButtonMode={true}',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Username:">
           <TextInput style={styles.default} clearButtonMode="always" />
@@ -831,7 +831,7 @@ exports.examples = ([
     title: 'TextInput with allowFontScaling={false}',
     description:
       'Specifies whether fonts should scale to respect Text Size accessibility settings. The change will be visible when the Text Size is not default in accessibility settings.',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Name:">
           <TextInput style={styles.default} allowFontScaling={false} />
@@ -841,7 +841,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with different autocaptialise settings',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="Enter Title">
@@ -871,7 +871,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with autocorrect={true}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Search:">
           <TextInput autoCorrect={true} style={styles.default} />
@@ -881,7 +881,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with caretHidden={true}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter OTP:">
           <TextInput caretHidden={true} style={styles.default} />
@@ -892,7 +892,7 @@ exports.examples = ([
   {
     title: 'TextInput with clearTextOnFocus={true}',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Password:">
           <TextInput clearTextOnFocus={true} style={styles.default} />
@@ -903,7 +903,7 @@ exports.examples = ([
   {
     title: 'TextInput with contextMenuHidden={true}',
     description: '', //ToDo: Add a description for this field
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Password:">
           <TextInput contextMenuHidden={true} style={styles.default} />
@@ -913,7 +913,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with defaultValue=" "',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Name:">
           <TextInput defaultValue=" " style={styles.default} />
@@ -924,7 +924,7 @@ exports.examples = ([
   {
     title: 'TextInput with disableFullscreenUI={true}',
     platform: 'android',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Enter Name:">
           <TextInput disableFullscreenUI={true} style={styles.default} />
@@ -934,7 +934,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with editable={false}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Registered Email:">
           <TextInput
@@ -949,7 +949,7 @@ exports.examples = ([
   {
     title: 'Enable return key automatically',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="Send new message">
@@ -964,7 +964,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with inlineImageLeft',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <Text>Without inlineImagePadding</Text>
@@ -986,21 +986,21 @@ exports.examples = ([
   {
     title: 'TextInput with different importantForAutofill values',
     platform: 'android',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <TextInputWithAutoFill />;
     },
   },
   {
     title: 'TextInput with inputAccessoryView',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <TextInputWithInputAccessoryView />;
     },
   },
   {
     title: 'TextInput with different keyboardAppearance',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="Default">
@@ -1021,7 +1021,7 @@ exports.examples = ([
     description:
       'Specifies largest possible scale a font can reach when allowFontScaling is enabled. /n' +
       "Default Value is null/undefined./n Value '0' means no maximum size and ignores parent/global default. ",
-    render: function (): React.Node {
+    render: function(): React.Node {
       <WithLabel label="Enter Name:">
         <TextInput
           style={styles.default}
@@ -1033,7 +1033,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with multiline={true}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <Text>With Scroll</Text>
@@ -1059,7 +1059,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with placeholder={string}',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <Text>Default Placeholder Text Color</Text>
@@ -1081,7 +1081,7 @@ exports.examples = ([
   {
     title: 'TextInput with returnKeyLabel={string}',
     platform: 'android',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Send Message">
           <TextInput style={styles.default} returnKeyLabel="Send" />
@@ -1091,7 +1091,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with different returnKeyType for cross-platform use',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="Search Product">
@@ -1136,7 +1136,7 @@ exports.examples = ([
   {
     title: 'TextInput with different returnKeyType',
     platform: 'iOS',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="Emergency Contact:">
@@ -1181,7 +1181,7 @@ exports.examples = ([
   {
     title: 'TextInput with different returnKeyType',
     platform: 'android',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <WithLabel label="First Name">
@@ -1275,7 +1275,7 @@ exports.examples = ([
     title: 'TextInput with value={default}',
     description:
       'The value to show for the text input. TextInput is a controlled component, which means the native value will be forced to match this value prop if provided. For most uses, this works great, but in some cases this may cause flickering - one common cause is preventing edits by keeping value the same. In addition to setting the same value, either set editable={false}, or set/update maxLength to prevent unwanted edits without flicker.',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <WithLabel label="Organisation:">
           <TextInput value="React Native" style={styles.default} />
@@ -1285,7 +1285,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with different Keyboard types',
-    render: function (): React.Node {
+    render: function(): React.Node {
       const keyboardTypes = [
         'default',
         'ascii-capable',
@@ -1301,7 +1301,7 @@ exports.examples = ([
         'ascii-capable-number-pad',
         'numeric',
       ];
-      const examples = keyboardTypes.map((type) => {
+      const examples = keyboardTypes.map(type => {
         return (
           <WithLabel key={type} label={type}>
             <TextInput keyboardType={type} style={styles.default} />
@@ -1313,7 +1313,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput with different Text selection & cursor placement',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return (
         <View>
           <SelectionExample
@@ -1397,7 +1397,7 @@ exports.examples = ([
         'username',
         'password',
       ];
-      return types.map((type) => (
+      return types.map(type => (
         <WithLabel label={type} key={type}>
           <TextInput style={styles.default} textContentType={type} />
         </WithLabel>
@@ -1427,7 +1427,7 @@ exports.examples = ([
       'Set text break strategy on Android API Level 23+, possible values are simple, highQuality, balanced The default value is simple.',
     render: () => {
       const types = ['simple', 'highQuality', 'balanced'];
-      return types.map((type) => (
+      return types.map(type => (
         <WithLabel label={type} key={type}>
           <TextInput style={styles.default} textBreakStrategy={type} />
         </WithLabel>
@@ -1466,7 +1466,7 @@ exports.examples = ([
       ];
       return (
         <View>
-          {types.map((type) => (
+          {types.map(type => (
             <WithLabel label={type} key={type}>
               <TextInput style={styles.default} autoCompleteType={type} />
             </WithLabel>
@@ -1495,14 +1495,14 @@ exports.examples = ([
   },
   {
     title: 'Event handling',
-    render: function (): React.Element<any> {
+    render: function(): React.Element<any> {
       return <TextEventsExample />;
     },
   },
   {
     title:
       'TextInput with different Style properties: fontFamily, fontWeight and fontStyle',
-    render: function (): React.Node {
+    render: function(): React.Node {
       const fontFamilyA = Platform.OS === 'ios' ? 'Cochin' : 'sans-serif';
       const fontFamilyB = Platform.OS === 'ios' ? 'Courier' : 'serif';
 
@@ -1543,7 +1543,7 @@ exports.examples = ([
   },
   {
     title: 'TextInput Attributed text',
-    render: function (): React.Node {
+    render: function(): React.Node {
       return <TokenizedTextExample />;
     },
   },
