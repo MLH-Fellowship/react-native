@@ -306,6 +306,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     });
   }
 
+
   render(): React.Node {
     if (!this.state) {
       return null;
@@ -342,7 +343,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           checkBookmark: this.state.checkBookmark,
         })}
           <View style={styles.bottomNavbar}>
-              <RNTesterNavBar />
+              <RNTesterNavBar onNavigate={this._handleAction} />
             </View>
       </DrawerLayoutAndroid>
     );

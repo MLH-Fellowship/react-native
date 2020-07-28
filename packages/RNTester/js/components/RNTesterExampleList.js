@@ -244,16 +244,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                 this.props.style,
                 {backgroundColor: theme.SecondaryGroupedBackgroundColor},
               ]}>
-              {/* Remove this when navigation is set up */}
-              <Button
-                title="Bookmark"
-                onPress={() =>
-                  this.props.onNavigate(
-                    RNTesterActions.OpenList('bookmark'),
-                  )
-                }
-              />
-              {/* {this._renderTitleRow()} */}
               <RNTesterExampleFilter
                 testID="explorer_search"
                 sections={sections}

@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 const APP_COLOR = '#F3F8FF';
+const RNTesterActions = require('../utils/RNTesterActions');
 
-const BottomTabNavigation = () => {
+const BottomTabNavigation = ({onNavigate}) => {
   /** to be attached to navigation framework */
   const [apiActive, setApiActive] = useState(false);
   const [componentActive, setComponentActive] = useState(true);
@@ -15,7 +16,10 @@ const BottomTabNavigation = () => {
           <View style={styles.floatingButton}>
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
-              onPress={() => console.log('Bookmark Button Pressed')}>
+              onPress={() => {
+                setApiActive(false); 
+                setComponentActive(false);
+                onNavigate(RNTesterActions.OpenList('bookmark'))}}>
               <Image
                 style={styles.bookmarkIcon}
                 source={require('../assets/bottom-nav-bookmark-outline.png')}
@@ -36,6 +40,7 @@ const BottomTabNavigation = () => {
                 } else {
                   setComponentActive(true);
                   setApiActive(false);
+                  onNavigate(RNTesterActions.OpenList('component'))
                 }
               }}>
               <Image
@@ -71,6 +76,7 @@ const BottomTabNavigation = () => {
                 if (apiActive) {
                   return;
                 } else {
+                  onNavigate(RNTesterActions.OpenList('api'))
                   setComponentActive(false);
                   setApiActive(true);
                 }
