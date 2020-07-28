@@ -35,7 +35,7 @@ const BottomTabNavigation = ({onNavigate}) => {
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
               onPress={() => {
-                if (componentActive) {
+                if (componentActive) {  
                   return;
                 } else {
                   setComponentActive(true);
