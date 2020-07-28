@@ -32,7 +32,7 @@ type Props = $ReadOnly<{|
   description?: ?string,
   ios?: ?boolean,
   android?: ?boolean,
-  documentationURL: ?string,
+  documentationURL?: ?string,
 |}>;
 
 const ScreenHeight = Dimensions.get('window').height;
@@ -79,7 +79,7 @@ export default function ExamplePage(props: Props): React.Node {
 
       <Background height={ScreenHeight} width={ScreenWidth}>
         <ScrollView style={styles.scrollView}>
-          <Text> {description} </Text>
+          <Text style={styles.description}>{description}</Text>
           {props.children}
         </ScrollView>
       </Background>
@@ -93,19 +93,26 @@ const imagePaths = {
   docs: require('../assets/docs-icon.png'),
 };
 
+const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
+const TitleViewHeight = Math.round(ScreenHeight * 0.1);
+const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
+const offSetConstant = Math.round(ScreenHeight * 0.03);
+// Since the scroll view is positioned absolutely, we need to limit its
+// max height in order to make it scroll properly.
+const ScrollViewMaxHeight =
+  ScreenHeight - TitleViewHeight - IconContainerMarginTop - offSetConstant;
+
 const styles = StyleSheet.create({
   titleView: {
-    maxHeight: Math.round(ScreenHeight * 0.1),
+    height: HeaderHeight,
     backgroundColor: '#F3F8FF',
     padding: 20,
     overflow: 'hidden',
   },
-
   titleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-
   iconContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -113,9 +120,10 @@ const styles = StyleSheet.create({
     marginTop: Math.round(ScreenHeight * 0.1 * 0.65),
     marginLeft: Math.round(ScreenWidth * 0.65),
   },
-
   scrollView: {
     width: ScreenWidth,
+    maxHeight: ScrollViewMaxHeight,
+    flexGrow: 1,
     backgroundColor: 'transparent',
     position: 'absolute',
     top: 0,
@@ -127,5 +135,9 @@ const styles = StyleSheet.create({
     height: 35,
     width: 30,
     margin: 2,
+    paddingBottom: 10,
+  },
+  description: {
+    paddingHorizontal: 20,
   },
 });

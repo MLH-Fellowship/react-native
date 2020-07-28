@@ -19,6 +19,7 @@ exports.openComponentWithLabel = async (component, label) => {
 
 // Will open an individual example for a component
 // by filtering on the example title
-exports.openExampleWithTitle = async title => {
+exports.openExampleWithTitle = async (title) => {
+  await element(by.id('example_search')).tap();
   await element(by.id('example_search')).replaceText(title);
 };

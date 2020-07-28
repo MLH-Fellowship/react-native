@@ -10,8 +10,8 @@
 
 'use strict';
 
-const React = require('react');
-const {Switch, Text, View} = require('react-native');
+import React, {useState} from 'react';
+import {Switch, Text, View, StyleSheet} from 'react-native';
 
 type OnOffIndicatorProps = $ReadOnly<{|on: boolean, testID: string|}>;
 function OnOffIndicator({on, testID}: OnOffIndicatorProps) {
@@ -20,187 +20,242 @@ function OnOffIndicator({on, testID}: OnOffIndicatorProps) {
 
 type ExampleRowProps = $ReadOnly<{|children: React.Node|}>;
 function ExampleRow({children}: ExampleRowProps) {
+  return <View style={styles.Row}>{children}</View>;
+}
+
+/** Demonstrate Basic Switch Example which listens for events and updates accompanying text */
+const ExampleSwitchBasic = () => {
+  const [falseSwitchStatus, setFalseSwitchStatus] = useState(false);
+  const [trueSwitchStatus, setTrueSwitchStatus] = useState(true);
+
   return (
-    <View
-      style={{
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 10,
-      }}>
-      {children}
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-basic-off"
+          onValueChange={value => setFalseSwitchStatus(value)}
+          value={falseSwitchStatus}
+        />
+        <OnOffIndicator
+          on={falseSwitchStatus}
+          testID="switch-basic-off-indicator"
+        />
+      </ExampleRow>
+      <ExampleRow>
+        <Switch
+          testID="switch-basic-on"
+          onValueChange={value => setTrueSwitchStatus(value)}
+          value={trueSwitchStatus}
+        />
+        <OnOffIndicator
+          on={trueSwitchStatus}
+          testID="switch-basic-on-indicator"
+        />
+      </ExampleRow>
     </View>
   );
-}
+};
 
-type SimpleSwitchExampleState = $ReadOnly<{|
-  trueSwitchIsOn: boolean,
-  falseSwitchIsOn: boolean,
-|}>;
+/** Disabled Switch example which user cannot interact with */
+const ExampleSwitchDisabled = () => {
+  const [switchAStatus, setSwitchAStatus] = useState(false);
+  const [switchBStatus, setSwitchBStatus] = useState(true);
 
-class BasicSwitchExample extends React.Component<
-  {||},
-  SimpleSwitchExampleState,
-> {
-  state = {
-    trueSwitchIsOn: true,
-    falseSwitchIsOn: false,
-  };
-
-  render() {
-    return (
-      <View>
-        <ExampleRow>
-          <Switch
-            testID="on-off-initial-off"
-            onValueChange={value => this.setState({falseSwitchIsOn: value})}
-            trackColor={{
-              true: 'yellow',
-              false: 'purple',
-            }}
-            value={this.state.falseSwitchIsOn}
-          />
-          <OnOffIndicator
-            on={this.state.falseSwitchIsOn}
-            testID="on-off-initial-off-indicator"
-          />
-        </ExampleRow>
-        <ExampleRow>
-          <Switch
-            testID="on-off-initial-on"
-            onValueChange={value => this.setState({trueSwitchIsOn: value})}
-            value={this.state.trueSwitchIsOn}
-          />
-          <OnOffIndicator
-            on={this.state.trueSwitchIsOn}
-            testID="on-off-initial-on-indicator"
-          />
-        </ExampleRow>
-      </View>
-    );
-  }
-}
-
-class DisabledSwitchExample extends React.Component<
-  {||},
-  SimpleSwitchExampleState,
-> {
-  state = {
-    trueSwitchIsOn: true,
-    falseSwitchIsOn: false,
-  };
-
-  render() {
-    return (
-      <View>
-        <ExampleRow>
-          <Switch
-            testID="disabled-initial-off"
-            disabled={true}
-            onValueChange={value => this.setState({falseSwitchIsOn: value})}
-            value={this.state.falseSwitchIsOn}
-          />
-
-          <OnOffIndicator
-            on={this.state.falseSwitchIsOn}
-            testID="disabled-initial-off-indicator"
-          />
-        </ExampleRow>
-
-        <ExampleRow>
-          <Switch
-            testID="disabled-initial-on"
-            disabled={true}
-            onValueChange={value => this.setState({trueSwitchIsOn: value})}
-            value={this.state.trueSwitchIsOn}
-          />
-
-          <OnOffIndicator
-            on={this.state.trueSwitchIsOn}
-            testID="disabled-initial-on-indicator"
-          />
-        </ExampleRow>
-      </View>
-    );
-  }
-}
-
-class ColorSwitchExample extends React.Component<{...}, $FlowFixMeState> {
-  state = {
-    colorTrueSwitchIsOn: true,
-    colorFalseSwitchIsOn: false,
-  };
-
-  render() {
-    return (
-      <View>
+  return (
+    <View>
+      <ExampleRow>
         <Switch
-          onValueChange={value => this.setState({colorFalseSwitchIsOn: value})}
-          style={{marginBottom: 10}}
-          thumbColor="#0000ff"
-          trackColor={{
-            false: '#ff0000',
-            true: '#00ff00',
-          }}
-          value={this.state.colorFalseSwitchIsOn}
+          testID="switch-disabled-initial-off"
+          disabled={true}
+          onValueChange={value => setSwitchAStatus(value)}
+          value={switchAStatus}
         />
+
+        <OnOffIndicator
+          on={switchAStatus}
+          testID="switch-disabled-initial-off-indicator"
+        />
+      </ExampleRow>
+
+      <ExampleRow>
         <Switch
-          onValueChange={value => this.setState({colorTrueSwitchIsOn: value})}
-          thumbColor="#0000ff"
-          trackColor={{
-            false: '#ff0000',
-            true: '#00ff00',
-          }}
-          value={this.state.colorTrueSwitchIsOn}
+          testID="switch-disabled-initial-on"
+          disabled={true}
+          onValueChange={value => setSwitchBStatus(true)}
+          value={switchBStatus}
         />
-      </View>
-    );
-  }
-}
 
-class EventSwitchExample extends React.Component<{...}, $FlowFixMeState> {
-  state = {
-    eventSwitchIsOn: false,
-    eventSwitchRegressionIsOn: true,
-  };
+        <OnOffIndicator
+          on={switchBStatus}
+          testID="switch-disabled-initial-on-indicator"
+        />
+      </ExampleRow>
+    </View>
+  );
+};
 
-  render() {
-    return (
-      <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
-        <View>
-          <Switch
-            onValueChange={value => this.setState({eventSwitchIsOn: value})}
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchIsOn}
-          />
-          <Switch
-            onValueChange={value => this.setState({eventSwitchIsOn: value})}
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchIsOn}
-          />
-          <Text>{this.state.eventSwitchIsOn ? 'On' : 'Off'}</Text>
-        </View>
-        <View>
-          <Switch
-            onValueChange={value =>
-              this.setState({eventSwitchRegressionIsOn: value})
-            }
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchRegressionIsOn}
-          />
-          <Switch
-            onValueChange={value =>
-              this.setState({eventSwitchRegressionIsOn: value})
-            }
-            style={{marginBottom: 10}}
-            value={this.state.eventSwitchRegressionIsOn}
-          />
-          <Text>{this.state.eventSwitchRegressionIsOn ? 'On' : 'Off'}</Text>
-        </View>
-      </View>
-    );
-  }
-}
+/** Demonstrates onChange prop, updates counter showing the number of times switch is changed */
+const ExampleSwitchOnChange = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  const [timesInteracted, setTimesInteracted] = useState(0);
+
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-on-change"
+          onValueChange={value => setSwitchStatus(value)}
+          onChange={() => setTimesInteracted(timesInteracted + 1)}
+          value={switchStatus}
+        />
+
+        <OnOffIndicator on={switchStatus} testID="switch-on-change-indicator" />
+      </ExampleRow>
+
+      <ExampleRow>
+        <Text>Times Switched : {timesInteracted}</Text>
+      </ExampleRow>
+    </View>
+  );
+};
+
+/** Demonstrates onValueChange prop, by updating another component based on this component */
+const ExampleSwitchOnValueChange = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-on-value-change"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+        />
+
+        <OnOffIndicator
+          on={switchStatus}
+          testID="switch-on-value-change-indicator"
+        />
+      </ExampleRow>
+
+      <ExampleRow>
+        <Text>
+          The following switch has the same value as returned by the above
+          switch, and won't change unless the above is changed. This also shows
+          that switches are a controlled components
+        </Text>
+      </ExampleRow>
+      <ExampleRow>
+        <Switch testId="on-value-change-switch-target" value={switchStatus} />
+        <OnOffIndicator
+          on={switchStatus}
+          testID="on-value-change-switch-target-indicator"
+        />
+      </ExampleRow>
+    </View>
+  );
+};
+
+/** Demonstrates thumbColor prop, by showing a switch with themed knob */
+const ExampleSwitchThumbColor = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-thumb-color"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+          thumbColor="black"
+        />
+
+        <OnOffIndicator
+          on={switchStatus}
+          testID="switch-thumb-color-indicator"
+        />
+      </ExampleRow>
+    </View>
+  );
+};
+
+/** Demonstrates trackColor prop, by showing a switch with themed track */
+const ExampleSwitchTrackColor = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-track-color"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+          trackColor={{
+            false: '#D32F2F',
+            true: 'black',
+          }}
+        />
+
+        <OnOffIndicator
+          on={switchStatus}
+          testID="switch-track-color-indicator"
+        />
+      </ExampleRow>
+    </View>
+  );
+};
+
+/** Demonstrates trackColor and trackColor prop, by showing a switch with themed track */
+const ExampleSwitchStyle = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-style"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+          trackColor={{
+            false: '#D32F2F',
+            true: 'green',
+          }}
+          thumbColor="black"
+        />
+
+        <OnOffIndicator on={switchStatus} testID="switch-style-indicator" />
+      </ExampleRow>
+      <ExampleRow>
+        <Switch
+          testID="switch-style-b"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+          trackColor={{
+            false: 'black',
+            true: 'black',
+          }}
+          thumbColor="green"
+        />
+
+        <OnOffIndicator on={switchStatus} testID="switch-style-b-indicator" />
+      </ExampleRow>
+    </View>
+  );
+};
+
+const ExampleSwitchBackgroundColor = () => {
+  const [switchStatus, setSwitchStatus] = useState(false);
+  return (
+    <View>
+      <ExampleRow>
+        <Switch
+          testID="switch-color"
+          onValueChange={value => setSwitchStatus(value)}
+          value={switchStatus}
+          color="black"
+        />
+
+        <OnOffIndicator on={switchStatus} testID="switch-color-indicator" />
+      </ExampleRow>
+    </View>
+  );
+};
 
 exports.title = '<Switch>';
 exports.displayName = 'SwitchExample';
@@ -208,33 +263,76 @@ exports.description = 'Native boolean input';
 exports.documentationURL = 'https://reactnative.dev/docs/switch';
 exports.examples = [
   {
-    title: 'Switches can be set to true or false',
-    render(): React.Element<any> {
-      return <BasicSwitchExample />;
+    title: 'Basic Switch',
+    description:
+      'A simple switch, uses styling of the platform by default and can be assigned initial values as props',
+    render: function(): React.Node {
+      return <ExampleSwitchBasic />;
     },
   },
   {
-    title: 'Switches can be disabled',
-    render(): React.Element<any> {
-      return <DisabledSwitchExample />;
+    title: 'Disabled Switches',
+    description:
+      'Switches can be disabled by the disabled={true} prop. Try using it to allow features only for premium users.',
+    render: function(): React.Node {
+      return <ExampleSwitchDisabled />;
     },
   },
   {
-    title: 'Change events can be detected',
-    render(): React.Element<any> {
-      return <EventSwitchExample />;
+    title: 'Watching Switch Interactions',
+    description:
+      'The onChange prop can be used to trigger a function every time the component is interacted with. Below it updates the counter every time the switch is toggled ',
+    render: function(): React.Node {
+      return <ExampleSwitchOnChange />;
     },
   },
   {
-    title: 'Switches are controlled components',
-    render(): React.Element<any> {
-      return <Switch />;
+    title: 'Reading data from switch component',
+    description:
+      'Switches return the boolean output using the onValueChange prop, which can be attached to any listener or function. These are triggered every time the switch value changes. All the examples use this prop to show "On/Off" on this screen ',
+    render: function(): React.Node {
+      return <ExampleSwitchOnValueChange />;
     },
   },
   {
-    title: 'Custom colors can be provided',
-    render(): React.Element<any> {
-      return <ColorSwitchExample />;
+    title: 'Styling Switch Knob',
+    description:
+      'The switch knob can be styled using the thumbColor prop as per the application theme',
+    render: function(): React.Node {
+      return <ExampleSwitchThumbColor />;
+    },
+  },
+  {
+    title: 'Styling Switch Track',
+    description:
+      'The switch track can be styled using the trackColor prop as per the application theme',
+    render: function(): React.Node {
+      return <ExampleSwitchTrackColor />;
+    },
+  },
+  {
+    title: 'Completely Styling Components',
+    description:
+      'The switch component can be completely styled as required using the above two props',
+    render: function(): React.Node {
+      return <ExampleSwitchStyle />;
+    },
+  },
+  {
+    title: 'Background Color',
+    platform: 'ios',
+    description: 'The background color can be set using the color prop.',
+    render: function(): React.Node {
+      return <ExampleSwitchBackgroundColor />;
     },
   },
 ];
+
+const styles = StyleSheet.create({
+  Row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+});

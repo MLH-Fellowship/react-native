@@ -10,7 +10,7 @@
 'use strict';
 
 const React = require('react');
-const {Platform, Text} = require('react-native');
+const {Platform} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 
@@ -23,13 +23,14 @@ class RNTesterExampleContainer extends React.Component {
     const {description, platform} = example;
     let {title} = example;
     if (platform) {
-      if (Platform.OS !== platform) {
-        return null;
-      }
       title += ' (' + platform + ' only)';
     }
     return (
-      <RNTesterBlock key={i} title={title} description={description}>
+      <RNTesterBlock
+        key={i}
+        title={title}
+        description={description}
+        isDisabled={platform && Platform.OS !== platform}>
         {example.render()}
       </RNTesterBlock>
     );
