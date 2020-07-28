@@ -105,7 +105,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   };
 
   _onPress = () => {
-      console.log(this.props.item.key);
       if (this.props.onPress) {
       this.props.onPress();
       return;

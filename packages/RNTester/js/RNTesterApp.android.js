@@ -216,7 +216,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       Api: bookmarks.Api,
       screen: 'component',
       AddApi: (apiName, api) => {
-        console.log(apiName);
         const stateApi = Object.assign({}, this.state.Api);
         stateApi[apiName] = api;
         this.setState({
@@ -225,7 +224,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         AsyncStorage.setItem('Api', JSON.stringify(stateApi));
       },
       AddComponent: (componentName, component) => {
-        console.log(componentName, 'C');
         const stateComponent = Object.assign({}, this.state.Components);
         stateComponent[componentName] = component;
         this.setState({
@@ -360,8 +358,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   _renderApp(bookmark) {
     const {openExample, screen} = this.state;
-
-    console.log(openExample, screen, "BAAAAAAAAAA");
 
     if (screen === 'bookmark' && !openExample) {
       return (
