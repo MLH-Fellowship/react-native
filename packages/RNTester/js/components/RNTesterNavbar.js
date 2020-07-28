@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
-
 const APP_COLOR = '#F3F8FF';
 
 const BottomTabNavigation = () => {
@@ -10,7 +9,7 @@ const BottomTabNavigation = () => {
   return (
     <View>
       {/** Bottom Navbar code */}
-      <View style={styles.bottomNavbar}>
+      <View>
         {/** floating button in center  */}
         <View style={styles.floatContainer}>
           <View style={styles.floatingButton}>
@@ -96,13 +95,6 @@ const BottomTabNavigation = () => {
 };
 
 const styles = StyleSheet.create({
-  bottomNavbar: {
-    bottom: 0,
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    position: 'absolute',
-  },
   floatContainer: {
     flex: 1,
     zIndex: 1,
@@ -175,4 +167,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomTabNavigation;
+module.exports = BottomTabNavigation;
