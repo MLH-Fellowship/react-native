@@ -36,6 +36,7 @@ const {
   UIManager,
   useColorScheme,
   View,
+  ScrollView,
 } = require('react-native');
 import AsyncStorage from './utils/AsyncStorage';
 
@@ -311,15 +312,42 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       return null;
     }
     return (
-      <View
-        style={{
-          bottom: 0,
-          width: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'absolute',
-        }}>
-        <RNTesterNavbar />
+      <View>
+        <ScrollView>
+          <DrawerLayoutAndroid
+            drawerPosition="left"
+            drawerWidth={Dimensions.get('window').width - DRAWER_WIDTH_LEFT}
+            keyboardDismissMode="on-drag"
+            onDrawerOpen={() => {
+              /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+               * found when making Flow check .android.js files. */
+              this._overrideBackPressForDrawerLayout = true;
+            }}
+            onDrawerClose={() => {
+              /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+               * found when making Flow check .android.js files. */
+              this._overrideBackPressForDrawerLayout = false;
+            }}
+            ref={drawer => {
+              /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
+               * found when making Flow check .android.js files. */
+              this.drawer = drawer;
+            }}
+            renderNavigationView={this._renderDrawerContent}
+            statusBarBackgroundColor="#589c90">
+            {this._renderApp()}
+          </DrawerLayoutAndroid>
+        </ScrollView>
+        <View
+          style={{
+            bottom: 0,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'absolute',
+          }}>
+          <RNTesterNavbar />
+        </View>
       </View>
     );
   }
