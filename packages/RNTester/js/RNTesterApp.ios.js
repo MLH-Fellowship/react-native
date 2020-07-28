@@ -18,6 +18,7 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const URIActionMap = require('./utils/URIActionMap');
+const RNTesterNavbar = require('./components/RNTesterNavbar');
 
 const {
   AppRegistry,
@@ -58,7 +59,7 @@ const Header = ({
   ...
 }) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <SafeAreaView
           style={[
@@ -172,7 +173,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     super();
     this.state = {
       openExample: null,
-      screen: "component",
+      screen: 'component',
       Components: bookmarks.Components,
       Api: bookmarks.Api,
       AddApi: (apiName, api) => {
@@ -191,7 +192,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         });
         AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
       },
-      RemoveApi: (apiName) => {
+      RemoveApi: apiName => {
         const stateApi = Object.assign({}, this.state.Api);
         delete stateApi[apiName];
         this.setState({
@@ -199,7 +200,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         });
         AsyncStorage.setItem('Api', JSON.stringify(stateApi));
       },
-      RemoveComponent: (componentName) => {
+      RemoveComponent: componentName => {
         const stateComponent = Object.assign({}, this.state.Components);
         delete stateComponent[componentName];
         this.setState({
@@ -222,7 +223,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   componentDidMount() {
     this._mounted = true;
-    Linking.getInitialURL().then((url) => {
+    Linking.getInitialURL().then(url => {
       AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
         if (!this._mounted) {
           return;
@@ -237,7 +238,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       });
     });
 
-    Linking.addEventListener('url', (url) => {
+    Linking.addEventListener('url', url => {
       this._handleAction(URIActionMap(url));
     });
 
@@ -290,7 +291,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       RemoveApi: this.state.RemoveApi,
       RemoveComponent: this.state.RemoveComponent,
       checkBookmark: this.state.checkBookmark,
-    }
+    };
     if (!this.state) {
       return null;
     }
@@ -300,29 +301,43 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         return <Component onExampleExit={this._handleBack} />;
       } else {
         return (
-          <RNTesterExampleContainerViaHook
-            onBack={this._handleBack}
-            title={Component.title}
-            module={Component}
-          />
+          <>
+            <RNTesterExampleContainerViaHook
+              onBack={this._handleBack}
+              title={Component.title}
+              module={Component}
+            />
+            <View style={styles.bottomNavbar}>
+              <RNTesterNavbar onNavigate={this._handleAction} />
+            </View>
+          </>
         );
       }
-    }
-    else if (this.state.screen === 'bookmark') {
+    } else if (this.state.screen === 'bookmark') {
       return (
-        <RNTesterBookmarkListViaHook
-          bookmark={bookmark}
-          onNavigate={this._handleAction}
-        />
+        <>
+          <RNTesterBookmarkListViaHook
+            bookmark={bookmark}
+            onNavigate={this._handleAction}
+          />
+          <View style={styles.bottomNavbar}>
+            <RNTesterNavbar onNavigate={this._handleAction} />
+          </View>
+        </>
       );
     }
     return (
-      <RNTesterExampleListViaHook
-        onNavigate={this._handleAction}
-        bookmark={bookmark}
-        list={RNTesterList}
-        screen={this.state.screen}
-      />
+      <>
+        <RNTesterExampleListViaHook
+          onNavigate={this._handleAction}
+          bookmark={bookmark}
+          list={RNTesterList}
+          screen={this.state.screen}
+        />
+        <View style={styles.bottomNavbar}>
+          <RNTesterNavbar onNavigate={this._handleAction} />
+        </View>
+      </>
     );
   }
 }
@@ -350,6 +365,13 @@ const styles = StyleSheet.create({
   },
   exampleContainer: {
     flex: 1,
+  },
+  bottomNavbar: {
+    bottom: 0,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
   },
 });
 
