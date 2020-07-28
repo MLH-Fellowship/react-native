@@ -14,6 +14,7 @@ const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
 const RNtesterBookmarkList = require('./components/RNTesterBookmarkList');
+const RNTesterNavbar = require("./components/RNTesterNavbar")
 const RNTesterList = require('./utils/RNTesterList');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
@@ -366,7 +367,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       );
     } else if (openExample) {
       const ExampleModule = RNTesterList.Modules[openExample];
-      if (ExampleModule.external) {
+      if (ExampleModule && ExampleModule.external) {
         return (
           <ExampleModule
             onExampleExit={() => {

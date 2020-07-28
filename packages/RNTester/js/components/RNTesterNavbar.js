@@ -19,7 +19,7 @@ const BottomTabNavigation = () => {
               onPress={() => console.log('Bookmark Button Pressed')}>
               <Image
                 style={styles.bookmarkIcon}
-                source={require('../assets/bottom-nav-bookmark-outline')}
+                source={require('../assets/bottom-nav-bookmark-outline.png')}
               />
             </TouchableOpacity>
           </View>
@@ -43,8 +43,8 @@ const BottomTabNavigation = () => {
                 style={styles.componentIcon}
                 source={
                   componentActive
-                    ? require('../assets/bottom-nav-components-icon-active.png')
-                    : require('../assets/bottom-nav-components-icon-inactive.png')
+                    ? require('./../assets/bottom-nav-components-icon-active.png')
+                    : require('./../assets/bottom-nav-components-icon-inactive.png')
                 }
               />
               <Text
@@ -60,7 +60,7 @@ const BottomTabNavigation = () => {
           <View style={styles.centerBox}>
             <Image
               style={styles.centralBoxCutout}
-              source={require('../assets/bottom-nav-center-box.png')}
+              source={require('./../assets/bottom-nav-center-box.png')}
             />
           </View>
 
@@ -80,8 +80,8 @@ const BottomTabNavigation = () => {
                 style={styles.apiIcon}
                 source={
                   apiActive
-                    ? require('../assets/bottom-nav-apis-icon-active.png')
-                    : require('../assets/bottom-nav-apis-icon-inactive.png')
+                    ? require('./../assets/bottom-nav-apis-icon-active.png')
+                    : require('./../assets/bottom-nav-apis-icon-inactive.png')
                 }
               />
               <Text style={apiActive ? styles.activeText : styles.inactiveText}>
