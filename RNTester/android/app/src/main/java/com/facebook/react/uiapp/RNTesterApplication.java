@@ -9,6 +9,7 @@ package com.facebook.react.uiapp;
 
 import android.app.Application;
 import android.content.Context;
+import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.facebook.react.BuildConfig;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactInstanceManager;
@@ -41,7 +42,10 @@ public class RNTesterApplication extends Application implements ReactApplication
 
         @Override
         public List<ReactPackage> getPackages() {
-          return Arrays.<ReactPackage>asList(new MainReactPackage());
+          return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new AsyncStoragePackage()
+          );
         }
       };
 

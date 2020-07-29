@@ -398,7 +398,7 @@ android {
 
         resValue "integer", "react_native_dev_server_port", reactNativeDevServerPort()
         resValue "integer", "react_native_inspector_proxy_port", reactNativeInspectorProxyPort()
-
+        
         testApplicationId("com.facebook.react.tests.gradle")
         testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
     }

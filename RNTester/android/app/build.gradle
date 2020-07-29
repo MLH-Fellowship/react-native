@@ -101,6 +101,18 @@ def enableProguardInReleaseBuilds = true
  */
 def useIntlJsc = false
 
+long dbSizeInMB = 6L
+
+def newDbSize = rootProject.properties['AsyncStorage_db_size_in_MB']
+
+if( newDbSize != null && newDbSize.isLong()) {
+    dbSizeInMB = newDbSize.toLong()
+}
+
+def useDedicatedExecutor = rootProject.hasProperty('AsyncStorage_dedicatedExecutor')
+        ? rootProject.properties['AsyncStorage_dedicatedExecutor']
+        : false
+
 android {
     compileSdkVersion 29
 
@@ -127,6 +139,9 @@ android {
         versionName "1.0"
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+
+        buildConfigField "Long", "AsyncStorage_db_size", "${dbSizeInMB}L"
+        buildConfigField("boolean", "AsyncStorage_useDedicatedExecutor", "${useDedicatedExecutor}")
     }
     signingConfigs {
         release {
