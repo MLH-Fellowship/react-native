@@ -43,7 +43,7 @@ function RNTesterNavigationReducer(
   if (action.type === 'RNTesterExampleAction') {
     // Make sure we see the module before returning the new state
     const ExampleModule = RNTesterList.Modules[action.openExample];
-
+    console.log(ExampleModule);
     if (ExampleModule) {
       return {
         openExample: action.openExample,

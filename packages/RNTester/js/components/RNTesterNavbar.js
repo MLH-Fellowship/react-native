@@ -17,9 +17,10 @@ const BottomTabNavigation = ({onNavigate}) => {
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
               onPress={() => {
-                setApiActive(false); 
+                setApiActive(false);
                 setComponentActive(false);
-                onNavigate(RNTesterActions.OpenList('bookmark'))}}>
+                onNavigate(RNTesterActions.OpenList('bookmark'));
+              }}>
               <Image
                 style={styles.bookmarkIcon}
                 source={require('../assets/bottom-nav-bookmark-outline.png')}
@@ -35,12 +36,12 @@ const BottomTabNavigation = ({onNavigate}) => {
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
               onPress={() => {
-                if (componentActive) {  
+                onNavigate(RNTesterActions.OpenList('component'));
+                if (componentActive) {
                   return;
                 } else {
                   setComponentActive(true);
                   setApiActive(false);
-                  onNavigate(RNTesterActions.OpenList('component'))
                 }
               }}>
               <Image
@@ -73,10 +74,10 @@ const BottomTabNavigation = ({onNavigate}) => {
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
               onPress={() => {
+                onNavigate(RNTesterActions.OpenList('api'));
                 if (apiActive) {
                   return;
                 } else {
-                  onNavigate(RNTesterActions.OpenList('api'))
                   setComponentActive(false);
                   setApiActive(true);
                 }
