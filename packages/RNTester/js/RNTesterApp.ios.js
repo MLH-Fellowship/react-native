@@ -33,7 +33,7 @@ const {
   LogBox,
 } = require('react-native');
 
-import AsyncStorage from './utils/AsyncStorage';
+import AsyncStorage from '@react-native-community/async-storage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';

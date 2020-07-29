@@ -38,7 +38,7 @@ public final class AsyncStorageModule
     extends ReactContextBaseJavaModule implements ModuleDataCleaner.Cleanable {
 
   // changed name to not conflict with AsyncStorage from RN repo
-  public static final String NAME = "RNC_AsyncSQLiteDBStorage";
+  public static final String NAME = "RNTester_AsyncSQLiteDBStorage";
 
   // SQL variable number limit, defined by SQLITE_LIMIT_VARIABLE_NUMBER:
   // https://raw.githubusercontent.com/android/platform_external_sqlite/master/dist/sqlite3.c
