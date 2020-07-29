@@ -260,6 +260,7 @@ const ExampleSwitchBackgroundColor = () => {
 exports.title = '<Switch>';
 exports.displayName = 'SwitchExample';
 exports.description = 'Native boolean input';
+exports.documentationURL = 'https://reactnative.dev/docs/switch';
 exports.examples = [
   {
     title: 'Basic Switch',

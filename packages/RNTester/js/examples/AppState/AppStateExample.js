@@ -72,6 +72,7 @@ class AppStateSubscription extends React.Component<
 
 exports.title = 'AppState';
 exports.description = 'app background status';
+exports.documentationURL = 'https://reactnative.dev/docs/appstate';
 exports.examples = [
   {
     title: 'AppState.currentState',

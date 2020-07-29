@@ -24,6 +24,7 @@ const {
 exports.framework = 'React';
 exports.title = 'Vibration';
 exports.description = 'Vibration API';
+exports.documentationURL = 'https://reactnative.dev/docs/vibration';
 
 let pattern, patternLiteral, patternDescription;
 if (Platform.OS === 'android') {

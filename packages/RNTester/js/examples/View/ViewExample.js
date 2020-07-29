@@ -22,6 +22,7 @@ const {
 exports.title = '<View>';
 exports.description = ('Basic building block of all UI, examples that ' +
   'demonstrate some of the many styles available.': string);
+exports.documentationURL = 'https://reactnative.dev/docs/view';
 
 exports.displayName = 'ViewExample';
 exports.examples = [

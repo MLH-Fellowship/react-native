@@ -15,6 +15,7 @@ import {Alert, Button, DevSettings} from 'react-native';
 
 exports.title = 'DevSettings';
 exports.description = 'Customize the development settings';
+exports.documentationURL = 'https://reactnative.dev/docs/devsettings';
 exports.examples = [
   {
     title: 'Add dev menu item',

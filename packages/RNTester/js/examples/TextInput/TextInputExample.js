@@ -759,6 +759,7 @@ const EventHandlerOnTextInput = () => {
 exports.title = '<TextInput>';
 exports.description =
   'A foundational component for inputting text into the app via a keyboard.';
+exports.documentationURL = 'https://reactnative.dev/docs/textinput';
 exports.examples = ([
   {
     title: 'TextInput with autoFocus={true}',

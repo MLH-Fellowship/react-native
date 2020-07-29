@@ -857,6 +857,7 @@ const styles = StyleSheet.create({
 });
 exports.title = '<Text>';
 exports.description = 'Base component for rendering styled text.';
+exports.documentationURL = 'https://reactnative.dev/docs/text';
 exports.examples = [
   {
     title: 'Basic text',

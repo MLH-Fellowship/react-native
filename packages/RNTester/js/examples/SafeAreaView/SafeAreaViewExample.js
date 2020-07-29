@@ -119,6 +119,7 @@ exports.framework = 'React';
 exports.title = '<SafeAreaView>';
 exports.description =
   'SafeAreaView automatically applies paddings reflect the portion of the view that is not covered by other (special) ancestor views.';
+exports.documentationURL = 'https://reactnative.dev/docs/safeareaview';
 exports.examples = [
   {
     title: '<SafeAreaView> Example',

@@ -434,6 +434,7 @@ class ModalExample extends React.Component<{...}, $FlowFixMeState> {
 exports.framework = 'React';
 exports.title = '<StatusBar>';
 exports.description = 'Component for controlling the status bar';
+exports.documentationURL = 'https://reactnative.dev/docs/statusbar';
 exports.examples = [
   {
     title: 'StatusBar hidden',

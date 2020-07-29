@@ -12,13 +12,16 @@
 
 import * as React from 'react';
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   View,
   Text,
   Dimensions,
   Image,
+  TouchableOpacity,
 } from 'react-native';
+import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
 
 import HeadingText from './HeadingText';
 import Background from './Background';
@@ -29,6 +32,7 @@ type Props = $ReadOnly<{|
   description?: ?string,
   ios?: ?boolean,
   android?: ?boolean,
+  documentationURL?: ?string,
 |}>;
 
 const ScreenHeight = Dimensions.get('window').height;
@@ -39,24 +43,33 @@ export default function ExamplePage(props: Props): React.Node {
 
   const description = props.description ?? '';
   const androidImage = props.android ? (
-    <Image
-      style={{height: 35, width: 30, margin: 2}}
-      source={imagePaths.android}
-    />
+    <Image style={styles.platformIcon} source={imagePaths.android} />
   ) : null;
 
   const appleImage = props.ios ? (
-    <Image style={{height: 35, width: 30, margin: 2}} source={imagePaths.ios} />
+    <Image style={styles.platformIcon} source={imagePaths.ios} />
   ) : null;
 
-  const docsImage = <Image source={imagePaths.docs} />;
+  const DoucumentationURL = ({url}) => (
+    <View>
+      <TouchableOpacity
+        onPress={() => {
+          if (!url) {
+            return Alert.alert('Error!', 'Documentation URL is not available.');
+          }
+          openURLInBrowser(url);
+        }}>
+        <Image source={imagePaths.docs} />
+      </TouchableOpacity>
+    </View>
+  );
 
   return (
     <React.Fragment>
       <View style={styles.titleView}>
         <View style={styles.titleContainer}>
           {title}
-          {docsImage}
+          <DoucumentationURL url={props.documentationURL} />
         </View>
         <View style={styles.iconContainer}>
           {appleImage}
@@ -118,6 +131,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingBottom: 10,
+  },
+  platformIcon: {
+    height: 35,
+    width: 30,
+    margin: 2,
   },
   description: {
     paddingHorizontal: 20,
