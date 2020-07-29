@@ -256,6 +256,9 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
                     renderSectionHeader={renderSectionHeader}
+                    ListFooterComponent={() => (
+                        <View style={{ height: 80 }}></View>
+                    )}
                   />
                 )}
               />
