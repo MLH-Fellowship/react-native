@@ -21,6 +21,7 @@ type Props = {
   sections: Object,
   disableSearch?: boolean,
   testID?: string,
+  hideFilterPills?: boolean,
   ...
 };
 
@@ -98,11 +99,13 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
                 testID={this.props.testID}
                 value={this.state.filter}
               />
-              <RNTesterListFilters
-                onFilterButtonPress={filterLabel =>
-                  this.setState({category: filterLabel})
-                }
-              />
+              {!this.props.hideFilterPills && (
+                <RNTesterListFilters
+                  onFilterButtonPress={(filterLabel) =>
+                    this.setState({category: filterLabel})
+                  }
+                />
+              )}
             </View>
           );
         }}
