@@ -21,7 +21,6 @@ const URIActionMap = require('./utils/URIActionMap');
 
 const {
   AppRegistry,
-  AsyncStorage,
   BackHandler,
   Button,
   Linking,
@@ -34,15 +33,16 @@ const {
   LogBox,
 } = require('react-native');
 
+import AsyncStorage from '@react-native-community/async-storage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
-import type {ColorSchemeName} from '../../Libraries/Utilities/NativeAppearance';
+import type {ColorSchemeName} from 'react-native/Libraries/Utilities/NativeAppearance';
 
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
-LogBox.ignoreLogs(['Module RCTImagePickerManager requires main queue setup']);
+// LogBox.ignoreLogs(['Module RCTImagePickerManager requires main queue setup']);
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
 

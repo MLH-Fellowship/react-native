@@ -11,7 +11,7 @@
 'use strict';
 
 const React = require('react');
-const {AsyncStorage} = require('react-native');
+import AsyncStorage from '@react-native-community/async-storage';
 
 export type PassProps<State> = {
   state: State,
@@ -57,7 +57,7 @@ function createContainer<Props: Object, State>(
       });
     }
     _passSetState = (stateLamda: (state: State) => State): void => {
-      this.setState(state => {
+      this.setState((state) => {
         const value = stateLamda(state.value);
         AsyncStorage.setItem(this._cacheKey, JSON.stringify(value));
         return {value};

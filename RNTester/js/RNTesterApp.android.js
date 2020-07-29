@@ -18,11 +18,10 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const URIActionMap = require('./utils/URIActionMap');
 
-const nativeImageSource = require('../../Libraries/Image/nativeImageSource');
+// const nativeImageSource = require('react-native');
 
 const {
   AppRegistry,
-  AsyncStorage,
   BackHandler,
   Dimensions,
   DrawerLayoutAndroid,
@@ -36,12 +35,14 @@ const {
   useColorScheme,
   View,
 } = require('react-native');
+import AsyncStorage from '@react-native-community/async-storage';
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
 
-UIManager.setLayoutAnimationEnabledExperimental(true);
+UIManager.setLayoutAnimationEnabledExperimental &&
+  UIManager.setLayoutAnimationEnabledExperimental(true);
 
 const DRAWER_WIDTH_LEFT = 56;
 
@@ -49,11 +50,11 @@ type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
 
-const HEADER_NAV_ICON = nativeImageSource({
-  android: 'ic_menu_black_24dp',
-  width: 48,
-  height: 48,
-});
+// const HEADER_NAV_ICON = nativeImageSource({
+//   android: 'ic_menu_black_24dp',
+//   width: 48,
+//   height: 48,
+// });
 
 const Header = ({
   onPressDrawer,
@@ -64,7 +65,7 @@ const Header = ({
   ...
 }) => (
   <RNTesterThemeContext.Consumer>
-    {theme => {
+    {(theme) => {
       return (
         <View style={[styles.toolbar, {backgroundColor: theme.ToolbarColor}]}>
           <View style={styles.toolbarCenter}>
@@ -72,11 +73,11 @@ const Header = ({
               {title}
             </Text>
           </View>
-          <View style={styles.toolbarLeft}>
-            <TouchableWithoutFeedback onPress={onPressDrawer}>
-              <Image source={HEADER_NAV_ICON} />
-            </TouchableWithoutFeedback>
-          </View>
+          {/* <View style={styles.toolbarLeft}> */}
+          {/* <TouchableWithoutFeedback onPress={onPressDrawer}> */}
+          {/* <Image source={HEADER_NAV_ICON} /> */}
+          {/* </TouchableWithoutFeedback> */}
+          {/* </View> */}
         </View>
       );
     }}
@@ -176,7 +177,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then(url => {
+    Linking.getInitialURL().then((url) => {
       AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
         const exampleAction = URIActionMap(
           this.props.exampleFromAppetizeParams,
@@ -217,7 +218,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
            * found when making Flow check .android.js files. */
           this._overrideBackPressForDrawerLayout = false;
         }}
-        ref={drawer => {
+        ref={(drawer) => {
           /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
            * found when making Flow check .android.js files. */
           this.drawer = drawer;
@@ -249,7 +250,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
             onExampleExit={() => {
               this._handleAction(RNTesterActions.Back());
             }}
-            ref={example => {
+            ref={(example) => {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
                * was found when making Flow check .android.js files. */
               this._exampleRef = example;
@@ -264,7 +265,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
             onPressDrawer={() => this.drawer.openDrawer()}
             title={ExampleModule.title}
             module={ExampleModule}
-            exampleRef={example => {
+            exampleRef={(example) => {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
                * was found when making Flow check .android.js files. */
               this._exampleRef = example;

@@ -19,6 +19,7 @@ def pods()
   pod 'React-ART', :path => '../Libraries/ART'
   pod 'React-RCTPushNotification', :path => '../Libraries/PushNotificationIOS'
   pod 'Yoga',:path => '../ReactCommon/yoga', :modular_headers => true
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
   # Additional Pods which are classed as unstable
   #
   # To use fabric: add `fabric_enabled` option to the use_react_native method above, like below

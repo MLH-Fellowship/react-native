@@ -10,9 +10,10 @@
 
 'use strict';
 
-const React = require('react');
-const {PanResponder, StyleSheet, View} = require('react-native');
-const RNTesterPage = require('../../components/RNTesterPage');
+import * as React from 'react';
+import {PanResponder, StyleSheet, View} from 'react-native';
+
+import UseCase from '../../components/UseCase.js';
 
 import type {
   PanResponderInstance,
@@ -99,27 +100,20 @@ class PanResponderExample extends React.Component<Props, State> {
 
   render(): React.Node {
     return (
-      <RNTesterPage
-        noSpacer={true}
-        noScroll={true}
-        title="Basic gesture handling">
-        <View style={styles.container}>
-          <View
-            ref={circle => {
-              this.circle = circle;
-            }}
-            style={[
-              styles.circle,
-              {
-                translateX: this.state.left,
-                translateY: this.state.top,
-                backgroundColor: this.state.pressed ? 'blue' : 'green',
-              },
-            ]}
-            {...this._panResponder.panHandlers}
-          />
-        </View>
-      </RNTesterPage>
+      <View
+        ref={(circle) => {
+          this.circle = circle;
+        }}
+        style={[
+          styles.circle,
+          {
+            translateX: this.state.left,
+            translateY: this.state.top,
+            backgroundColor: this.state.pressed ? 'blue' : 'green',
+          },
+        ]}
+        {...this._panResponder.panHandlers}
+      />
     );
   }
 }
@@ -147,8 +141,19 @@ exports.simpleExampleContainer = true;
 exports.examples = [
   {
     title: 'Basic gesture handling',
-    render: function(): React.Element<typeof PanResponderExample> {
-      return <PanResponderExample />;
+    render: function (): React.Element<typeof PanResponderExample> {
+      return (
+        <UseCase
+          title="Use Case Title"
+          note="A basic Note"
+          ios={true}
+          android={true}>
+          <PanResponderExample />
+        </UseCase>
+      );
     },
   },
 ];
+
+exports.ios = true;
+exports.android = true;

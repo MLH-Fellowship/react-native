@@ -7,277 +7,292 @@
  * @format
  * @flow strict-local
  */
+import React, {useState} from 'react';
+import {StyleSheet, Dimensions, Alert, Modal, View, Button} from 'react-native';
+import TextContent from './textContent';
 
-'use strict';
+const ExampleBasicModal = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
 
-const React = require('react');
+  return (
+    <View>
+      <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      <Modal visible={visible}>
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
 
-const {
-  Modal,
-  Picker,
-  Platform,
-  StyleSheet,
-  Switch,
-  Text,
-  TouchableHighlight,
-  View,
-} = require('react-native');
+const ExampleStatusBarTranslucent = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+  const ScreenWidth = Dimensions.get('screen').width;
+  const ScreenHeight = Dimensions.get('screen').height;
 
-const Item = Picker.Item;
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal visible={visible} statusBarTranslucent={true}>
+        <View
+          style={{
+            ...styles.modal,
+            backgroundColor: 'black',
+            height: ScreenHeight,
+            width: ScreenWidth,
+          }}>
+          <TextContent color="white" />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const ExampleOnDismiss = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal
+        visible={visible}
+        onDismiss={() => {
+          Alert.alert(
+            'Welcome on board',
+            'Thanks for Accepting',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }}>
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const ExampleOnOrientationChange = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal
+        visible={visible}
+        onOrientationChange={() => {
+          Alert.alert(
+            'Orientation Changed',
+            'See content in a different prospective',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }}>
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const ExampleOnShow = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal
+        visible={visible}
+        onShow={() => {
+          Alert.alert(
+            'Welcome User',
+            "You can not move back from here. Proceed only when you're sure of it",
+            [
+              {
+                text: 'Cancel',
+                onPress: () => setVisible(false),
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }}>
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const ExampleOnRequestClose = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal
+        visible={visible}
+        onRequestClose={() => {
+          Alert.alert(
+            'Are you sure',
+            'going back from this step is not recommended',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          );
+        }}>
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const ExamplePresentationStyle = ({openButtonTitle, closeButtonTitle}) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <View style={styles.example}>
+      <View style={styles.openButton}>
+        <Button title={openButtonTitle} onPress={() => setVisible(true)} />
+      </View>
+      <Modal visible={visible} presentationStyle="formSheet">
+        <View style={styles.modal}>
+          <TextContent />
+          <Button onPress={() => setVisible(false)} title={closeButtonTitle} />
+        </View>
+      </Modal>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  modal: {
+    padding: 20,
+    backgroundColor: 'white',
+  },
+});
 
 exports.displayName = (undefined: ?string);
 exports.framework = 'React';
 exports.title = '<Modal>';
 exports.description = 'Component for presenting modal views.';
 
-class Button extends React.Component<$FlowFixMeProps, $FlowFixMeState> {
-  state = {
-    active: false,
-  };
-
-  _onHighlight = () => {
-    this.setState({active: true});
-  };
-
-  _onUnhighlight = () => {
-    this.setState({active: false});
-  };
-
-  render() {
-    const colorStyle = {
-      color: this.state.active ? '#fff' : '#000',
-    };
-    return (
-      <TouchableHighlight
-        onHideUnderlay={this._onUnhighlight}
-        onPress={this.props.onPress}
-        onShowUnderlay={this._onHighlight}
-        style={[styles.button, this.props.style]}
-        underlayColor="#a9d9d4">
-        <Text style={[styles.buttonText, colorStyle]}>
-          {this.props.children}
-        </Text>
-      </TouchableHighlight>
-    );
-  }
-}
-
-const supportedOrientationsPickerValues = [
-  ['portrait'],
-  ['landscape'],
-  ['landscape-left'],
-  ['portrait', 'landscape-right'],
-  ['portrait', 'landscape'],
-  [],
-];
-
-class ModalExample extends React.Component<{...}, $FlowFixMeState> {
-  state = {
-    animationType: 'none',
-    modalVisible: false,
-    transparent: false,
-    presentationStyle: 'fullScreen',
-    selectedSupportedOrientation: 0,
-    currentOrientation: 'unknown',
-  };
-
-  _setModalVisible = visible => {
-    this.setState({modalVisible: visible});
-  };
-
-  _setAnimationType = type => {
-    this.setState({animationType: type});
-  };
-
-  _toggleTransparent = () => {
-    this.setState({transparent: !this.state.transparent});
-  };
-
-  renderSwitch() {
-    if (Platform.isTV) {
-      return null;
-    }
-    return (
-      <Switch
-        value={this.state.transparent}
-        onValueChange={this._toggleTransparent}
-      />
-    );
-  }
-
-  render() {
-    const modalBackgroundStyle = {
-      backgroundColor: this.state.transparent
-        ? 'rgba(0, 0, 0, 0.5)'
-        : '#f5fcff',
-    };
-    const innerContainerTransparentStyle = this.state.transparent
-      ? {backgroundColor: '#fff', padding: 20}
-      : null;
-    const activeButtonStyle = {
-      backgroundColor: '#ddd',
-    };
-
-    return (
-      <View>
-        <Modal
-          animationType={this.state.animationType}
-          presentationStyle={this.state.presentationStyle}
-          transparent={this.state.transparent}
-          visible={this.state.modalVisible}
-          onRequestClose={() => this._setModalVisible(false)}
-          supportedOrientations={
-            supportedOrientationsPickerValues[
-              this.state.selectedSupportedOrientation
-            ]
-          }
-          onOrientationChange={evt =>
-            this.setState({currentOrientation: evt.nativeEvent.orientation})
-          }>
-          <View style={[styles.container, modalBackgroundStyle]}>
-            <View
-              style={[styles.innerContainer, innerContainerTransparentStyle]}>
-              <Text>
-                This modal was presented{' '}
-                {this.state.animationType === 'none' ? 'without' : 'with'}{' '}
-                animation.
-              </Text>
-              <Text>
-                It is currently displayed in {this.state.currentOrientation}{' '}
-                mode.
-              </Text>
-              <Button
-                onPress={this._setModalVisible.bind(this, false)}
-                style={styles.modalButton}>
-                Close
-              </Button>
-            </View>
-          </View>
-        </Modal>
-        <View style={styles.row}>
-          <Text style={styles.rowTitle}>Animation Type</Text>
-          <Button
-            onPress={this._setAnimationType.bind(this, 'none')}
-            style={
-              this.state.animationType === 'none' ? activeButtonStyle : {}
-            }>
-            none
-          </Button>
-          <Button
-            onPress={this._setAnimationType.bind(this, 'slide')}
-            style={
-              this.state.animationType === 'slide' ? activeButtonStyle : {}
-            }>
-            slide
-          </Button>
-          <Button
-            onPress={this._setAnimationType.bind(this, 'fade')}
-            style={
-              this.state.animationType === 'fade' ? activeButtonStyle : {}
-            }>
-            fade
-          </Button>
-        </View>
-
-        <View style={styles.row}>
-          <Text style={styles.rowTitle}>Transparent</Text>
-          {this.renderSwitch()}
-        </View>
-        {this.renderPickers()}
-        <Button onPress={this._setModalVisible.bind(this, true)}>
-          Present
-        </Button>
-      </View>
-    );
-  }
-  renderPickers() {
-    if (Platform.isTV) {
-      return null;
-    }
-    return (
-      <View>
-        <View>
-          <Text style={styles.rowTitle}>Presentation style</Text>
-          <Picker
-            selectedValue={this.state.presentationStyle}
-            onValueChange={presentationStyle =>
-              this.setState({presentationStyle})
-            }
-            itemStyle={styles.pickerItem}>
-            <Item label="Full Screen" value="fullScreen" />
-            <Item label="Page Sheet" value="pageSheet" />
-            <Item label="Form Sheet" value="formSheet" />
-            <Item label="Over Full Screen" value="overFullScreen" />
-            <Item label="Default presentationStyle" value={null} />
-          </Picker>
-        </View>
-
-        <View>
-          <Text style={styles.rowTitle}>Supported orientations</Text>
-          <Picker
-            selectedValue={this.state.selectedSupportedOrientation}
-            onValueChange={(_, i) =>
-              this.setState({selectedSupportedOrientation: i})
-            }
-            itemStyle={styles.pickerItem}>
-            <Item label="Portrait" value={0} />
-            <Item label="Landscape" value={1} />
-            <Item label="Landscape left" value={2} />
-            <Item label="Portrait and landscape right" value={3} />
-            <Item label="Portrait and landscape" value={4} />
-            <Item label="Default supportedOrientations" value={5} />
-          </Picker>
-        </View>
-      </View>
-    );
-  }
-}
-
 exports.examples = [
   {
-    title: 'Modal Presentation',
-    description: 'Modals can be presented with or without animation',
-    render: (): React.Node => <ModalExample />,
+    title: 'Basic Modal',
+    description:
+      'Simple Read More Dialog. A simple modal can be generated using the default configurations, triggered by a button press, The visibility of the modal is controlled using the visible={true/false} prop',
+    render: (): React.Node => (
+      <ExampleBasicModal
+        openButtonTitle="READ MORE"
+        closeButtonTitle="PROCEED"
+      />
+    ),
+  },
+  {
+    title: 'Status Bar Behavior with Modal',
+    platform: 'android',
+    description:
+      'Read important Content Covering all screen. Modals can be configured to be rendered above or below the status bar using the statusBarTranslucent prop. Making statusBarTranslucent={true} renders the status bar as translucent, and the underlying modal content is shown.',
+    render: (): React.Node => (
+      <ExampleStatusBarTranslucent
+        openButtonTitle="Open in Full Screen View"
+        closeButtonTitle="Proceed"
+      />
+    ),
+  },
+  {
+    title: 'Binding Events to Dismiss Action',
+    platform: 'ios',
+    description:
+      'Modals can be configured to run functions when the modal has been dismissed using the onDismiss prop.',
+    render: (): React.Node => (
+      <ExampleOnDismiss
+        openButtonTitle="Read Terms and Conditions"
+        closeButtonTitle="Proceed"
+      />
+    ),
+  },
+  {
+    title: 'Binding Events to Orientation Change',
+    platform: 'ios',
+    description:
+      'Modals can listen for change in orientation actions and trigger functions upon the same. The following modal shows an alert when orientation is changed. This is done using the onOrientationChange prop, which accepts a function as value.',
+    render: (): React.Node => (
+      <ExampleOnOrientationChange
+        openButtonTitle="Open Modal"
+        closeButtonTitle="Proceed"
+      />
+    ),
+  },
+  {
+    title: 'Actions on physical back button',
+    platform: 'android',
+    description:
+      'Modal can watch for physical back button presses in Android, and trigger functions on the event. The following modal uses the dismissAction prop which accepts a function as value to launch an alert when back button is pressed',
+    render: (): React.Node => (
+      <ExampleOnRequestClose
+        openButtonTitle="Listen for Close Action"
+        closeButtonTitle="Proceed"
+      />
+    ),
+  },
+  {
+    title: 'Modal OnShow Actions',
+    description:
+      'You can even attach functions to modal show events. They are triggered as soon as the modal is opened. This is done using the onShow prop.',
+    render: (): React.Node => (
+      <ExampleOnShow openButtonTitle="Open Modal" closeButtonTitle="Proceed" />
+    ),
+  },
+  {
+    title: 'Varying presentation style',
+    platform: 'ios',
+    description:
+      'The presentationStyle prop controls how the modal appears (generally on larger devices such as iPad or plus-sized iPhones).',
+    render: (): React.Node => (
+      <ExamplePresentationStyle
+        openButtonTitle="Open modal as formSheet"
+        closeButtonTitle="Proceed"
+      />
+    ),
   },
 ];
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20,
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  row: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    marginBottom: 20,
-  },
-  rowTitle: {
-    flex: 1,
-    fontWeight: 'bold',
-  },
-  button: {
-    borderRadius: 5,
-    flexGrow: 1,
-    height: 44,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    overflow: 'hidden',
-  },
-  buttonText: {
-    fontSize: 18,
-    margin: 5,
-    textAlign: 'center',
-  },
-  modalButton: {
-    marginTop: 10,
-  },
-  pickerItem: {
-    fontSize: 16,
-  },
-});

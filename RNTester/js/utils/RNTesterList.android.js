@@ -19,14 +19,17 @@ const ComponentExamples: Array<RNTesterExample> = [
   },
   {
     key: 'ButtonExample',
+    category: 'UI',
     module: require('../examples/Button/ButtonExample'),
   },
   {
     key: 'FlatListExample',
+    category: 'ListViews',
     module: require('../examples/FlatList/FlatListExample'),
   },
   {
     key: 'ImageExample',
+    category: 'Basic',
     module: require('../examples/Image/ImageExample'),
   },
   {
@@ -67,18 +70,22 @@ const ComponentExamples: Array<RNTesterExample> = [
   },
   {
     key: 'ScrollViewExample',
+    category: 'Basic',
     module: require('../examples/ScrollView/ScrollViewExample'),
   },
   {
     key: 'ScrollViewSimpleExample',
+    category: 'Basic',
     module: require('../examples/ScrollView/ScrollViewSimpleExample'),
   },
   {
     key: 'ScrollViewAnimatedExample',
+    category: 'Basic',
     module: require('../examples/ScrollView/ScrollViewAnimatedExample'),
   },
   {
     key: 'SectionListExample',
+    category: 'ListViews',
     module: require('../examples/SectionList/SectionListExample'),
   },
   {
@@ -91,14 +98,17 @@ const ComponentExamples: Array<RNTesterExample> = [
   },
   {
     key: 'SwitchExample',
+    category: 'UI',
     module: require('../examples/Switch/SwitchExample'),
   },
   {
     key: 'TextExample',
+    category: 'Basic',
     module: require('../examples/Text/TextExample'),
   },
   {
     key: 'TextInputExample',
+    category: 'Basic',
     module: require('../examples/TextInput/TextInputExample'),
   },
   {
@@ -107,6 +117,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   },
   {
     key: 'ViewExample',
+    category: 'Basic',
     module: require('../examples/View/ViewExample'),
   },
 ];
@@ -118,11 +129,12 @@ const APIExamples: Array<RNTesterExample> = [
   },
   {
     key: 'AccessibilityAndroidExample',
+    category: 'Android',
     module: require('../examples/Accessibility/AccessibilityAndroidExample'),
   },
   {
     key: 'AlertExample',
-    module: require('../examples/Alert/AlertExample').AlertExample,
+    module: require('../examples/Alert/AlertExample'),
   },
   {
     key: 'AnimatedExample',
@@ -154,6 +166,7 @@ const APIExamples: Array<RNTesterExample> = [
   },
   {
     key: 'DatePickerAndroidExample',
+    category: 'Android',
     module: require('../examples/DatePicker/DatePickerAndroidExample'),
   },
   {
@@ -194,12 +207,13 @@ const APIExamples: Array<RNTesterExample> = [
   },
   {
     key: 'PermissionsExampleAndroid',
+    category: 'Android',
     module: require('../examples/PermissionsAndroid/PermissionsExample'),
   },
-  {
-    key: 'PlatformColorExample',
-    module: require('../examples/PlatformColor/PlatformColorExample'),
-  },
+  // {
+  //   key: 'PlatformColorExample',
+  //   module: require('../examples/PlatformColor/PlatformColorExample'),
+  // },
   {
     key: 'PointerEventsExample',
     module: require('../examples/PointerEvents/PointerEventsExample'),
@@ -218,6 +232,7 @@ const APIExamples: Array<RNTesterExample> = [
   },
   {
     key: 'ToastAndroidExample',
+    category: 'Android',
     module: require('../examples/ToastAndroid/ToastAndroidExample'),
   },
   {

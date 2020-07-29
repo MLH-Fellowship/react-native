@@ -12,7 +12,7 @@
 
 const React = require('react');
 const ReactNative = require('react-native');
-import Platform from '../../../../Libraries/Utilities/Platform';
+import Platform from 'react-native';
 const {DynamicColorIOS, PlatformColor, StyleSheet, Text, View} = ReactNative;
 
 function PlatformColorsExample() {
@@ -199,10 +199,7 @@ function FallbackColorsExample() {
       color: PlatformColor('bogus', '@color/catalyst_redbox_background'),
     };
   } else {
-    color = {
-      label: 'Unexpected Platform.OS: ' + Platform.OS,
-      color: 'red',
-    };
+    throw 'Unexpected Platform.OS: ' + Platform.OS;
   }
 
   return (
@@ -264,11 +261,9 @@ function VariantColorsExample() {
     <View style={styles.column}>
       <View style={styles.row}>
         <Text style={styles.labelCell}>
-          {Platform.select({
-            ios: "DynamicColorIOS({light: 'red', dark: 'blue'})",
-            android: "PlatformColor('?attr/colorAccent')",
-            default: 'Unexpected Platform.OS: ' + Platform.OS,
-          })}
+          {Platform.OS === 'ios'
+            ? "DynamicColorIOS({light: 'red', dark: 'blue'})"
+            : "PlatformColor('?attr/colorAccent')"}
         </Text>
         <View
           style={{
@@ -276,9 +271,7 @@ function VariantColorsExample() {
             backgroundColor:
               Platform.OS === 'ios'
                 ? DynamicColorIOS({light: 'red', dark: 'blue'})
-                : Platform.OS === 'android'
-                ? PlatformColor('?attr/colorAccent')
-                : 'red',
+                : PlatformColor('?attr/colorAccent'),
           }}
         />
       </View>
