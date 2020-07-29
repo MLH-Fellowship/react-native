@@ -14,7 +14,6 @@ type Props = $ReadOnly<{|
   children?: React.Node,
   title?: ?string,
   description?: ?string,
-  isDisabled: ?boolean,
 |}>;
 
 import React from 'react';
@@ -22,7 +21,7 @@ import {RNTesterThemeContext} from './RNTesterTheme';
 import {StyleSheet, Text, View} from 'react-native';
 
 /** functional component for generating example blocks */
-const RNTesterBlock = ({description, isDisabled, title, children}: Props) => {
+const RNTesterBlock = ({description, title, children}: Props) => {
   let descComponent = null;
   /** generating description component if description passed */
   if (description) {
@@ -38,11 +37,7 @@ const RNTesterBlock = ({description, isDisabled, title, children}: Props) => {
   return (
     <RNTesterThemeContext.Consumer>
       {(theme) => (
-        <View
-          style={[isDisabled ? styles.disabledContainer : styles.container]}>
-          {/* Show an overlay on top of the container if example is not available on the current platform */}
-          {isDisabled && <View style={styles.disabledOverlay} />}
-
+        <View style={[styles.container]}>
           <View style={[styles.titleContainer]}>
             <Text style={[styles.titleText]}>{title}</Text>
             {descComponent}
@@ -61,12 +56,6 @@ const styles = StyleSheet.create({
     margin: 15,
     marginVertical: 5,
     borderColor: '#005DFF',
-    backgroundColor: 'white',
-  },
-  disabledContainer: {
-    borderRadius: 0,
-    margin: 15,
-    marginVertical: 5,
     backgroundColor: 'white',
   },
   titleText: {
@@ -88,16 +77,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     backgroundColor: '#F3F8FF',
     margin: 10,
-  },
-  disabledOverlay: {
-    width: '100%',
-    height: '100%',
-    position: 'absolute',
-    backgroundColor: 'gray',
-    opacity: 0.2,
-    zIndex: 1,
-    borderColor: 'gray',
-    borderWidth: 1,
   },
 });
 
