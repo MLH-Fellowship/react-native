@@ -3,7 +3,7 @@
 mkdir -p React;
 brew install bindfs;
 
-bindfs ../test123/React React
+bindfs ../react-native/React React
 yarn
 cd RNTester
 bundle install && bundle exec pod install
