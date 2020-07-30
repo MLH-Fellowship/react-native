@@ -238,7 +238,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         );
         const urlAction = URIActionMap(url);
         const launchAction = exampleAction || urlAction;
-        const initialAction = launchAction || {type: 'InitialAction'};
+        const initialAction = launchAction || {type: 'RNTesterListAction'};
         this.setState(RNTesterNavigationReducer(undefined, initialAction));
       });
     });
