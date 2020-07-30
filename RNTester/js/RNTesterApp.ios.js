@@ -13,6 +13,7 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
+const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
@@ -239,7 +240,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         );
         const urlAction = URIActionMap(url);
         const launchAction = exampleAction || urlAction;
-        const initialAction = launchAction || {type: 'InitialAction'};
+        const initialAction = launchAction || {type: 'RNTesterListAction'};
         this.setState(RNTesterNavigationReducer(undefined, initialAction));
       });
     });
@@ -323,6 +324,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       return (
         <>
           <RNTesterBookmarkListViaHook
+            title={'RNTester'}
             bookmark={bookmark}
             onNavigate={this._handleAction}
           />
@@ -349,6 +351,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   headerContainer: {
     borderBottomWidth: StyleSheet.hairlineWidth,
   },

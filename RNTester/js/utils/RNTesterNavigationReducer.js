@@ -27,7 +27,7 @@ function RNTesterNavigationReducer(
     (state.openExample && action.type === 'RNTesterBackAction')
   ) {
     return {
-      screen: action.screen,
+      screen: action.screen ?? "component",
       // A null openExample will cause the views to display the RNTester example list
       openExample: null,
     };
@@ -50,6 +50,7 @@ function RNTesterNavigationReducer(
       };
     }
   }
+
 
   return state;
 }
