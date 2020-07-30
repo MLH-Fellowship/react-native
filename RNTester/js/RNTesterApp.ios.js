@@ -16,7 +16,6 @@ const RNTesterExampleList = require('./components/RNTesterExampleList');
 const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
-const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const URIActionMap = require('./utils/URIActionMap');
