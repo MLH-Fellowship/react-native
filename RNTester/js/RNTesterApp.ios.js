@@ -34,7 +34,7 @@ const {
   LogBox,
 } = require('react-native');
 
-import AsyncStorage from './utils/AsyncStorage';
+import AsyncStorage from '@react-native-community/async-storage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -120,6 +120,7 @@ const RNTesterExampleListViaHook = ({
   onNavigate,
   bookmark,
   list,
+  screen,
 }: {
   onNavigate?: () => mixed,
   list: {
@@ -136,7 +137,11 @@ const RNTesterExampleListViaHook = ({
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.exampleContainer}>
           <Header title="RNTester" />
-          <RNTesterExampleList onNavigate={onNavigate} list={list} />
+          <RNTesterExampleList
+            onNavigate={onNavigate}
+            list={list}
+            screen={screen}
+          />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -381,7 +386,7 @@ AppRegistry.registerComponent('SetPropertiesExampleApp', () =>
 AppRegistry.registerComponent('RootViewSizeFlexibilityExampleApp', () =>
   require('./examples/RootViewSizeFlexibilityExample/RootViewSizeFlexibilityExampleApp'),
 );
-AppRegistry.registerComponent('RNTester', () => RNTesterApp);
+AppRegistry.registerComponent('RNTesterApp', () => RNTesterApp);
 
 // Register suitable examples for snapshot tests
 RNTesterList.ComponentExamples.concat(RNTesterList.APIExamples).forEach(
