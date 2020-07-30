@@ -13,7 +13,7 @@
 const React = require('react');
 
 const {Text, View} = require('react-native');
-import {Picker} from '@react-native-community/picker';
+import {Picker} from 'react-native';
 
 class TextLegend extends React.Component<*, *> {
   state: {|
