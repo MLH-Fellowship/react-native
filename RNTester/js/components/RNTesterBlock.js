@@ -24,14 +24,13 @@ import {StyleSheet, Text, View} from 'react-native';
 const RNTesterBlock = ({description, title, children}: Props) => {
   let descComponent = null;
   /** generating description component if description passed */
-    descComponent = (
-      <RNTesterThemeContext.Consumer>
-        {theme => {
-          return <Text style={[styles.descriptionText]}>{description}</Text>;
-        }}
-      </RNTesterThemeContext.Consumer>
-    );
-  }
+  descComponent = (
+    <RNTesterThemeContext.Consumer>
+      {theme => {
+        return <Text style={[styles.descriptionText]}>{description}</Text>;
+      }}
+    </RNTesterThemeContext.Consumer>
+  );
 
   return (
     <RNTesterThemeContext.Consumer>
