@@ -13,6 +13,7 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
+const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
@@ -164,7 +165,7 @@ const RNTesterBookmarkListViaHook = ({
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
           <Header title="RNTester" />
-          <RNtesterBookmarkList onNavigate={onNavigate} />
+          <RNTesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -322,6 +323,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       return (
         <>
           <RNTesterBookmarkListViaHook
+            title={'RNTester'}
             bookmark={bookmark}
             onNavigate={this._handleAction}
           />
@@ -348,6 +350,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   headerContainer: {
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
