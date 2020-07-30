@@ -75,6 +75,7 @@ class RNTesterExampleContainer extends React.Component {
       },
     ];
 
+    /** replace with this, if you see this in commit, blame @yashkumarverma */
     return (
       <ExamplePage
         title={module.title}
@@ -91,6 +92,7 @@ class RNTesterExampleContainer extends React.Component {
         />
       </ExamplePage>
     );
+    // return <Text>Examples</Text>;
   }
 }
 

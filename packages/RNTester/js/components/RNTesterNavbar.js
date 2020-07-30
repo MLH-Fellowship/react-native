@@ -7,26 +7,31 @@ const BottomTabNavigation = ({onNavigate}) => {
   /** to be attached to navigation framework */
   const [apiActive, setApiActive] = useState(false);
   const [componentActive, setComponentActive] = useState(true);
+  const [bookmarkActive, setBookmarkActive] = useState(false);
+
   return (
     <View>
       {/** Bottom Navbar code */}
       <View>
         {/** floating button in center  */}
         <View style={styles.floatContainer}>
-          <View style={styles.floatingButton}>
-            {/** @attention attach navigation endpoints here */}
-            <TouchableOpacity
-              onPress={() => {
-                setApiActive(false);
-                setComponentActive(false);
-                onNavigate(RNTesterActions.OpenList('bookmark'));
-              }}>
-              <Image
-                style={styles.bookmarkIcon}
-                source={require('../assets/bottom-nav-bookmark-outline.png')}
-              />
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.floatingButton}
+            onPress={() => {
+              setApiActive(false);
+              setComponentActive(false);
+              setBookmarkActive(true);
+              onNavigate(RNTesterActions.OpenList('bookmark'));
+            }}>
+            <Image
+              style={styles.bookmarkIcon}
+              source={
+                bookmarkActive
+                  ? require('../assets/bottom-nav-bookmark-fill.png')
+                  : require('../assets/bottom-nav-bookmark-outline.png')
+              }
+            />
+          </TouchableOpacity>
         </View>
 
         {/** component and APIs tab  */}
@@ -42,6 +47,7 @@ const BottomTabNavigation = ({onNavigate}) => {
                 } else {
                   setComponentActive(true);
                   setApiActive(false);
+                  setBookmarkActive(false);
                 }
               }}>
               <Image
@@ -80,6 +86,7 @@ const BottomTabNavigation = ({onNavigate}) => {
                 } else {
                   setComponentActive(false);
                   setApiActive(true);
+                  setBookmarkActive(false);
                 }
               }}>
               <Image

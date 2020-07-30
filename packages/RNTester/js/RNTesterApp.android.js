@@ -19,6 +19,7 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavBar = require('./components/RNTesterNavbar');
+const RNTesterHeader = require('./components/RNTesterHeader');
 
 // const nativeImageSource = require('react-native');
 
@@ -55,12 +56,6 @@ const DRAWER_WIDTH_LEFT = 56;
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
-
-// const HEADER_NAV_ICON = nativeImageSource({
-//   android: 'ic_menu_black_24dp',
-//   width: 48,
-//   height: 48,
-// });
 
 const Header = ({
   onPressDrawer,
@@ -107,7 +102,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
+        <RNTesterHeader title="Example" backButton={true} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -170,7 +165,7 @@ const RNTesterExampleListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNTesterHeader title="Component Store" backButton={false} />
           <RNTesterExampleList
             onNavigate={onNavigate}
             list={list}
@@ -199,7 +194,7 @@ const RNTesterBookmarkListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNTesterHeader title="Bookmarks" backButton={true} />
           <RNtesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
@@ -304,7 +299,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     });
   }
 
-
   render(): React.Node {
     if (!this.state) {
       return null;
@@ -340,9 +334,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           RemoveComponent: this.state.RemoveComponent,
           checkBookmark: this.state.checkBookmark,
         })}
-          <View style={styles.bottomNavbar}>
-              <RNTesterNavBar onNavigate={this._handleAction} />
-            </View>
+        <View style={styles.bottomNavbar}>
+          <RNTesterNavBar onNavigate={this._handleAction} />
+        </View>
       </DrawerLayoutAndroid>
     );
   }
