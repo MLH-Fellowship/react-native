@@ -13,10 +13,12 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
+const RNtesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const URIActionMap = require('./utils/URIActionMap');
+const RNTesterNavBar = require('./components/RNTesterNavbar');
 
 // const nativeImageSource = require('react-native');
 
@@ -35,11 +37,15 @@ const {
   useColorScheme,
   View,
 } = require('react-native');
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from './utils/AsyncStorage';
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
+import {
+  RNTesterBookmarkContext,
+  bookmarks,
+} from './components/RNTesterBookmark';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -65,7 +71,7 @@ const Header = ({
   ...
 }) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <View style={[styles.toolbar, {backgroundColor: theme.ToolbarColor}]}>
           <View style={styles.toolbarCenter}>
@@ -144,7 +150,9 @@ const RNTesterExampleListViaHook = ({
   title,
   onPressDrawer,
   onNavigate,
+  bookmark,
   list,
+  screen,
 }: {
   title: string,
   onPressDrawer?: () => mixed,
@@ -160,24 +168,101 @@ const RNTesterExampleListViaHook = ({
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
   return (
     <RNTesterThemeContext.Provider value={theme}>
-      <View style={styles.container}>
-        <Header title={title} onPressDrawer={onPressDrawer} />
-        <RNTesterExampleList onNavigate={onNavigate} list={list} />
-      </View>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
+        <View style={styles.container}>
+          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNTesterExampleList
+            onNavigate={onNavigate}
+            list={list}
+            screen={screen}
+          />
+        </View>
+      </RNTesterBookmarkContext.Provider>
+    </RNTesterThemeContext.Provider>
+  );
+};
+
+const RNTesterBookmarkListViaHook = ({
+  title,
+  onPressDrawer,
+  bookmark,
+  onNavigate,
+}: {
+  title: string,
+  onPressDrawer?: () => mixed,
+  onNavigate?: () => mixed,
+  ...
+}) => {
+  const colorScheme = useColorScheme();
+  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  return (
+    <RNTesterThemeContext.Provider value={theme}>
+      <RNTesterBookmarkContext.Provider value={bookmark}>
+        <View style={styles.container}>
+          <Header title={title} onPressDrawer={onPressDrawer} />
+          <RNtesterBookmarkList onNavigate={onNavigate} />
+        </View>
+      </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
   );
 };
 
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
+  constructor() {
+    super();
+    this.state = {
+      openExample: null,
+      Components: bookmarks.Components,
+      Api: bookmarks.Api,
+      screen: 'component',
+      AddApi: (apiName, api) => {
+        const stateApi = Object.assign({}, this.state.Api);
+        stateApi[apiName] = api;
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      AddComponent: (componentName, component) => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        stateComponent[componentName] = component;
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      RemoveApi: apiName => {
+        const stateApi = Object.assign({}, this.state.Api);
+        delete stateApi[apiName];
+        this.setState({
+          Api: stateApi,
+        });
+        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
+      },
+      RemoveComponent: componentName => {
+        const stateComponent = Object.assign({}, this.state.Components);
+        delete stateComponent[componentName];
+        this.setState({
+          Components: stateComponent,
+        });
+        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
+      },
+      checkBookmark: (title, key) => {
+        if (key === 'APIS') {
+          return this.state.Api[title] === undefined;
+        }
+        return this.state.Components[title] === undefined;
+      },
+    };
+  }
   UNSAFE_componentWillMount() {
-    BackHandler.addEventListener(
-      'hardwareBackPress',
-      this._handleBackButtonPress,
+    BackHandler.addEventListener('hardwareBackPress', () =>
+      this._handleBackButtonPress(this.state.screen),
     );
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then((url) => {
+    Linking.getInitialURL().then(url => {
       AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
         const exampleAction = URIActionMap(
           this.props.exampleFromAppetizeParams,
@@ -194,10 +279,31 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           this.setState(RNTesterNavigationReducer(storedState, launchAction));
           return;
         }
-        this.setState(storedState);
+        this.setState({
+          openExample: storedState.openExample,
+        });
+      });
+    });
+    AsyncStorage.getItem('Components', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const components = JSON.parse(storedString);
+      this.setState({
+        Components: components,
+      });
+    });
+    AsyncStorage.getItem('Api', (err, storedString) => {
+      if (err || !storedString) {
+        return;
+      }
+      const api = JSON.parse(storedString);
+      this.setState({
+        Api: api,
       });
     });
   }
+
 
   render(): React.Node {
     if (!this.state) {
@@ -218,14 +324,25 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
            * found when making Flow check .android.js files. */
           this._overrideBackPressForDrawerLayout = false;
         }}
-        ref={(drawer) => {
+        ref={drawer => {
           /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was
            * found when making Flow check .android.js files. */
           this.drawer = drawer;
         }}
         renderNavigationView={this._renderDrawerContent}
         statusBarBackgroundColor="#589c90">
-        {this._renderApp()}
+        {this._renderApp({
+          Components: this.state.Components,
+          Api: this.state.Api,
+          AddApi: this.state.AddApi,
+          AddComponent: this.state.AddComponent,
+          RemoveApi: this.state.RemoveApi,
+          RemoveComponent: this.state.RemoveComponent,
+          checkBookmark: this.state.checkBookmark,
+        })}
+          <View style={styles.bottomNavbar}>
+              <RNTesterNavBar onNavigate={this._handleAction} />
+            </View>
       </DrawerLayoutAndroid>
     );
   }
@@ -239,18 +356,29 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     );
   };
 
-  _renderApp() {
-    const {openExample} = this.state;
+  _renderApp(bookmark) {
+    const {openExample, screen} = this.state;
 
-    if (openExample) {
+    if (screen === 'bookmark' && !openExample) {
+      return (
+        <RNTesterBookmarkListViaHook
+          title={'RNTester'}
+          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
+           * when making Flow check .android.js files. */
+          onPressDrawer={() => this.drawer.openDrawer()}
+          bookmark={bookmark}
+          onNavigate={this._handleAction}
+        />
+      );
+    } else if (openExample) {
       const ExampleModule = RNTesterList.Modules[openExample];
       if (ExampleModule.external) {
         return (
           <ExampleModule
             onExampleExit={() => {
-              this._handleAction(RNTesterActions.Back());
+              this._handleAction(RNTesterActions.Back(screen));
             }}
-            ref={(example) => {
+            ref={example => {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
                * was found when making Flow check .android.js files. */
               this._exampleRef = example;
@@ -259,18 +387,20 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         );
       } else if (ExampleModule) {
         return (
-          <RNTesterExampleContainerViaHook
-            /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-             * when making Flow check .android.js files. */
-            onPressDrawer={() => this.drawer.openDrawer()}
-            title={ExampleModule.title}
-            module={ExampleModule}
-            exampleRef={(example) => {
-              /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
-               * was found when making Flow check .android.js files. */
-              this._exampleRef = example;
-            }}
-          />
+          <>
+            <RNTesterExampleContainerViaHook
+              /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
+               * when making Flow check .android.js files. */
+              onPressDrawer={() => this.drawer.openDrawer()}
+              title={ExampleModule.title}
+              module={ExampleModule}
+              exampleRef={example => {
+                /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue
+                 * was found when making Flow check .android.js files. */
+                this._exampleRef = example;
+              }}
+            />
+          </>
         );
       }
     }
@@ -282,7 +412,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
          * when making Flow check .android.js files. */
         onPressDrawer={() => this.drawer.openDrawer()}
         onNavigate={this._handleAction}
+        bookmark={bookmark}
         list={RNTesterList}
+        screen={screen}
       />
     );
   }
@@ -301,7 +433,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     return false;
   };
 
-  _handleBackButtonPress = () => {
+  _handleBackButtonPress = screen => {
     /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
      * when making Flow check .android.js files. */
     if (this._overrideBackPressForDrawerLayout) {
@@ -326,7 +458,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     ) {
       return true;
     }
-    return this._handleAction(RNTesterActions.Back());
+    return this._handleAction(RNTesterActions.Back(screen));
   };
 }
 
@@ -356,6 +488,13 @@ const styles = StyleSheet.create({
   drawerContentWrapper: {
     flex: 1,
     paddingTop: StatusBar.currentHeight,
+  },
+  bottomNavbar: {
+    bottom: 0,
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    position: 'absolute',
   },
 });
 

@@ -12,8 +12,6 @@
 
 const RNTesterActions = require('../utils/RNTesterActions');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
-const RNTesterComponentTitle = require('./RNTesterComponentTitle');
-const RNTesterBookmarkButton = require('./RNTesterBookmarkButton');
 const React = require('react');
 
 const {
@@ -21,7 +19,6 @@ const {
   SectionList,
   StyleSheet,
   Text,
-  Button,
   TouchableHighlight,
   Image,
   View,
@@ -29,6 +26,7 @@ const {
 
 import type {ViewStyleProp} from 'react-native';
 import type {RNTesterExample} from '../types/RNTesterTypes';
+
 import {RNTesterThemeContext} from './RNTesterTheme';
 import {RNTesterBookmarkContext} from './RNTesterBookmark';
 
@@ -55,7 +53,7 @@ type ButtonProps = {
   ...
 };
 
-const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
+function PlatformLogoContainer({platform}): React.Component {
   return (
     <View style={{flexDirection: 'row'}}>
       {(!platform || platform === 'ios') && (
@@ -72,7 +70,7 @@ const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
       )}
     </View>
   );
-};
+}
 
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = RNTesterBookmarkContext;
@@ -81,16 +79,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     super(props);
     this.state = {
       active: props.active,
-      title: props.item.module.title,
+      title: props.item.title,
       key: props.section.key,
     };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.active !== prevState.active) {
-      return {active: nextProps.active};
-    }
-    return null;
   }
 
   onButtonPress = () => {
@@ -132,7 +123,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
               accessibilityLabel={
                 item.module.title + ' ' + item.module.description
               }
-              underlayColor={'rgb(242,242,242)'}
               onPress={this._onPress}>
               <View
                 style={[
@@ -140,15 +130,14 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
                 <View style={styles.rowTextContent}>
-                  <RNTesterComponentTitle>
+                  <Text
+                    style={[styles.rowTitleText, {color: theme.LabelColor}]}>
                     {item.module.title}
-                  </RNTesterComponentTitle>
-
+                  </Text>
                   <View style={{flexDirection: 'row', marginBottom: 5}}>
                     <Text style={{color: 'blue'}}>Category: </Text>
                     <Text>{item.module.category || 'Components/Basic'}</Text>
                   </View>
-
                   <Text
                     style={[
                       styles.rowDetailText,
@@ -205,34 +194,28 @@ const renderSectionHeader = ({section}) => (
   </RNTesterThemeContext.Consumer>
 );
 
-class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
+class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
   render(): React.Node {
-    const filter = ({example, filterRegex, category}) =>
-      filterRegex.test(example.module.title) &&
-      (!category || example.category === category) &&
-      (!Platform.isTV || example.supportsTVOS);
-
-      const {screen} = this.props; 
-      let sections = []; 
-      if (screen === "component"){ 
-        sections = [
-          {
-            data: this.props.list.ComponentExamples,
-            key: 'Components',
-          }
-        ];
-      } else if (screen === "api") { 
-        sections = [
-          {
-            data: this.props.list.APIExamples,
-            key: 'APIS',
-          }
-        ];
-      } else { 
-        sections = []; 
-      }
-      
+    const bookmark = this.context;
+    const filter = ({example, filterRegex}) => {
+      return (
+        filterRegex.test(example.module.title) &&
+        (!Platform.isTV || example.supportsTVOS)
+      );
+    };
+    const sections = [
+      {
+        data: Object.values(bookmark.Components),
+        title: 'COMPONENTS',
+        key: 'COMPONENTS',
+      },
+      {
+        data: Object.values(bookmark.Api),
+        title: 'APIS',
+        key: 'APIS',
+      },
+    ];
 
     return (
       <RNTesterThemeContext.Consumer>
@@ -256,9 +239,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
                     renderSectionHeader={renderSectionHeader}
-                    ListFooterComponent={() => (
-                        <View style={{ height: 80 }}></View>
-                    )}
                   />
                 )}
               />
@@ -282,7 +262,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       />
     );
   };
-
 
   _handleRowPress(exampleKey: string): void {
     this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));
@@ -368,4 +347,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = RNTesterExampleList;
+module.exports = RNTesterBookmarkList;
