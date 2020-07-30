@@ -85,6 +85,7 @@ class RNTesterExampleContainer extends React.Component {
         documentationURL={module.documentationURL}>
         <RNTesterExampleFilter
           testID="example_search"
+          hideFilterPills={true}
           sections={sections}
           filter={filter}
           render={({filteredSections}) =>
