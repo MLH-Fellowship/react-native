@@ -12,7 +12,7 @@
 
 const React = require('react');
 const RNTesterListFilters = require('./RNTesterListFilters');
-const {StyleSheet, TextInput, View} = require('react-native');
+const {StyleSheet, TextInput, View, ScrollView} = require('react-native');
 import {RNTesterThemeContext} from './RNTesterTheme';
 
 type Props = {
@@ -60,7 +60,14 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         {this._renderTextInput()}
-        {this.props.render({filteredSections})}
+        <ScrollView>
+          {this.props.render({filteredSections})}
+          {/**
+           * This is a fake list item. It is needed to provide the ScrollView some bottom padding.
+           * The height of this item is basically ScreenHeight - the height of (Header + bottom navbar)
+           * */}
+          <View style={{height: 280}} />
+        </ScrollView>
       </View>
     );
   }
@@ -73,11 +80,7 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
       <RNTesterThemeContext.Consumer>
         {theme => {
           return (
-            <View
-              style={[
-                styles.searchRow,
-                {backgroundColor: theme.GroupedBackgroundColor},
-              ]}>
+            <View style={[styles.searchRow, {backgroundColor: '#F3F8FF'}]}>
               <TextInput
                 autoCapitalize="none"
                 autoCorrect={false}

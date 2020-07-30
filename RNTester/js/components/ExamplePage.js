@@ -11,14 +11,7 @@
 'use strict';
 
 import * as React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, Image} from 'react-native';
 
 import HeadingText from './HeadingText';
 import Background from './Background';
@@ -73,10 +66,7 @@ export default function ExamplePage(props: Props): React.Node {
       </View>
 
       <Background height={ScreenHeight} width={ScreenWidth}>
-        <ScrollView style={styles.scrollView}>
-          {props.children}
-          <View style={styles.scrollViewBottonPadding} />
-        </ScrollView>
+        <View style={styles.examplesContainer}>{props.children}</View>
       </Background>
     </React.Fragment>
   );
@@ -88,27 +78,17 @@ const imagePaths = {
   docs: require('../assets/docs-icon.png'),
 };
 
-const HeaderHeight = 75; // From RNTesterApp.android.js toolbar height
-const NavbarHeight = 65; // From RNTesterNavbar.js
-const TitleViewHeight = Math.round(ScreenHeight * 0.1);
-const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
-const OffSetConstant = Math.round(ScreenHeight * 0.03);
-// Since the scroll view is positioned absolutely, we need to give it a bottom padding
-// in order to make it scroll properly
-const ScrollViewBottomPadding =
-  TitleViewHeight + IconContainerMarginTop + OffSetConstant + NavbarHeight + 20;
-
 const styles = StyleSheet.create({
   titleView: {
     backgroundColor: '#F3F8FF',
-    height: HeaderHeight,
+    height: 75,
     padding: 20,
     paddingTop: 8,
     overflow: 'hidden',
   },
-  container: { 
-    flexDirection:"row",
-    justifyContent:'space-between'
+  container: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   titleContainer: {
     justifyContent: 'space-between',
@@ -116,9 +96,9 @@ const styles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
-  scrollView: {
+  examplesContainer: {
     width: ScreenWidth,
     flexGrow: 1,
     backgroundColor: 'transparent',
@@ -127,9 +107,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  scrollViewBottonPadding: {
-    height: ScrollViewBottomPadding,
   },
   description: {
     paddingVertical: 5,
@@ -140,7 +117,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     justifyContent: 'center',
   },
-  headingContainer: { 
-    width: "80%"
-  }
+  headingContainer: {
+    width: '80%',
+  },
 });
