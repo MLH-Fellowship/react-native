@@ -111,7 +111,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.exampleContainer}>
-        <Header onBack={onBack} title={title} />
+        <RNTesterHeader title="Examples" backButton={true} />
         <RNTesterExampleContainer module={module} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -134,11 +134,12 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme: ?ColorSchemeName = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  const exampleTitle = screen == 'component' ? "Component Store" : "API Store"
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.exampleContainer}>
-          <Header title="RNTester" />
+        <RNTesterHeader title={exampleTitle} backButton={false} />
           <RNTesterExampleList
             onNavigate={onNavigate}
             list={list}
@@ -165,7 +166,7 @@ const RNTesterBookmarkListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title="RNTester" />
+          <RNTesterHeader title="Bookmarks" backButton={true} />
           <RNTesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
