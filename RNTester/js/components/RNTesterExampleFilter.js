@@ -22,6 +22,7 @@ type Props = {
   disableSearch?: boolean,
   testID?: string,
   hideFilterPills?: boolean,
+  page: string, // possible values -> examples_page, components_page, bookmarks_page
   ...
 };
 
@@ -60,16 +61,24 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         {this._renderTextInput()}
-        <ScrollView>
-          {this.props.render({filteredSections})}
-          {/**
-           * This is a fake list item. It is needed to provide the ScrollView some bottom padding.
-           * The height of this item is basically ScreenHeight - the height of (Header + bottom navbar)
-           * */}
-          <View style={{height: 280}} />
-        </ScrollView>
+        {this._renderFilteredSections(filteredSections)}
       </View>
     );
+  }
+
+  _renderFilteredSections(filteredSections): ?React.Element<any> {
+    if (this.props.page === 'example_page') {
+      <ScrollView>
+        {this.props.render({filteredSections})}
+        {/**
+         * This is a fake list item. It is needed to provide the ScrollView some bottom padding.
+         * The height of this item is basically ScreenHeight - the height of (Header + bottom navbar)
+         * */}
+        <View style={{height: 280}} />
+      </ScrollView>;
+    } else {
+      return this.props.render({filteredSections});
+    }
   }
 
   _renderTextInput(): ?React.Element<any> {

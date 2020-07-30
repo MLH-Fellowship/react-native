@@ -246,6 +246,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
               ]}>
               <RNTesterExampleFilter
                 testID="explorer_search"
+                page="components_page"
                 sections={sections}
                 filter={filter}
                 render={({filteredSections}) => (
