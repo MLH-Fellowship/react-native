@@ -81,13 +81,18 @@ const imagePaths = {
 };
 
 const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
+const NavbarHeight = 65; // From RNTesterNavbar.js
 const TitleViewHeight = Math.round(ScreenHeight * 0.1);
 const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
 const offSetConstant = Math.round(ScreenHeight * 0.03);
 // Since the scroll view is positioned absolutely, we need to limit its
 // max height in order to make it scroll properly.
 const ScrollViewMaxHeight =
-  ScreenHeight - TitleViewHeight - IconContainerMarginTop - offSetConstant;
+  ScreenHeight -
+  TitleViewHeight -
+  IconContainerMarginTop -
+  offSetConstant -
+  NavbarHeight;
 
 const styles = StyleSheet.create({
   titleView: {
