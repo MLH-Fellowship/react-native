@@ -10,7 +10,7 @@
 'use strict';
 
 const React = require('react');
-const {Platform, Text} = require('react-native');
+const {Platform} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 
@@ -23,14 +23,13 @@ class RNTesterExampleContainer extends React.Component {
     const {description, platform} = example;
     let {title} = example;
     if (platform) {
+      if (Platform.OS !== platform) {
+        return null;
+      }
       title += ' (' + platform + ' only)';
     }
     return (
-      <RNTesterBlock
-        key={i}
-        title={title}
-        description={description}
-        isDisabled={platform && Platform.OS !== platform}>
+      <RNTesterBlock key={i} title={title} description={description}>
         {example.render()}
       </RNTesterBlock>
     );
@@ -48,7 +47,8 @@ class RNTesterExampleContainer extends React.Component {
           title={module.title}
           description={module.description}
           android={module.android}
-          ios={module.ios}>
+          ios={module.ios}
+          documentationURL={module.documentationURL}>
           {module.examples[0].render()}
         </ExamplePage>
       );
@@ -59,7 +59,8 @@ class RNTesterExampleContainer extends React.Component {
           title={module.title}
           description={module.description}
           android={module.android}
-          ios={module.ios}>
+          ios={module.ios}
+          documentationURL={module.documentationURL}>
           {module.examples[0].render()}
         </ExamplePage>
       );
@@ -80,7 +81,8 @@ class RNTesterExampleContainer extends React.Component {
         title={module.title}
         description={module.description}
         android={module.android}
-        ios={module.ios}>
+        ios={module.ios}
+        documentationURL={module.documentationURL}>
         <RNTesterExampleFilter
           testID="example_search"
           sections={sections}
