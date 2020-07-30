@@ -290,7 +290,7 @@ const ItemSeparator = ({highlighted}) => (
 
 const styles = StyleSheet.create({
   listContainer: {
-    backgroundColor: 'red',
+    flex: 1,
   },
   sectionHeader: {
     padding: 5,
