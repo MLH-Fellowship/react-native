@@ -68,6 +68,7 @@ export default function ExamplePage(props: Props): React.Node {
         <ScrollView style={styles.scrollView}>
           <Text style={styles.description}>{description}</Text>
           {props.children}
+          <View style={styles.scrollViewBottonPadding} />
         </ScrollView>
       </Background>
     </React.Fragment>
@@ -81,13 +82,14 @@ const imagePaths = {
 };
 
 const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
+const NavbarHeight = 65; // From RNTesterNavbar.js
 const TitleViewHeight = Math.round(ScreenHeight * 0.1);
 const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
-const offSetConstant = Math.round(ScreenHeight * 0.03);
-// Since the scroll view is positioned absolutely, we need to limit its
-// max height in order to make it scroll properly.
-const ScrollViewMaxHeight =
-  ScreenHeight - TitleViewHeight - IconContainerMarginTop - offSetConstant;
+const OffSetConstant = Math.round(ScreenHeight * 0.03);
+// Since the scroll view is positioned absolutely, we need to give it a bottom padding
+// in order to make it scroll properly
+const ScrollViewBottomPadding =
+  TitleViewHeight + IconContainerMarginTop + OffSetConstant + NavbarHeight + 20;
 
 const styles = StyleSheet.create({
   titleView: {
@@ -109,7 +111,6 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: ScreenWidth,
-    maxHeight: ScrollViewMaxHeight,
     flexGrow: 1,
     backgroundColor: 'transparent',
     position: 'absolute',
@@ -117,7 +118,9 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 10,
+  },
+  scrollViewBottonPadding: {
+    height: ScrollViewBottomPadding,
   },
   description: {
     paddingHorizontal: 20,
