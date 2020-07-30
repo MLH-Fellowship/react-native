@@ -12,17 +12,17 @@ const BottomTabNavigation = ({onNavigate}) => {
   return (
     <View>
       {/** Bottom Navbar code */}
-      <View>
+      <View style={{zIndex:2}}>
         {/** floating button in center  */}
         <View style={styles.floatContainer}>
           <TouchableOpacity
-            style={styles.floatingButton}
             onPress={() => {
               setApiActive(false);
               setComponentActive(false);
               setBookmarkActive(true);
               onNavigate(RNTesterActions.OpenList('bookmark'));
             }}>
+            <View style={styles.floatingButton} >
             <Image
               style={styles.bookmarkIcon}
               source={
@@ -31,6 +31,7 @@ const BottomTabNavigation = ({onNavigate}) => {
                   : require('../assets/bottom-nav-bookmark-outline.png')
               }
             />
+            </View>
           </TouchableOpacity>
         </View>
 
