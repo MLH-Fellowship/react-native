@@ -20,6 +20,7 @@ const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavbar = require('./components/RNTesterNavbar');
+const RNTesterHeader = require('./components/RNTesterHeader');
 
 const {
   AppRegistry,

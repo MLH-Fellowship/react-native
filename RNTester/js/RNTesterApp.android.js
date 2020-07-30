@@ -19,6 +19,7 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavBar = require('./components/RNTesterNavbar');
+const RNTesterHeader = require('./components/RNTesterHeader');
 
 // const nativeImageSource = require('react-native');
 
@@ -52,12 +53,6 @@ UIManager.setLayoutAnimationEnabledExperimental &&
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
-
-// const HEADER_NAV_ICON = nativeImageSource({
-//   android: 'ic_menu_black_24dp',
-//   width: 48,
-//   height: 48,
-// });
 
 const Header = ({
   title,
@@ -95,7 +90,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} />
+        <RNTesterHeader title="Example" backButton={true} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -124,7 +119,7 @@ const RNTesterExampleListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title={title} />
+          <RNTesterHeader title="Component Store" backButton={false} />
           <RNTesterExampleList
             onNavigate={onNavigate}
             list={list}
@@ -151,7 +146,7 @@ const RNTesterBookmarkListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title={title} />
+          <RNTesterHeader title="Bookmarks" backButton={true} />
           <RNtesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
@@ -274,7 +269,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         })}
           <View style={styles.bottomNavbar}>
               <RNTesterNavBar onNavigate={this._handleAction} />
-            </View>
+          </View>
       </View>
     );
   }

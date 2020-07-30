@@ -38,35 +38,42 @@ export default function ExamplePage(props: Props): React.Node {
   const title = props.title ? <HeadingText text={props.title} /> : null;
 
   const description = props.description ?? '';
-  const androidImage = props.android ? (
+  const androidImage = !props.android ? (
     <Image
       style={{height: 35, width: 30, margin: 2}}
       source={imagePaths.android}
     />
   ) : null;
 
-  const appleImage = props.ios ? (
+  const appleImage = !props.ios ? (
     <Image style={{height: 35, width: 30, margin: 2}} source={imagePaths.ios} />
   ) : null;
 
-  const docsImage = <Image source={imagePaths.docs} />;
+  const docsImage = (
+    <View style={styles.docsContainer}>
+      <Image source={imagePaths.docs} />
+      <Text>Docs</Text>
+    </View>
+  );
 
   return (
     <React.Fragment>
       <View style={styles.titleView}>
-        <View style={styles.titleContainer}>
-          {title}
+        <View style={styles.container}>
+          <View style={styles.headingContainer}>
+            <Text style={styles.titleContainer}>{title} </Text>
+            <Text>{description}</Text>
+            <View style={styles.iconContainer}>
+              {appleImage}
+              {androidImage}
+            </View>
+          </View>
           {docsImage}
-        </View>
-        <View style={styles.iconContainer}>
-          {appleImage}
-          {androidImage}
         </View>
       </View>
 
       <Background height={ScreenHeight} width={ScreenWidth}>
         <ScrollView style={styles.scrollView}>
-          <Text style={styles.description}>{description}</Text>
           {props.children}
           <View style={styles.scrollViewBottonPadding} />
         </ScrollView>
@@ -81,7 +88,7 @@ const imagePaths = {
   docs: require('../assets/docs-icon.png'),
 };
 
-const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
+const HeaderHeight = 75; // From RNTesterApp.android.js toolbar height
 const NavbarHeight = 65; // From RNTesterNavbar.js
 const TitleViewHeight = Math.round(ScreenHeight * 0.1);
 const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
@@ -93,21 +100,23 @@ const ScrollViewBottomPadding =
 
 const styles = StyleSheet.create({
   titleView: {
-    height: HeaderHeight,
     backgroundColor: '#F3F8FF',
+    height: HeaderHeight,
     padding: 20,
+    paddingTop: 8,
     overflow: 'hidden',
   },
+  container: { 
+    flexDirection:"row",
+    justifyContent:'space-between'
+  },
   titleContainer: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
+    fontWeight: 'bold',
   },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    position: 'absolute',
-    marginTop: IconContainerMarginTop,
-    marginLeft: HeaderHeight,
+    justifyContent: 'flex-end'
   },
   scrollView: {
     width: ScreenWidth,
@@ -123,6 +132,15 @@ const styles = StyleSheet.create({
     height: ScrollViewBottomPadding,
   },
   description: {
-    paddingHorizontal: 20,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
+  docsContainer: {
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  headingContainer: { 
+    width: "80%"
+  }
 });
