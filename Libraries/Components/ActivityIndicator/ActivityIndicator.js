@@ -7,7 +7,6 @@
  * @format
  * @flow
  * @generate-docs
- * @parse-inherits
  */
 
 'use strict';
