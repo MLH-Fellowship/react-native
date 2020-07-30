@@ -67,15 +67,17 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
   }
 
   _renderFilteredSections(filteredSections): ?React.Element<any> {
-    if (this.props.page === 'example_page') {
-      <ScrollView>
-        {this.props.render({filteredSections})}
-        {/**
-         * This is a fake list item. It is needed to provide the ScrollView some bottom padding.
-         * The height of this item is basically ScreenHeight - the height of (Header + bottom navbar)
-         * */}
-        <View style={{height: 280}} />
-      </ScrollView>;
+    if (this.props.page === 'examples_page') {
+      return (
+        <ScrollView>
+          {this.props.render({filteredSections})}
+          {/**
+           * This is a fake list item. It is needed to provide the ScrollView some bottom padding.
+           * The height of this item is basically ScreenHeight - the height of (Header + bottom navbar)
+           * */}
+          <View style={{height: 280}} />
+        </ScrollView>
+      );
     } else {
       return this.props.render({filteredSections});
     }
