@@ -15,6 +15,7 @@ const RNTesterExampleContainer = require('./components/RNTesterExampleContainer'
 const RNTesterExampleList = require('./components/RNTesterExampleList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
+const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const URIActionMap = require('./utils/URIActionMap');
@@ -164,7 +165,7 @@ const RNTesterBookmarkListViaHook = ({
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
           <Header title="RNTester" />
-          <RNtesterBookmarkList onNavigate={onNavigate} />
+          <RNTesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
