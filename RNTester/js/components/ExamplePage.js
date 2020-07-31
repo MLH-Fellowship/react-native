@@ -30,7 +30,6 @@ const ScreenWidth = Dimensions.get('window').width;
 export default function ExamplePage(props: Props): React.Node {
   const title = props.title ? <HeadingText text={props.title} /> : null;
 
-  const description = props.description ?? '';
   console.log(props.android, props.ios);
   const androidImage = props.android ? (
     <Image
@@ -55,8 +54,7 @@ export default function ExamplePage(props: Props): React.Node {
       <View style={styles.titleView}>
         <View style={styles.container}>
           <View style={styles.headingContainer}>
-            <Text style={styles.titleContainer}>{title} </Text>
-            <Text>{description}</Text>
+            <Text style={styles.titleContainer}>{title}</Text>
             <View style={styles.iconContainer}>
               {appleImage}
               {androidImage}
@@ -83,8 +81,7 @@ const styles = StyleSheet.create({
   titleView: {
     backgroundColor: '#F3F8FF',
     height: 75,
-    padding: 20,
-    paddingTop: 8,
+    padding: 10,
     overflow: 'hidden',
   },
   container: {
@@ -94,6 +91,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     justifyContent: 'space-between',
     fontWeight: 'bold',
+    paddingTop: 10,
+    paddingLeft: 10,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -108,11 +107,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-  },
-  description: {
-    paddingVertical: 5,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
   },
   docsContainer: {
     alignContent: 'center',

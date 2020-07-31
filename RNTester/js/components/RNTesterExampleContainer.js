@@ -61,7 +61,6 @@ class RNTesterExampleContainer extends React.Component {
       return (
         <ExamplePage
           title={module.title}
-          description={module.description}
           android={module.android}
           ios={module.ios}
           documentationURL={module.documentationURL}>

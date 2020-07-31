@@ -23,7 +23,7 @@ export default function HeadingText(props: Props): React.Node {
 
 const styles = StyleSheet.create({
   text: {
-    fontSize: 20,
+    fontSize: 25,
     fontWeight: '500',
     // fontFamily: 'PlayfairDisplay-Regular',
     // we can link the font family once the migration has been completed
