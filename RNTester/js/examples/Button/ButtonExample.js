@@ -161,3 +161,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
 });
+
+exports.android = true;
+exports.ios = true;

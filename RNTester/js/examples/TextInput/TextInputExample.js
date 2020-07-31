@@ -1613,3 +1613,6 @@ exports.examples = ([
     render: () => <EventHandlerOnTextInput />,
   },
 ]: Array<RNTesterExampleModuleItem>);
+
+exports.android = true;
+exports.ios = true;

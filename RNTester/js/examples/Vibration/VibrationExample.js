@@ -125,3 +125,6 @@ const styles = StyleSheet.create({
     padding: 10,
   },
 });
+
+exports.android = true;
+exports.ios = true;

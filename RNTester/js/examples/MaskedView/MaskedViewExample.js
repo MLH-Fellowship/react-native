@@ -234,3 +234,5 @@ exports.examples = [
     },
   },
 ];
+
+exports.ios = true;

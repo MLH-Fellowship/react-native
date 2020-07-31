@@ -135,3 +135,5 @@ exports.examples = [
     render: (): React.Node => <IsIPhoneXExample />,
   },
 ];
+
+exports.ios = true;

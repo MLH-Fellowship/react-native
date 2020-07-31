@@ -76,7 +76,7 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
             <View
               style={[
                 styles.searchRow,
-                {backgroundColor: theme.GroupedBackgroundColor},
+                {backgroundColor: '#F3F8FF'},
               ]}>
               <TextInput
                 autoCapitalize="none"

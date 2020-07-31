@@ -134,3 +134,5 @@ exports.examples = [
     },
   },
 ];
+
+exports.android = true;

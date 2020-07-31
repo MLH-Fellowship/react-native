@@ -38,14 +38,15 @@ export default function ExamplePage(props: Props): React.Node {
   const title = props.title ? <HeadingText text={props.title} /> : null;
 
   const description = props.description ?? '';
-  const androidImage = !props.android ? (
+  console.log(props.android, props.ios);
+  const androidImage = props.android ? (
     <Image
       style={{height: 35, width: 30, margin: 2}}
       source={imagePaths.android}
     />
   ) : null;
 
-  const appleImage = !props.ios ? (
+  const appleImage = props.ios ? (
     <Image style={{height: 35, width: 30, margin: 2}} source={imagePaths.ios} />
   ) : null;
 

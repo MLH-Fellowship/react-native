@@ -75,3 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'lightgray',
   },
 });
+
+exports.android = true;
+exports.ios = true;

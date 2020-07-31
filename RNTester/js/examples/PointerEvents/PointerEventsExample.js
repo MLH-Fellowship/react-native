@@ -238,3 +238,6 @@ exports.title = 'Pointer Events';
 exports.description = ('Demonstrates the use of the pointerEvents prop of a ' +
   'View to control how touches should be handled.': string);
 exports.examples = (exampleClasses.map(infoToExample): Array<any>);
+
+exports.android = true;
+exports.ios = true;
