@@ -3,12 +3,19 @@ import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 const APP_COLOR = '#F3F8FF';
 const RNTesterActions = require('../utils/RNTesterActions');
 
-const BottomTabNavigation = ({onNavigate}) => {
+const BottomTabNavigation = ({onNavigate, screen}) => {
   /** to be attached to navigation framework */
   const [apiActive, setApiActive] = useState(false);
-  const [componentActive, setComponentActive] = useState(true);
+  const [componentActive, setComponentActive] = useState(screen == 'component');
   const [bookmarkActive, setBookmarkActive] = useState(false);
-
+  React.useEffect(() => {
+    if(screen === 'component')
+      setComponentActive(true);
+      if(screen === 'api')
+        setApiActive(true);
+      else
+        setBookmarkActive(true);
+  })
   return (
     <View>
       {/** Bottom Navbar code */}
