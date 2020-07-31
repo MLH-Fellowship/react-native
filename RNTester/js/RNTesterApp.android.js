@@ -77,10 +77,14 @@ const Header = ({
 
 const RNTesterExampleContainerViaHook = ({
   title,
+  onNavigate,
+  screen,
   module,
   exampleRef,
 }: {
   title: string,
+  onNavigate?: () => mixed,
+  screen: string,
   module: RNTesterExample,
   exampleRef: () => void,
   ...
@@ -90,7 +94,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <RNTesterHeader title="Example" backButton={true} />
+        <RNTesterHeader title="Examples" backButton={true} screen={screen} onNavigate={onNavigate}/>
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -115,11 +119,12 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  const exampleTitle = screen == 'component' ? "Component Store" : "API Store"
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <RNTesterHeader title="Component Store" backButton={false} />
+          <RNTesterHeader title={exampleTitle} backButton={false} />
           <RNTesterExampleList
             onNavigate={onNavigate}
             list={list}
@@ -309,6 +314,8 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
                * when making Flow check .android.js files. */
               title={ExampleModule.title}
+              onNavigate={this._handleAction}
+              screen={this.state.screen}
               module={ExampleModule}
               exampleRef={example => {
                 /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue

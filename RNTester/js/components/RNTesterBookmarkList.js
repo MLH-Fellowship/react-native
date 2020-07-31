@@ -229,6 +229,7 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
               ]}>
               <RNTesterExampleFilter
                 testID="explorer_search"
+                page="bookmarks_page"
                 sections={sections}
                 filter={filter}
                 hideFilterPills
