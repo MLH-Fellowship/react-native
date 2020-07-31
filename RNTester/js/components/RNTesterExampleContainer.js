@@ -10,12 +10,16 @@
 'use strict';
 
 const React = require('react');
-const {Platform} = require('react-native');
+const {Platform, Text, StyleSheet} = require('react-native');
 const RNTesterBlock = require('./RNTesterBlock');
 const RNTesterExampleFilter = require('./RNTesterExampleFilter');
 
 const invariant = require('invariant');
 import ExamplePage from './ExamplePage';
+
+const ComponentDescription = ({description}) => {
+  return <Text style={styles.descriptionText}>{description}</Text>;
+};
 
 class RNTesterExampleContainer extends React.Component {
   renderExample(example, i) {
@@ -89,13 +93,27 @@ class RNTesterExampleContainer extends React.Component {
           hideFilterPills={true}
           sections={sections}
           filter={filter}
-          render={({filteredSections}) =>
-            filteredSections[0].data.map(this.renderExample)
-          }
+          render={({filteredSections}) => {
+            return [
+              <ComponentDescription
+                key="-1"
+                description={module.description}
+              />,
+              ...filteredSections[0].data.map(this.renderExample),
+            ];
+          }}
         />
       </ExamplePage>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  descriptionText: {
+    padding: 30,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+});
 
 module.exports = RNTesterExampleContainer;
