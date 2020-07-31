@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   backButtonIcon: {
-    width: 30,
-    height: 30,
-    marginTop: 13,
-    marginLeft: 5,
+    width:  20,
+    height: 20,
+    marginTop: 18,
+    marginLeft: 10,
   },
   titleContainer: {
     flex: 8,
