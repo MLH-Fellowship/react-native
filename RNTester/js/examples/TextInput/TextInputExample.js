@@ -20,6 +20,8 @@ const {
   StyleSheet,
   Alert,
   Switch,
+  ScrollView,
+  InputAccessoryView,
 } = require('react-native');
 
 import type {RNTesterExampleModuleItem} from '../../types/RNTesterTypes';
@@ -1186,7 +1188,7 @@ exports.examples = ([
           <WithLabel label="First Name">
             <TextInput
               style={styles.default}
-              returnKeyType="none"
+              returnKeyType="default"
               placeholder="No Return Key"
             />
           </WithLabel>

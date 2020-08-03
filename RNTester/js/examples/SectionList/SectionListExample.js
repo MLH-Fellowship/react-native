@@ -33,6 +33,7 @@ const {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } = require('react-native');
 
 import type {Item} from '../../components/ListExampleShared';
@@ -77,13 +78,15 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         inverted: boolean,
         logViewable: boolean,
         virtualized: boolean,
+        empty: boolean,
       |} = {
-    data: genItemData(1000),
+    data: genItemData(20),
     debug: false,
     filterText: '',
     logViewable: false,
     virtualized: true,
     inverted: false,
+    empty: false,
   };
 
   _scrollPos = new Animated.Value(0);
@@ -93,7 +96,7 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
   );
 
   _sectionListRef: ?React.ElementRef<typeof Animated.SectionList> = null;
-  _captureRef = (ref) => {
+  _captureRef = ref => {
     this._sectionListRef = ref;
   };
 
@@ -104,7 +107,7 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
 
   render(): React.Node {
     const filterRegex = new RegExp(String(this.state.filterText), 'i');
-    const filter = (item) =>
+    const filter = item =>
       filterRegex.test(item.text) || filterRegex.test(item.title);
     const filteredData = this.state.data.filter(filter);
     const filteredSectionData = [];
@@ -123,7 +126,7 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
       <RNTesterPage noSpacer={true} noScroll={true}>
         <View style={styles.searchRow}>
           <PlainInput
-            onChangeText={(filterText) => {
+            onChangeText={filterText => {
               this.setState(() => ({filterText}));
             }}
             placeholder="Search..."
@@ -134,6 +137,7 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
             {renderSmallSwitchOption(this, 'logViewable')}
             {renderSmallSwitchOption(this, 'debug')}
             {renderSmallSwitchOption(this, 'inverted')}
+            {renderSmallSwitchOption(this, 'empty')}
             <Spindicator value={this._scrollPos} />
           </View>
           <View style={styles.scrollToRow}>
@@ -157,10 +161,13 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
           ref={this._captureRef}
           ListHeaderComponent={HeaderComponent}
           ListFooterComponent={FooterComponent}
-          SectionSeparatorComponent={(info) => (
+          ListEmptyComponent={
+            <Text style={styles.emptyList}>Nothing to see here!</Text>
+          }
+          SectionSeparatorComponent={info => (
             <CustomSeparatorComponent {...info} text="SECTION SEPARATOR" />
           )}
-          ItemSeparatorComponent={(info) => (
+          ItemSeparatorComponent={info => (
             <CustomSeparatorComponent {...info} text="ITEM SEPARATOR" />
           )}
           debug={this.state.debug}
@@ -174,41 +181,45 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
           renderSectionHeader={renderSectionHeader}
           renderSectionFooter={renderSectionFooter}
           stickySectionHeadersEnabled
-          sections={[
-            {
-              key: 'empty section',
-              data: [],
-            },
-            {
-              renderItem: renderStackedItem,
-              key: 's1',
-              data: [
-                {
-                  title: 'Item In Header Section',
-                  text: 'Section s1',
-                  key: 'header item',
-                },
-              ],
-            },
-            {
-              key: 's2',
-              data: [
-                {
-                  noImage: true,
-                  title: '1st item',
-                  text: 'Section s2',
-                  key: 'noimage0',
-                },
-                {
-                  noImage: true,
-                  title: '2nd item',
-                  text: 'Section s2',
-                  key: 'noimage1',
-                },
-              ],
-            },
-            ...filteredSectionData,
-          ]}
+          sections={
+            this.state.empty
+              ? []
+              : [
+                  {
+                    key: 'empty section',
+                    data: [],
+                  },
+                  {
+                    renderItem: renderStackedItem,
+                    key: 's1',
+                    data: [
+                      {
+                        title: 'Item In Header Section',
+                        text: 'Section s1',
+                        key: 'header item',
+                      },
+                    ],
+                  },
+                  {
+                    key: 's2',
+                    data: [
+                      {
+                        noImage: true,
+                        title: '1st item',
+                        text: 'Section s2',
+                        key: 'noimage0',
+                      },
+                      {
+                        noImage: true,
+                        title: '2nd item',
+                        text: 'Section s2',
+                        key: 'noimage1',
+                      },
+                    ],
+                  },
+                  ...filteredSectionData,
+                ]
+          }
           style={styles.list}
           viewabilityConfig={VIEWABILITY_CONFIG}
         />
@@ -288,6 +299,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 7,
   },
+  emptyList: {
+    textAlign: 'center',
+    marginVertical: 20,
+    fontSize: 14,
+  },
 });
 
 exports.title = '<SectionList>';
@@ -295,8 +311,33 @@ exports.description = 'Performant, scrollable list of data.';
 exports.examples = [
   {
     title: 'Simple scrollable list',
-    render: function (): React.Element<typeof SectionListExample> {
+    render: function(): React.Element<typeof SectionListExample> {
       return <SectionListExample />;
     },
   },
 ];
+
+{
+  /* <TouchableOpacity
+          style={{
+            width: 40,
+            height: 40,
+            position: 'absolute',
+            bottom: 20,
+            left: 20,
+            zIndex: 2,
+          }}>
+          <Text>Top</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{
+            width: 40,
+            height: 40,
+            position: 'absolute',
+            bottom: 20,
+            right: 20,
+            zIndex: 2,
+          }}>
+          <Text>Bottom</Text>
+        </TouchableOpacity> */
+}

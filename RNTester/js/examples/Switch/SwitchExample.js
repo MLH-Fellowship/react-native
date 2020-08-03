@@ -31,6 +31,7 @@ const ExampleSwitchBasic = () => {
   return (
     <View>
       <ExampleRow>
+        <Text>Push Notifications</Text>
         <Switch
           testID="switch-basic-off"
           onValueChange={value => setFalseSwitchStatus(value)}
@@ -42,6 +43,7 @@ const ExampleSwitchBasic = () => {
         />
       </ExampleRow>
       <ExampleRow>
+        <Text>Banner Notifications</Text>
         <Switch
           testID="switch-basic-on"
           onValueChange={value => setTrueSwitchStatus(value)}
@@ -63,7 +65,9 @@ const ExampleSwitchDisabled = () => {
 
   return (
     <View>
+      <Text>You don't have the permissions to modify these settings.</Text>
       <ExampleRow>
+        <Text>Allow password reset through email</Text>
         <Switch
           testID="switch-disabled-initial-off"
           disabled={true}
@@ -78,6 +82,7 @@ const ExampleSwitchDisabled = () => {
       </ExampleRow>
 
       <ExampleRow>
+        <Text>Block user after 3 incorrect attempts</Text>
         <Switch
           testID="switch-disabled-initial-on"
           disabled={true}
