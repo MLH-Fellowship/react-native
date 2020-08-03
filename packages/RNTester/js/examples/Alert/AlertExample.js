@@ -26,8 +26,6 @@ const Log = ({message}) =>
  * Simple alert examples.
  */
 
-export const title = 'Alert';
-
 const AlertWithDefaultButton = () => {
   const alertMessage = 'An external USB drive has been detected!';
 

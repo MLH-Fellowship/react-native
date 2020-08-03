@@ -105,7 +105,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   };
 
   _onPress = () => {
-      if (this.props.onPress) {
+    if (this.props.onPress) {
       this.props.onPress();
       return;
     }
@@ -115,7 +115,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <TouchableHighlight
               onShowUnderlay={this.props.onShowUnderlay}
@@ -177,7 +177,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
 const renderSectionHeader = ({section}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <Text
           style={[
@@ -219,7 +219,7 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
 
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <View
               style={[
@@ -229,8 +229,10 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
               ]}>
               <RNTesterExampleFilter
                 testID="explorer_search"
+                page="bookmarks_page"
                 sections={sections}
                 filter={filter}
+                hideFilterPills
                 render={({filteredSections}) => (
                   <SectionList
                     sections={filteredSections}
@@ -270,7 +272,7 @@ class RNTesterBookmarkList extends React.Component<Props, $FlowFixMeState> {
 
 const ItemSeparator = ({highlighted}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <View
           style={

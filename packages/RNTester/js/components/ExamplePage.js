@@ -11,14 +11,7 @@
 'use strict';
 
 import * as React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  View,
-  Text,
-  Dimensions,
-  Image,
-} from 'react-native';
+import {StyleSheet, View, Text, Dimensions, Image} from 'react-native';
 
 import HeadingText from './HeadingText';
 import Background from './Background';
@@ -38,37 +31,42 @@ export default function ExamplePage(props: Props): React.Node {
   const title = props.title ? <HeadingText text={props.title} /> : null;
 
   const description = props.description ?? '';
-  const androidImage = props.android ? (
+  const androidImage = !props.android ? (
     <Image
       style={{height: 35, width: 30, margin: 2}}
       source={imagePaths.android}
     />
   ) : null;
 
-  const appleImage = props.ios ? (
+  const appleImage = !props.ios ? (
     <Image style={{height: 35, width: 30, margin: 2}} source={imagePaths.ios} />
   ) : null;
 
-  const docsImage = <Image source={imagePaths.docs} />;
+  const docsImage = (
+    <View style={styles.docsContainer}>
+      <Image source={imagePaths.docs} />
+      <Text>Docs</Text>
+    </View>
+  );
 
   return (
     <React.Fragment>
       <View style={styles.titleView}>
-        <View style={styles.titleContainer}>
-          {title}
+        <View style={styles.container}>
+          <View style={styles.headingContainer}>
+            <Text style={styles.titleContainer}>{title} </Text>
+            <Text>{description}</Text>
+            <View style={styles.iconContainer}>
+              {appleImage}
+              {androidImage}
+            </View>
+          </View>
           {docsImage}
-        </View>
-        <View style={styles.iconContainer}>
-          {appleImage}
-          {androidImage}
         </View>
       </View>
 
       <Background height={ScreenHeight} width={ScreenWidth}>
-        <ScrollView style={styles.scrollView}>
-          <Text style={styles.description}>{description}</Text>
-          {props.children}
-        </ScrollView>
+        <View style={styles.examplesContainer}>{props.children}</View>
       </Background>
     </React.Fragment>
   );
@@ -80,36 +78,28 @@ const imagePaths = {
   docs: require('../assets/docs-icon.png'),
 };
 
-const HeaderHeight = 56; // From RNTesterApp.android.js toolbar height
-const TitleViewHeight = Math.round(ScreenHeight * 0.1);
-const IconContainerMarginTop = Math.round(ScreenHeight * 0.1 * 0.65);
-const offSetConstant = Math.round(ScreenHeight * 0.03);
-// Since the scroll view is positioned absolutely, we need to limit its
-// max height in order to make it scroll properly.
-const ScrollViewMaxHeight =
-  ScreenHeight - TitleViewHeight - IconContainerMarginTop - offSetConstant;
-
 const styles = StyleSheet.create({
   titleView: {
-    height: HeaderHeight,
     backgroundColor: '#F3F8FF',
+    height: 75,
     padding: 20,
+    paddingTop: 8,
     overflow: 'hidden',
   },
-  titleContainer: {
+  container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  titleContainer: {
+    justifyContent: 'space-between',
+    fontWeight: 'bold',
+  },
   iconContainer: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    position: 'absolute',
-    marginTop: IconContainerMarginTop,
-    marginLeft: HeaderHeight,
+    justifyContent: 'flex-end',
   },
-  scrollView: {
+  examplesContainer: {
     width: ScreenWidth,
-    maxHeight: ScrollViewMaxHeight,
     flexGrow: 1,
     backgroundColor: 'transparent',
     position: 'absolute',
@@ -117,9 +107,17 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    paddingBottom: 10,
   },
   description: {
-    paddingHorizontal: 20,
+    paddingVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  docsContainer: {
+    alignContent: 'center',
+    justifyContent: 'center',
+  },
+  headingContainer: {
+    width: '80%',
   },
 });

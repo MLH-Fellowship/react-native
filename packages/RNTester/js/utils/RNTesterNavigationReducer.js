@@ -27,7 +27,7 @@ function RNTesterNavigationReducer(
     (state.openExample && action.type === 'RNTesterBackAction')
   ) {
     return {
-      screen: action.screen,
+      screen: action.screen ?? "component",
       // A null openExample will cause the views to display the RNTester example list
       openExample: null,
     };
@@ -43,13 +43,13 @@ function RNTesterNavigationReducer(
   if (action.type === 'RNTesterExampleAction') {
     // Make sure we see the module before returning the new state
     const ExampleModule = RNTesterList.Modules[action.openExample];
-    console.log(ExampleModule);
     if (ExampleModule) {
       return {
         openExample: action.openExample,
       };
     }
   }
+
 
   return state;
 }

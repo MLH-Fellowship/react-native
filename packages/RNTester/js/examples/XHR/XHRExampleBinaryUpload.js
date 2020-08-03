@@ -21,7 +21,7 @@ const {
   View,
 } = require('react-native');
 
-import {Picker} from '@react-native-community/picker';
+import {Picker} from 'react-native';
 
 const BINARY_TYPES = {
   String,

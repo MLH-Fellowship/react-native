@@ -189,6 +189,7 @@ exports.examples = [
         <ActivityIndicator
           style={[styles.centering, {transform: [{scale: 1.5}]}]}
           size="large"
+          color="#0000ff"
         />
       );
     },
@@ -197,7 +198,7 @@ exports.examples = [
     platform: 'android',
     title: 'Custom size (size: 75)',
     render(): Node {
-      return <ActivityIndicator style={styles.centering} size={75} />;
+      return <ActivityIndicator color="#0000ff" style={styles.centering} size={75} />;
     },
   },
 ];

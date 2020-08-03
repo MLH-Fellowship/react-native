@@ -13,12 +13,14 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
+const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavbar = require('./components/RNTesterNavbar');
+const RNTesterHeader = require('./components/RNTesterHeader');
 
 const {
   AppRegistry,
@@ -34,7 +36,7 @@ const {
   LogBox,
 } = require('react-native');
 
-import AsyncStorage from './utils/AsyncStorage';
+import AsyncStorage from '@react-native-community/async-storage';
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -109,7 +111,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.exampleContainer}>
-        <Header onBack={onBack} title={title} />
+        <RNTesterHeader title="Examples" backButton={true} />
         <RNTesterExampleContainer module={module} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -120,6 +122,7 @@ const RNTesterExampleListViaHook = ({
   onNavigate,
   bookmark,
   list,
+  screen,
 }: {
   onNavigate?: () => mixed,
   list: {
@@ -131,12 +134,17 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme: ?ColorSchemeName = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
+  const exampleTitle = screen == 'component' ? "Component Store" : "API Store"
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.exampleContainer}>
-          <Header title="RNTester" />
-          <RNTesterExampleList onNavigate={onNavigate} list={list} />
+        <RNTesterHeader title={exampleTitle} backButton={false} />
+          <RNTesterExampleList
+            onNavigate={onNavigate}
+            list={list}
+            screen={screen}
+          />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -158,8 +166,8 @@ const RNTesterBookmarkListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <Header title="RNTester" />
-          <RNtesterBookmarkList onNavigate={onNavigate} />
+          <RNTesterHeader title="Bookmarks" backButton={true} />
+          <RNTesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -233,7 +241,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         );
         const urlAction = URIActionMap(url);
         const launchAction = exampleAction || urlAction;
-        const initialAction = launchAction || {type: 'InitialAction'};
+        const initialAction = launchAction || {type: 'RNTesterListAction'};
         this.setState(RNTesterNavigationReducer(undefined, initialAction));
       });
     });
@@ -317,6 +325,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       return (
         <>
           <RNTesterBookmarkListViaHook
+            title={'RNTester'}
             bookmark={bookmark}
             onNavigate={this._handleAction}
           />
@@ -343,6 +352,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   headerContainer: {
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
@@ -381,7 +393,7 @@ AppRegistry.registerComponent('SetPropertiesExampleApp', () =>
 AppRegistry.registerComponent('RootViewSizeFlexibilityExampleApp', () =>
   require('./examples/RootViewSizeFlexibilityExample/RootViewSizeFlexibilityExampleApp'),
 );
-AppRegistry.registerComponent('RNTester', () => RNTesterApp);
+AppRegistry.registerComponent('RNTesterApp', () => RNTesterApp);
 
 // Register suitable examples for snapshot tests
 RNTesterList.ComponentExamples.concat(RNTesterList.APIExamples).forEach(

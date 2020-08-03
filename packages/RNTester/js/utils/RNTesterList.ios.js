@@ -162,7 +162,7 @@ const ComponentExamples: Array<RNTesterExample> = [
   },
   {
     key: 'TextInputExample',
-    module: require('../examples/TextInput/TextInputExample.ios'),
+    module: require('../examples/TextInput/TextInputExample'),
     category: 'Basic',
     supportsTVOS: true,
   },

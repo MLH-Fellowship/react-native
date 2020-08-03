@@ -49,7 +49,6 @@ function ExampleAction(openExample: string): RNTesterExampleAction {
 const RNTesterActions = {
   Back,
   OpenList,
-
   ExampleAction,
 };
 
