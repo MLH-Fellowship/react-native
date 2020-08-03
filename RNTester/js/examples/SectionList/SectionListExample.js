@@ -316,28 +316,3 @@ exports.examples = [
     },
   },
 ];
-
-{
-  /* <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            position: 'absolute',
-            bottom: 20,
-            left: 20,
-            zIndex: 2,
-          }}>
-          <Text>Top</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            width: 40,
-            height: 40,
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            zIndex: 2,
-          }}>
-          <Text>Bottom</Text>
-        </TouchableOpacity> */
-}
