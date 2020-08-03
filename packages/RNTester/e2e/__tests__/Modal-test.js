@@ -14,7 +14,7 @@ const {
   openExampleWithTitle,
 } = require('../e2e-helpers');
 
-describe('Modal', () => {
+describe.skip('Modal', () => {
   beforeAll(async () => {
     await device.reloadReactNative();
     await openComponentWithLabel(

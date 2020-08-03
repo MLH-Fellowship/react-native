@@ -14,7 +14,7 @@ const {
   openExampleWithTitle,
 } = require('../e2e-helpers');
 
-describe('TextInput', () => {
+describe.skip('TextInput', () => {
   beforeAll(async () => {
     await device.reloadReactNative();
     await openComponentWithLabel(

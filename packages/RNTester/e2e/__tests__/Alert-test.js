@@ -10,7 +10,7 @@
 /* global device, element, by, expect, waitFor */
 const {openExampleWithTitle} = require('../e2e-helpers');
 
-describe('Alert', () => {
+describe.skip('Alert', () => {
   beforeAll(async () => {
     await element(by.id('explorer_search')).replaceText('Alert');
     await element(by.text('Alerts')).tap();

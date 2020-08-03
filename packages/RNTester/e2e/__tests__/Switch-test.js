@@ -14,7 +14,7 @@ const {
   openExampleWithTitle,
 } = require('../e2e-helpers');
 
-describe('Switch', () => {
+describe.skip('Switch', () => {
   beforeAll(async () => {
     await device.reloadReactNative();
     await openComponentWithLabel('<Switch>', '<Switch> Native boolean input');

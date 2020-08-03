@@ -214,6 +214,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       (!Platform.isTV || example.supportsTVOS);
 
       const {screen} = this.props; 
+      console.log(this.screen);
       let sections = []; 
       if (screen === "component"){ 
         sections = [
