@@ -50,3 +50,6 @@ exports.examples = [
     },
   },
 ];
+
+exports.android = true;
+exports.ios = true;

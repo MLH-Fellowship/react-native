@@ -128,3 +128,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
+
+exports.android = true;

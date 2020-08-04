@@ -26,6 +26,7 @@ export type RNTesterAction =
   | RNTesterExampleAction;
 
 function Back(screen: string): RNTesterBackAction {
+  console.log(screen);
   return {
     type: 'RNTesterBackAction',
     screen, 

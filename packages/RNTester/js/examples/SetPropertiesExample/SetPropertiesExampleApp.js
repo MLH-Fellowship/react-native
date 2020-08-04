@@ -32,3 +32,5 @@ class SetPropertiesExampleApp extends React.Component<$FlowFixMeProps> {
 }
 
 module.exports = SetPropertiesExampleApp;
+
+exports.ios = true;

@@ -66,3 +66,5 @@ const styles = StyleSheet.create({
 });
 
 module.exports = RootViewSizeFlexibilityExampleApp;
+
+exports.ios = true;

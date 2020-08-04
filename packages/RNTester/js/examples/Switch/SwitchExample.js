@@ -335,3 +335,6 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
 });
+
+exports.android = true;
+exports.ios = true;

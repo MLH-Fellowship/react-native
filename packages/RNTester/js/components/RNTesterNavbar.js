@@ -3,12 +3,19 @@ import {Text, View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 const APP_COLOR = '#F3F8FF';
 const RNTesterActions = require('../utils/RNTesterActions');
 
-const BottomTabNavigation = ({onNavigate}) => {
+const BottomTabNavigation = ({onNavigate, screen}) => {
   /** to be attached to navigation framework */
   const [apiActive, setApiActive] = useState(false);
-  const [componentActive, setComponentActive] = useState(true);
+  const [componentActive, setComponentActive] = useState(screen == 'component');
   const [bookmarkActive, setBookmarkActive] = useState(false);
-
+  React.useEffect(() => {
+    if(screen === 'component')
+      setComponentActive(true);
+      if(screen === 'api')
+        setApiActive(true);
+      else
+        setBookmarkActive(true);
+  })
   return (
     <View>
       {/** Bottom Navbar code */}
@@ -18,7 +25,6 @@ const BottomTabNavigation = ({onNavigate}) => {
           <TouchableOpacity
             onPress={() => {
               setApiActive(false);
-              testID="navbar_component"
               setComponentActive(false);
               setBookmarkActive(true);
               onNavigate(RNTesterActions.OpenList('bookmark'));
@@ -42,7 +48,6 @@ const BottomTabNavigation = ({onNavigate}) => {
           <View style={styles.leftBox}>
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
-              testID="navbar_bookmark"
               onPress={() => {
                 onNavigate(RNTesterActions.OpenList('component'));
                 if (componentActive) {
@@ -82,7 +87,6 @@ const BottomTabNavigation = ({onNavigate}) => {
           <View style={styles.rightBox}>
             {/** @attention attach navigation endpoints here */}
             <TouchableOpacity
-              testID="navbar_api"
               onPress={() => {
                 onNavigate(RNTesterActions.OpenList('api'));
                 if (apiActive) {

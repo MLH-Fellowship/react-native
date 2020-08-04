@@ -77,10 +77,14 @@ const Header = ({
 
 const RNTesterExampleContainerViaHook = ({
   title,
+  onNavigate,
+  screen,
   module,
   exampleRef,
 }: {
   title: string,
+  onNavigate?: () => mixed,
+  screen: string,
   module: RNTesterExample,
   exampleRef: () => void,
   ...
@@ -90,7 +94,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <RNTesterHeader title="Examples" backButton={true} />
+        <RNTesterHeader title="Examples" backButton={true} screen={screen} onNavigate={onNavigate} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -134,10 +138,12 @@ const RNTesterExampleListViaHook = ({
 
 const RNTesterBookmarkListViaHook = ({
   title,
+  screen,
   bookmark,
   onNavigate,
 }: {
   title: string,
+  screen: string,
   onNavigate?: () => mixed,
   ...
 }) => {
@@ -147,7 +153,7 @@ const RNTesterBookmarkListViaHook = ({
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.container}>
-          <RNTesterHeader title="Bookmarks" backButton={true} />
+          <RNTesterHeader title="Bookmarks" backButton={true} screen={screen} onNavigate={onNavigate} />
           <RNtesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
@@ -257,7 +263,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     if (!this.state) {
       return null;
     }
-    console.disableYellowBox = true;
     return (
       <View style={styles.container}>
         {this._renderApp({
@@ -270,7 +275,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           checkBookmark: this.state.checkBookmark,
         })}
           <View style={styles.bottomNavbar}>
-              <RNTesterNavBar onNavigate={this._handleAction} />
+              <RNTesterNavBar onNavigate={this._handleAction} screen={this.state.screen} />
           </View>
       </View>
     );
@@ -286,6 +291,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
            * when making Flow check .android.js files. */
           bookmark={bookmark}
+          screen={this.state.screen}
           onNavigate={this._handleAction}
         />
       );
@@ -311,6 +317,8 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
               /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
                * when making Flow check .android.js files. */
               title={ExampleModule.title}
+              onNavigate={this._handleAction}
+              screen={this.state.screen}
               module={ExampleModule}
               exampleRef={example => {
                 /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue

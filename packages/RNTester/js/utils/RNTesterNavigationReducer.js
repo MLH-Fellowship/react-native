@@ -26,6 +26,7 @@ function RNTesterNavigationReducer(
     // Handle requests to go back to the list when an example is open
     (state.openExample && action.type === 'RNTesterBackAction')
   ) {
+    console.log(action.screen, "AA");
     return {
       screen: action.screen ?? "component",
       // A null openExample will cause the views to display the RNTester example list

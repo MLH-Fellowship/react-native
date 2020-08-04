@@ -1,15 +1,19 @@
 import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {RNTesterThemeContext} from './RNTesterTheme';
-import {Back} from '../utils/RNTesterActions.js';
+import RNTesterActions from '../utils/RNTesterActions.js';
 
 const backButtonSource = require('./../assets/header-back-button.png');
 
 const Header = ({
   title,
+  onNavigate,
+  screen,
   backButton,
 }: {
   title: string,
+  onNavigate?: () => mixed,
+  screen: string,
   backButton: boolean,
   ...
 }) => (
@@ -20,8 +24,8 @@ const Header = ({
           <TouchableOpacity
             style={styles.backButtonContainer}
             onPress={() => {
-              console.log('Header Back Button Pressed');
-              Back();
+              if(backButton)
+                onNavigate(RNTesterActions.Back(screen));
             }}>
             <View>
               {backButton ? (

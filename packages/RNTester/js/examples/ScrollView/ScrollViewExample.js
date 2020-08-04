@@ -376,3 +376,6 @@ const styles = StyleSheet.create({
     minWidth: 96,
   },
 });
+
+exports.android = true;
+exports.ios = true;
