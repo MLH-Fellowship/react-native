@@ -27,9 +27,8 @@ describe('Modal', () => {
     await openExampleWithTitle('Basic Modal');
     await element(by.text('READ MORE')).tap();
     await expect(element(by.text('PROCEED'))).toBeVisible();
-    // await waitFor(element(by.id(''))).toBeVisible().whileElement(by.id('')).scroll('down');
     await element(by.text('PROCEED')).tap();
-    await expect(element(by.text('PROCEED'))).not.toBeVisible();
+    await expect(element(by.text('PROCEED'))).toBeNotVisible();
   });
 
   it('should cover full screen with statusBarTranslucent enabled', async () => {
@@ -37,7 +36,7 @@ describe('Modal', () => {
     await element(by.text('OPEN IN FULL SCREEN VIEW')).tap();
     await expect(element(by.text('PROCEED'))).toBeVisible();
     await element(by.text('PROCEED')).tap();
-    await expect(element(by.text('PROCEED'))).not.toBeVisible();
+    await expect(element(by.text('PROCEED'))).toBeNotVisible();
   });
 
   it('should listen and launch action for back button press', async () => {
@@ -47,7 +46,7 @@ describe('Modal', () => {
     await element(by.text('OK')).tap();
     await expect(element(by.text('PROCEED'))).toBeVisible();
     await element(by.text('PROCEED')).tap();
-    await expect(element(by.text('PROCEED'))).not.toBeVisible();
+    await expect(element(by.text('PROCEED'))).toBeNotVisible();
   });
 
   it('should listen for onShow event', async () => {
@@ -57,6 +56,6 @@ describe('Modal', () => {
     await element(by.text('OK')).tap();
     await expect(element(by.text('PROCEED'))).toBeVisible();
     await element(by.text('PROCEED')).tap();
-    await expect(element(by.text('PROCEED'))).not.toBeVisible();
+    await expect(element(by.text('PROCEED'))).toBeNotVisible();
   });
 });
