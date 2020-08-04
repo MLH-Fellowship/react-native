@@ -212,46 +212,38 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
   constructor(props) {
     super(props);
-    const {screen} = props; 
-      let sections = []; 
-      if (screen === "component"){ 
-        sections = [
-          {
-            data: props.list.ComponentExamples,
-            key: 'Components',
-          }
-        ];
-      } else if (screen === "api") { 
-        sections = [
-          {
-            data: props.list.APIExamples,
-            key: 'APIS',
-          }
-        ];
-      } else { 
-        sections = []; 
-      }
+    
       this.state = {
-        sections: sections,
+        components: props.list.ComponentExamples,
+        api: props.list.APIExamples
       }
   }
 
-  updateSectionsList(index) {
-    let openedItem = this.state.sections[0].data[index];
-    let sectionsCopy = this.state.sections[0].data;
+  updateSectionsList(index, key) {
+    if(key === 'Components') {
+      let openedItem = this.state.components[index];
+      let componentsCopy = this.state.components;
 
-    sectionsCopy.splice(index, 1);
+      componentsCopy.splice(index, 1);
 
-    sectionsCopy.unshift(openedItem);
+      componentsCopy.unshift(openedItem);
 
-    this.setState({
-      sections: [
-        {
-          data: sectionsCopy,
-          key: this.state.sections[0].data.key
-        }
-      ]
-    });
+      this.setState({
+        components: componentsCopy
+      });
+    }
+    else {
+      let openedItem = this.state.api[index];
+      let apisCopy = this.state.api;
+
+      apisCopy.splice(index, 1);
+
+      apisCopy.unshift(openedItem);
+
+      this.setState({
+        api: apisCopy
+      });
+    }
   } 
 
   render(): React.Node {
@@ -260,7 +252,26 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
-      
+      const {screen} = this.props; 
+      let sections = []; 
+      if (screen === "component"){ 
+        sections = [
+          {
+            data: this.state.components,
+            key: 'Components',
+          }
+        ];
+      } else if (screen === "api") { 
+        sections = [
+          {
+            data: this.state.api,
+            key: 'APIS',
+          }
+        ];
+      } else { 
+        sections = []; 
+      }
+
     return (
       <RNTesterThemeContext.Consumer>
         {(theme) => {
@@ -274,7 +285,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
               <RNTesterExampleFilter
                 testID="explorer_search"
                 page="components_page"
-                sections={this.state.sections}
+                sections={sections}
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
@@ -307,7 +318,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
-        updateSectionsList={() => this.updateSectionsList(index)}
+        updateSectionsList={() => this.updateSectionsList(index, section.key)}
       />
     );
   };
