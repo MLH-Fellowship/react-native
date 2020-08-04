@@ -257,6 +257,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     if (!this.state) {
       return null;
     }
+    console.disableYellowBox = true;
     return (
       <View style={styles.container}>
         {this._renderApp({

@@ -49,6 +49,8 @@ export default function ExamplePage(props: Props): React.Node {
     </View>
   );
 
+  console.log(props.children);
+
   return (
     <React.Fragment>
       <View style={styles.titleView}>

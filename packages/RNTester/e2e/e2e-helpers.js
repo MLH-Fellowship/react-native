@@ -23,3 +23,7 @@ exports.openExampleWithTitle = async (title) => {
   await element(by.id('example_search')).tap();
   await element(by.id('example_search')).replaceText(title);
 };
+
+exports.openScreenWithID = async (id) => {
+  await element(by.id(id)).tap();
+};

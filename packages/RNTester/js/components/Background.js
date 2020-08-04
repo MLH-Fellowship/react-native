@@ -19,7 +19,7 @@ type Props = $ReadOnly<{|
 
 export default function Background(props: Props): React.Node {
   const BACKGROUND_URL = require('../assets/BackgroundScreen.png');
-
+  console.log(props.children)
   return (
     <View>
       <ImageBackground
