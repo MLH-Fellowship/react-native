@@ -19,29 +19,6 @@ const BottomTabNavigation = ({onNavigate, screen}) => {
   return (
     <View>
       {/** Bottom Navbar code */}
-      <View style={{zIndex:2}}>
-        {/** floating button in center  */}
-        <View style={styles.floatContainer}>
-          <TouchableOpacity
-            onPress={() => {
-              setApiActive(false);
-              setComponentActive(false);
-              setBookmarkActive(true);
-              onNavigate(RNTesterActions.OpenList('bookmark'));
-            }}>
-            <View style={styles.floatingButton} >
-            <Image
-              style={styles.bookmarkIcon}
-              source={
-                bookmarkActive
-                  ? require('../assets/bottom-nav-bookmark-fill.png')
-                  : require('../assets/bottom-nav-bookmark-outline.png')
-              }
-            />
-            </View>
-          </TouchableOpacity>
-        </View>
-
         {/** component and APIs tab  */}
         <View style={styles.buttonContainer}>
           {/** left tab with Components  */}
@@ -75,12 +52,34 @@ const BottomTabNavigation = ({onNavigate, screen}) => {
             </TouchableOpacity>
           </View>
 
-          {/** central tab with frame  */}
+          {/** central tab with bookmark icon  */}
           <View style={styles.centerBox}>
             <Image
               style={styles.centralBoxCutout}
               source={require('./../assets/bottom-nav-center-box.png')}
             />
+
+          {/** floating button in center  */}
+          <View style={styles.floatContainer}>
+            <TouchableOpacity
+              onPress={() => {
+                setApiActive(false);
+                setComponentActive(false);
+                setBookmarkActive(true);
+                onNavigate(RNTesterActions.OpenList('bookmark'));
+              }}>
+                <View style={styles.floatingButton} >
+                <Image
+                    style={styles.bookmarkIcon}
+                    source={
+                    bookmarkActive
+                        ? require('../assets/bottom-nav-bookmark-fill.png')
+                        : require('../assets/bottom-nav-bookmark-outline.png')
+                    }
+                />
+                </View>
+            </TouchableOpacity>
+            </View>
           </View>
 
           {/** right tab with Components  */}
@@ -111,7 +110,6 @@ const BottomTabNavigation = ({onNavigate, screen}) => {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
     </View>
   );
 };
@@ -119,8 +117,7 @@ const BottomTabNavigation = ({onNavigate, screen}) => {
 const styles = StyleSheet.create({
   floatContainer: {
     flex: 1,
-    zIndex: 1,
-    bottom: -36,
+    zIndex: 2,
     alignItems: 'center',
   },
   buttonContainer: {
@@ -128,6 +125,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   floatingButton: {
+    top: -20,
     width: 50,
     height: 50,
     borderRadius: 500,
