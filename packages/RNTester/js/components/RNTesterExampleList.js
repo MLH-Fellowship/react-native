@@ -52,6 +52,7 @@ type ButtonProps = {
   onPress?: Function,
   onShowUnderlay?: Function,
   onHideUnderlay?: Function,
+  updateSectionsList?: Function,
   ...
 };
 
@@ -114,6 +115,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   };
 
   _onPress = () => {
+      this.props.updateSectionsList();
       if (this.props.onPress) {
       this.props.onPress();
       return;
@@ -207,33 +209,58 @@ const renderSectionHeader = ({section}) => (
 
 class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
   static contextType = RNTesterBookmarkContext;
-  render(): React.Node {
-    const filter = ({example, filterRegex, category}) =>
-      filterRegex.test(example.module.title) &&
-      (!category || example.category === category) &&
-      (!Platform.isTV || example.supportsTVOS);
 
-      const {screen} = this.props; 
+  constructor(props) {
+    super(props);
+    const {screen} = props; 
       let sections = []; 
       if (screen === "component"){ 
         sections = [
           {
-            data: this.props.list.ComponentExamples,
+            data: props.list.ComponentExamples,
             key: 'Components',
           }
         ];
       } else if (screen === "api") { 
         sections = [
           {
-            data: this.props.list.APIExamples,
+            data: props.list.APIExamples,
             key: 'APIS',
           }
         ];
       } else { 
         sections = []; 
       }
-      
+      this.state = {
+        sections: sections,
+      }
+  }
 
+  updateSectionsList(index) {
+    let openedItem = this.state.sections[0].data[index];
+    let sectionsCopy = this.state.sections[0].data;
+
+    sectionsCopy.splice(index, 1);
+
+    sectionsCopy.unshift(openedItem);
+
+    this.setState({
+      sections: [
+        {
+          data: sectionsCopy,
+          key: this.state.sections[0].data.key
+        }
+      ]
+    });
+  } 
+
+  render(): React.Node {
+    const filter = ({example, filterRegex, category}) =>
+      filterRegex.test(example.module.title) &&
+      (!category || example.category === category) &&
+      (!Platform.isTV || example.supportsTVOS);
+
+      
     return (
       <RNTesterThemeContext.Consumer>
         {(theme) => {
@@ -247,7 +274,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
               <RNTesterExampleFilter
                 testID="explorer_search"
                 page="components_page"
-                sections={sections}
+                sections={this.state.sections}
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
@@ -270,7 +297,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     );
   }
 
-  _renderItem = ({item, section, separators}) => {
+  _renderItem = ({item, section, separators, index}) => {
     let bookmark = this.context;
     return (
       <RowComponent
@@ -280,6 +307,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
+        updateSectionsList={() => this.updateSectionsList(index)}
       />
     );
   };
