@@ -22,6 +22,7 @@ exports.openComponentWithLabel = async (component, label) => {
 exports.openExampleWithTitle = async (title) => {
   await element(by.id('example_search')).tap();
   await element(by.id('example_search')).replaceText(title);
+  await element(by.label('Done')).tap();
 };
 
 exports.openScreenWithID = async (id) => {
