@@ -23,10 +23,8 @@ describe('Button', () => {
     );
   });
 
-  it('Default Styling button should be tappable', async () => {
+  it.skip('Default Styling button should be tappable', async () => {
     await openExampleWithTitle('Default Styling');
-    await element(by.id('button_default_styling')).toBeVisible();
-    await element(by.id('button_default_styling')).tap();
     await element(by.id('button_default_styling')).tap();
     await expect(
       element(by.text('Your application has been submitted!')),
@@ -34,7 +32,7 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it('Red color button should be tappable', async () => {
+  it.skip('Red color button should be tappable', async () => {
     await openExampleWithTitle('Color');
     await element(by.id('cancel_button')).tap();
     await element(by.id('cancel_button')).tap();
@@ -59,7 +57,7 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it("Three buttons with JustifyContent:'space-between' should be tappable", async () => {
+  it.skip("Three buttons with JustifyContent:'space-between' should be tappable", async () => {
     await openExampleWithTitle('Three Buttons');
     await element(by.id('three_cancel_button')).tap();
     await expect(
@@ -67,7 +65,6 @@ describe('Button', () => {
     ).toBeVisible();
     await element(by.text('OK')).tap();
 
-    await openExampleWithTitle('Three Buttons');
     await element(by.id('three_save_button')).tap();
     await expect(
       element(by.text('Your application has been saved!')),
@@ -81,7 +78,7 @@ describe('Button', () => {
     await element(by.text('OK')).tap();
   });
 
-  it('Disabled button should not interact', async () => {
+  it.skip('Disabled button should not interact', async () => {
     await openExampleWithTitle('Disabled');
     await element(by.id('disabled_button')).tap();
     await expect(
@@ -99,7 +96,7 @@ it('AccessibilityLabel button should be tappable', async () => {
   await element(by.text('OK')).tap();
 });
 
-it('No onPress button should not interact', async () => {
+it.skip('No onPress button should not interact', async () => {
   await openExampleWithTitle('OnPress');
   await element(by.id('onPress_button')).tap();
   await expect(
