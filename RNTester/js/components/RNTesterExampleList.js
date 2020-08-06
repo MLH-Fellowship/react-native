@@ -214,7 +214,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
   constructor(props) {
     super(props);
-    console.log('looool');
     this.state = {
       components: props.list.ComponentExamples,
       api: props.list.APIExamples,
@@ -280,7 +279,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
     const {screen} = this.props;
     let sections = [];
-    console.log(screen);
     if (screen === 'component') {
       if (this.state.recentComponents.length > 0) {
         sections = [
@@ -330,8 +328,6 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       sections = [];
     }
     
-    console.log(sections);
-
     return (
       <RNTesterThemeContext.Consumer>
         {theme => {
