@@ -31,7 +31,8 @@ import type {RenderItemType, RenderItemProps} from './VirtualizedList';
 
 type RequiredProps<ItemT> = {|
   /**
-    For simplicity, data is a plain array. If you want to use something else, like an immutable list, use the underlying
+    For simplicity, data is a plain array. If you want to use something else,
+    like an immutable list, use the underlying
     [`VirtualizedList`](virtualizedlist.md) directly.
    */
   data: ?$ReadOnlyArray<ItemT>,
@@ -422,7 +423,8 @@ export type DefaultProps = typeof defaultProps;
   - By default, the list looks for a `key` prop on each item and uses that for
     the React key. Alternatively, you can provide a custom `keyExtractor` prop.
 
-  Inherits [ScrollView Props](scrollview.md#props), unless it is nested in another FlatList of same orientation.
+  Inherits [ScrollView Props](scrollview.md#props), unless it is nested in
+  another FlatList of same orientation.
  */
 class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
   static defaultProps: DefaultProps = defaultProps;
@@ -434,13 +436,17 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     Scrolls to the end of the content. May be janky without `getItemLayout`
     prop.
-
-    Valid `params` keys are:
-
-    - 'animated' (boolean) - Whether the list should do an animation while
-      scrolling. Defaults to `true`.
    */
-  scrollToEnd(params?: ?{animated?: ?boolean, ...}) {
+  scrollToEnd(
+    params?: ?{
+      /**
+        Whether the list should do an animation while scrolling. Defaults to
+        `true`.
+     */
+      animated?: ?boolean,
+      ...
+    },
+  ) {
     if (this._listRef) {
       this._listRef.scrollToEnd(params);
     }
@@ -457,21 +463,25 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     > Note: Cannot scroll to locations outside the render window without
     > specifying the `getItemLayout` prop.
-
-    Valid `params` keys are:
-
-    - 'animated' (boolean) - Whether the list should do an animation while
-      scrolling. Defaults to `true`.
-    - 'index' (number) - The index to scroll to. Required.
-    - 'viewOffset' (number) - A fixed number of pixels to offset the final
-      target position.
-    - 'viewPosition' (number) - A value of `0` places the item specified by
-      index at the top, `1` at the bottom, and `0.5` centered in the middle.
    */
   scrollToIndex(params: {
+    /**
+      Whether the list should do an animation while scrolling. Defaults to
+      `true`.
+     */
     animated?: ?boolean,
+    /**
+      The index to scroll to. Required.
+     */
     index: number,
+    /**
+      A fixed number of pixels to offset the final target position.
+     */
     viewOffset?: number,
+    /**
+      A value of `0` places the item specified by index at the top, `1` at the
+      bottom, and `0.5` centered in the middle.
+     */
     viewPosition?: number,
     ...
   }) {
@@ -489,17 +499,20 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     > Note: Cannot scroll to locations outside the render window without
     > specifying the `getItemLayout` prop.
-
-    Valid `params` keys are:
-
-    - 'animated' (boolean) - Whether the list should do an animation while
-      scrolling. Defaults to `true`.
-    - 'item' (object) - The item to scroll to. Required.
-    - 'viewPosition' (number)
    */
   scrollToItem(params: {
+    /**
+      Whether the list should do an animation while scrolling. Defaults to
+      `true`.
+     */
     animated?: ?boolean,
+    /**
+      The item to scroll to. Required.
+     */
     item: ItemT,
+    /**
+      missing
+     */
     viewPosition?: number,
     ...
   }) {
@@ -513,17 +526,21 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
     scrollToOffset(params);
     ```
 
-    Scroll to a specific content pixel offset in the list.
-
-    Valid `params` keys are:
-
-    - 'offset' (number) - The offset to scroll to. In case of `horizontal` being
-      true, the offset is the x-value, in any other case the offset is the
-      y-value. Required.
-    - 'animated' (boolean) - Whether the list should do an animation while
-      scrolling. Defaults to `true`.
+    Scroll to a specific content pixel offset in the list. 
    */
-  scrollToOffset(params: {animated?: ?boolean, offset: number, ...}) {
+  scrollToOffset(params: {
+    /**
+      The offset to scroll to. In case of `horizontal` being true, the offset is
+      the x-value, in any other case the offset is the y-value. Required.
+     */
+    animated?: ?boolean,
+    /**
+      Whether the list should do an animation while scrolling. Defaults to
+      `true`.
+     */
+    offset: number,
+    ...
+  }) {
     if (this._listRef) {
       this._listRef.scrollToOffset(params);
     }
