@@ -102,13 +102,13 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
       active: !this.state.active,
     });
     if (!this.state.active) {
-      if (this.state.key === 'APIS' || this.state.key === 'API') {
+      if (this.state.key === 'APIS' || this.state.key === 'RECENT_APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
       } else {
         bookmark.AddComponent(this.props.item.module.title, this.props.item);
       }
     } else {
-      if (this.state.key === 'APIS' || this.state.key === 'API') {
+      if (this.state.key === 'APIS' || this.state.key === 'RECENT_APIS') {
         bookmark.RemoveApi(this.props.item.module.title);
       } else {
         bookmark.RemoveComponent(this.props.item.module.title);
@@ -284,12 +284,12 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         sections = [
           {
             data: this.state.recentComponents,
-            key: 'Component',
+            key: 'RECENT_COMPONENTS',
             title: 'Recently viewed'
           },
           {
             data: this.state.components,
-            key: 'Components',
+            key: 'COMPONENTS',
             title: 'Components'
           },
         ];
@@ -306,7 +306,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         sections = [
           {
             data: this.state.recentApis,
-            key: 'API',
+            key: 'RECENT_APIS',
             title: 'Recently viewed'
           },
           {
