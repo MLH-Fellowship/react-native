@@ -249,8 +249,10 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     if (key === 'Components') {
       let openedItem = this.state.components[index];
       let componentsCopy = [...this.state.recentComponents];
-      const ind = componentsCopy.findIndex(component => component.key === openedItem.key);
-      if(ind != -1) {
+      const ind = componentsCopy.findIndex(
+        component => component.key === openedItem.key,
+      );
+      if (ind != -1) {
         componentsCopy.splice(ind, 1);
       }
       if (this.state.recentComponents.length >= 5) {
@@ -262,7 +264,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       let openedItem = this.state.api[index];
       let apisCopy = [...this.state.recentApis];
       const ind = apisCopy.findIndex(api => api.key === openedItem.key);
-      if(ind != -1) {
+      if (ind != -1) {
         apisCopy.splice(ind, 1);
       }
       if (this.state.recentApis.length >= 5) {

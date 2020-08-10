@@ -76,6 +76,12 @@ class RNTesterExampleContainer extends React.Component {
       },
     ];
 
+    const content = {
+      data: module.examples,
+      title: 'EXAMPLES',
+      key: 'e',
+    };
+
     return (
       <ExamplePage
         title={module.title}
@@ -87,10 +93,10 @@ class RNTesterExampleContainer extends React.Component {
           testID="example_search"
           page="examples_page"
           hideFilterPills={true}
-          sections={sections}
+          content={content}
           filter={filter}
           render={({filteredSections}) =>
-            filteredSections[0].data.map(this.renderExample)
+            filteredSections.map(this.renderExample)
           }
         />
       </ExamplePage>
