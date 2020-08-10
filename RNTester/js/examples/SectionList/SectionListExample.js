@@ -79,6 +79,12 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         logViewable: boolean,
         virtualized: boolean,
         empty: boolean,
+        header: boolean,
+        footer: boolean,
+        sectionHeader: boolean,
+        sectionFooter: boolean,
+        sectionSeparatorComponent: boolean,
+        itemSeparatorComponent: boolean,
       |} = {
     data: genItemData(20),
     debug: false,
@@ -87,6 +93,12 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
     virtualized: true,
     inverted: false,
     empty: false,
+    header: false,
+    footer: false,
+    sectionHeader: false,
+    sectionFooter: false,
+    sectionSeparatorComponent: false,
+    itemSeparatorComponent: false,
   };
 
   _scrollPos = new Animated.Value(0);
@@ -138,6 +150,12 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
             {renderSmallSwitchOption(this, 'debug')}
             {renderSmallSwitchOption(this, 'inverted')}
             {renderSmallSwitchOption(this, 'empty')}
+            {renderSmallSwitchOption(this, 'header')}
+            {renderSmallSwitchOption(this, 'footer')}
+            {renderSmallSwitchOption(this, 'sectionHeader')}
+            {renderSmallSwitchOption(this, 'sectionFooter')}
+            {renderSmallSwitchOption(this, 'sectionSeparatorComponent')}
+            {renderSmallSwitchOption(this, 'itemSeparatorComponent')}
             <Spindicator value={this._scrollPos} />
           </View>
           <View style={styles.scrollToRow}>
@@ -159,17 +177,28 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         <SeparatorComponent />
         <Animated.SectionList
           ref={this._captureRef}
-          ListHeaderComponent={HeaderComponent}
-          ListFooterComponent={FooterComponent}
+          ListHeaderComponent={this.state.header ? <HeaderComponent /> : null}
+          ListFooterComponent={this.state.footer ? FooterComponent : null}
           ListEmptyComponent={
             <Text style={styles.emptyList}>Nothing to see here!</Text>
           }
-          SectionSeparatorComponent={info => (
-            <CustomSeparatorComponent {...info} text="SECTION SEPARATOR" />
-          )}
-          ItemSeparatorComponent={info => (
-            <CustomSeparatorComponent {...info} text="ITEM SEPARATOR" />
-          )}
+          SectionSeparatorComponent={
+            this.state.sectionSeparatorComponent
+              ? info => (
+                  <CustomSeparatorComponent
+                    {...info}
+                    text="SECTION SEPARATOR"
+                  />
+                )
+              : null
+          }
+          ItemSeparatorComponent={
+            this.state.itemSeparatorComponent
+              ? info => (
+                  <CustomSeparatorComponent {...info} text="ITEM SEPARATOR" />
+                )
+              : null
+          }
           debug={this.state.debug}
           inverted={this.state.inverted}
           disableVirtualization={!this.state.virtualized}
@@ -178,8 +207,12 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
           onViewableItemsChanged={this._onViewableItemsChanged}
           refreshing={false}
           renderItem={this._renderItemComponent}
-          renderSectionHeader={renderSectionHeader}
-          renderSectionFooter={renderSectionFooter}
+          renderSectionHeader={
+            this.state.sectionHeader ? renderSectionHeader : null
+          }
+          renderSectionFooter={
+            this.state.sectionFooter ? renderSectionFooter : null
+          }
           stickySectionHeadersEnabled
           sections={
             this.state.empty
