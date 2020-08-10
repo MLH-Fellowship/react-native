@@ -87,6 +87,8 @@ type OptionalProps<ItemT> = {|
 
   /**
     Optional custom style for multi-item rows generated when `numColumns > 1`.
+
+    @type style object
    */
   columnWrapperStyle?: ViewStyleProp,
   /**
@@ -94,6 +96,8 @@ type OptionalProps<ItemT> = {|
     `PureComponent`). If any of your `renderItem`, Header, Footer, etc.
     functions depend on anything outside of the `data` prop, stick it here and
     treat it immutably.
+
+    @type function
    */
   extraData?: any,
   /**
