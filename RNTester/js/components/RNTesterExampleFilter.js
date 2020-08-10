@@ -53,11 +53,12 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
       );
     };
 
-    // const filteredSections = this.props.sections.map(section => ({
-    //   ...section,
-    //   data: section.data.filter(filter),
-    // }));
+
     const filteredSections = this.props.content.data.filter(filter);
+
+    if(this.state.filter.trim() !== '' || this.state.category.trim() !== '') {
+      filteredSections = filteredSections.filter(section => section.title !== 'Recently viewed');
+    }
 
     return (
       <View style={styles.container}>
