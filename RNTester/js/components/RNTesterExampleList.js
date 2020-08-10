@@ -19,6 +19,7 @@ const React = require('react');
 const {
   Platform,
   SectionList,
+  FlatList,
   StyleSheet,
   Text,
   Button,
@@ -82,7 +83,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.state = {
       active: props.active,
       title: props.item.module.title,
-      key: props.section.key,
+      key: props.key,
     };
   }
 
@@ -114,7 +115,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   };
 
   _onPress = () => {
-      if (this.props.onPress) {
+    if (this.props.onPress) {
       this.props.onPress();
       return;
     }
@@ -124,7 +125,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     const {item} = this.props;
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <TouchableHighlight
               onShowUnderlay={this.props.onShowUnderlay}
@@ -146,7 +147,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
                   <View style={{flexDirection: 'row', marginBottom: 5}}>
                     <Text style={{color: 'blue'}}>Category: </Text>
-                    <Text>{item.module.category || 'Components/Basic'}</Text>
+                    <Text>{item.category || 'Other'}</Text>
                   </View>
 
                   <Text
@@ -188,7 +189,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
 const renderSectionHeader = ({section}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <Text
           style={[
@@ -213,30 +214,21 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
       (!category || example.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
-      const {screen} = this.props; 
-      let sections = []; 
-      if (screen === "component"){ 
-        sections = [
-          {
-            data: this.props.list.ComponentExamples,
-            key: 'Components',
-          }
-        ];
-      } else if (screen === "api") { 
-        sections = [
-          {
-            data: this.props.list.APIExamples,
-            key: 'APIS',
-          }
-        ];
-      } else { 
-        sections = []; 
-      }
-      
+    const {screen} = this.props;
+    let content = {};
+    if (screen === 'component') {
+      content.key = 'Components';
+      content.data = this.props.list.ComponentExamples;
+    } else if (screen === 'api') {
+      content.key = 'APIS';
+      content.data = this.props.list.APIExamples;
+    } else {
+      content.data = [];
+    }
 
     return (
       <RNTesterThemeContext.Consumer>
-        {(theme) => {
+        {theme => {
           return (
             <View
               style={[
@@ -247,18 +239,18 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
               <RNTesterExampleFilter
                 testID="explorer_search"
                 page="components_page"
-                sections={sections}
+                content={content}
                 filter={filter}
                 render={({filteredSections}) => (
-                  <SectionList
-                    sections={filteredSections}
+                  <FlatList
+                    data={filteredSections}
                     renderItem={this._renderItem}
                     keyboardShouldPersistTaps="handled"
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
                     renderSectionHeader={renderSectionHeader}
                     ListFooterComponent={() => (
-                        <View style={{ height: 80 }}></View>
+                      <View style={{height: 80}}></View>
                     )}
                   />
                 )}
@@ -270,20 +262,18 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     );
   }
 
-  _renderItem = ({item, section, separators}) => {
+  _renderItem = ({item, index, separators}) => {
     let bookmark = this.context;
     return (
       <RowComponent
         item={item}
-        section={section}
-        active={!bookmark.checkBookmark(item.module.title, section.key)}
+        active={!bookmark.checkBookmark(item.module.title, item.key)}
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
       />
     );
   };
-
 
   _handleRowPress(exampleKey: string): void {
     this.props.onNavigate(RNTesterActions.ExampleAction(exampleKey));
@@ -292,7 +282,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
 
 const ItemSeparator = ({highlighted}) => (
   <RNTesterThemeContext.Consumer>
-    {(theme) => {
+    {theme => {
       return (
         <View
           style={

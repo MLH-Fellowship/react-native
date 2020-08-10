@@ -18,7 +18,7 @@ import {RNTesterThemeContext} from './RNTesterTheme';
 type Props = {
   filter: Function,
   render: Function,
-  sections: Object,
+  content: Object,
   disableSearch?: boolean,
   testID?: string,
   hideFilterPills?: boolean,
@@ -53,10 +53,11 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
       );
     };
 
-    const filteredSections = this.props.sections.map(section => ({
-      ...section,
-      data: section.data.filter(filter),
-    }));
+    // const filteredSections = this.props.sections.map(section => ({
+    //   ...section,
+    //   data: section.data.filter(filter),
+    // }));
+    const filteredSections = this.props.content.data.filter(filter);
 
     return (
       <View style={styles.container}>
