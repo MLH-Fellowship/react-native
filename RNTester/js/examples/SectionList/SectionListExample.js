@@ -86,7 +86,7 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         sectionSeparatorComponent: boolean,
         itemSeparatorComponent: boolean,
       |} = {
-    data: genItemData(20),
+    data: genItemData(500),
     debug: false,
     filterText: '',
     logViewable: false,
