@@ -77,8 +77,19 @@ class IntentAndroidExample extends React.Component {
           <OpenURLButton url={'http://www.facebook.com'} />
           <OpenURLButton url={'http://facebook.com'} />
           <OpenURLButton url={'fb://notifications'} />
-          <OpenURLButton url={'geo:37.484847,-122.148386'} />
+          <OpenURLButton
+            url={
+              Platform.OS === 'android'
+                ? 'geo:37.484847,-122.148386'
+                : 'http://maps.apple.com/?ll=37.484847,-122.148386'
+            }
+          />
           <OpenURLButton url={'tel:9876543210'} />
+          <TouchableOpacity onPress={() => Linking.openSettings()}>
+            <View style={[styles.button]}>
+              <Text style={styles.text}>Open settings</Text>
+            </View>
+          </TouchableOpacity>
         </RNTesterBlock>
         {Platform.OS === 'android' && (
           <RNTesterBlock title="Send intents">
