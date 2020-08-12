@@ -28,63 +28,48 @@ const ScreenWidth = Dimensions.get('window').width;
 
 export default function ExamplePage(props: Props): React.Node {
   const description = props.description ?? '';
-  const androidImage = !props.android ? (
-    <Image
-      style={{height: 35, width: 30, margin: 2}}
-      source={imagePaths.android}
-    />
-  ) : null;
-
-  const appleImage = !props.ios ? (
-    <Image style={{height: 35, width: 30, margin: 2}} source={imagePaths.ios} />
-  ) : null;
-
-  const docsImage = (
-    <View style={styles.docsContainer}>
-      <Image source={imagePaths.docs} />
-      <Text>Docs</Text>
-    </View>
-  );
+  const androidPresent = !props.android;
+  const applePresent = !props.ios;
 
   return (
     <React.Fragment>
       <View style={styles.titleView}>
-        <View style={styles.container}>
-          <View style={styles.headingContainer}>
-            <Text>{description}</Text>
-            <View style={styles.iconContainer}>
-              {appleImage}
-              {androidImage}
+        <>
+          <Text style={{marginVertical: 8}}>{description}</Text>
+          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: 150,
+                justifyContent: 'space-between',
+              }}>
+              <Text style={styles.platformPill}>iOS</Text>
+              <Text style={styles.platformPill}>Android</Text>
             </View>
+            <Text style={{textDecorationLine: 'underline'}}>Docs</Text>
           </View>
-          {docsImage}
-        </View>
+        </>
       </View>
-
-      <Background height={ScreenHeight} width={ScreenWidth}>
-        <View style={styles.examplesContainer}>{props.children}</View>
-      </Background>
+      <View style={styles.examplesContainer}>{props.children}</View>
     </React.Fragment>
   );
 }
 
-const imagePaths = {
-  android: require('../assets/android-icon.png'),
-  ios: require('../assets/apple-icon.png'),
-  docs: require('../assets/docs-icon.png'),
-};
-
 const styles = StyleSheet.create({
   titleView: {
     backgroundColor: '#F3F8FF',
-    height: 75,
-    padding: 20,
+    paddingHorizontal: 25,
     paddingTop: 8,
     overflow: 'hidden',
   },
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  platformPill: {
+    width: 70,
+    padding: 2,
+    borderColor: '#52A5FF',
+    borderWidth: 1,
+    borderRadius: 12,
+    textAlign: 'center',
+    marginBottom: 8,
   },
   iconContainer: {
     flexDirection: 'row',
@@ -93,12 +78,6 @@ const styles = StyleSheet.create({
   examplesContainer: {
     width: ScreenWidth,
     flexGrow: 1,
-    backgroundColor: 'transparent',
-    position: 'absolute',
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
   description: {
     paddingVertical: 5,
@@ -108,8 +87,5 @@ const styles = StyleSheet.create({
   docsContainer: {
     alignContent: 'center',
     justifyContent: 'center',
-  },
-  headingContainer: {
-    width: '80%',
   },
 });

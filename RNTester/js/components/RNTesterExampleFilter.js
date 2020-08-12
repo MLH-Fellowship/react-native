@@ -136,10 +136,11 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   searchRow: {
-    padding: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   searchTextInput: {
-    borderRadius: 3,
+    borderRadius: 6,
     borderWidth: 1,
     paddingLeft: 8,
     paddingVertical: 0,

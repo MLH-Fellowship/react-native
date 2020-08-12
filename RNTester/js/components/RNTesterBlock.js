@@ -27,7 +27,12 @@ const RNTesterBlock = ({description, title, children}: Props) => {
   descComponent = (
     <RNTesterThemeContext.Consumer>
       {theme => {
-        return <Text style={[styles.descriptionText]}>{description}</Text>;
+        return (
+          <Text
+            style={[styles.descriptionText, {marginTop: description ? 10 : 0}]}>
+            {description}
+          </Text>
+        );
       }}
     </RNTesterThemeContext.Consumer>
   );
@@ -35,7 +40,7 @@ const RNTesterBlock = ({description, title, children}: Props) => {
   return (
     <RNTesterThemeContext.Consumer>
       {theme => (
-        <View style={[styles.container]}>
+        <View style={[[styles.container], {borderColor: theme.SeparatorColor}]}>
           <View style={[styles.titleContainer]}>
             <Text style={[styles.titleText]}>{title}</Text>
             {descComponent}
@@ -51,14 +56,12 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 0,
     borderWidth: 1,
-    margin: 15,
-    marginVertical: 5,
-    borderColor: '#005DFF',
+    marginVertical: 15,
+    marginHorizontal: 20,
     backgroundColor: 'white',
   },
   titleText: {
     fontSize: 18,
-    fontFamily: 'Times New Roman',
     fontWeight: '300',
   },
   titleContainer: {
@@ -73,7 +76,6 @@ const styles = StyleSheet.create({
   children: {
     paddingVertical: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#F3F8FF',
     margin: 10,
   },
 });

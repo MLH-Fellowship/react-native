@@ -22,10 +22,7 @@ export default function Background(props: Props): React.Node {
 
   return (
     <View>
-      <ImageBackground
-        style={{height: props.height, width: props.width}}
-        source={BACKGROUND_URL}
-      />
+      <ImageBackground style={{height: props.height, width: props.width}} />
       {props.children}
     </View>
   );
