@@ -67,7 +67,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
     this.state = {
       active: props.active,
       title: props.item.module.title,
-      key: props.key,
+      key: props.section.key,
     };
   }
 
@@ -80,9 +80,6 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
 
   onButtonPress = () => {
     let bookmark = this.context;
-    this.setState({
-      active: !this.state.active,
-    });
     if (!this.state.active) {
       if (this.state.key === 'APIS' || this.state.key === 'RECENT_APIS') {
         bookmark.AddApi(this.props.item.module.title, this.props.item);
@@ -96,6 +93,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
         bookmark.RemoveComponent(this.props.item.module.title);
       }
     }
+    this.setState({
+      active: !this.state.active,
+    });
   };
 
   _onPress = () => {
@@ -266,6 +266,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
   };
 
   render(): React.Node {
+    const bookmark = this.context;
     const filter = ({example, filterRegex, category}) =>
       filterRegex.test(example.module.title) &&
       (!category || example.category === category) &&
@@ -318,7 +319,21 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
           },
         ];
       }
-    } else {
+    } else if (screen === 'bookmark') {
+      sections = [
+        {
+          data: Object.values(bookmark.Components),
+          title: 'COMPONENTS',
+          key: 'COMPONENTS',
+        },
+        {
+          data: Object.values(bookmark.Api),
+          title: 'APIS',
+          key: 'APIS',
+        },
+      ];
+    }
+    else {
       sections = [];
     }
 
@@ -365,7 +380,8 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     return (
       <RowComponent
         item={item}
-        active={!bookmark.checkBookmark(item.module.title, item.key)}
+        section={section}
+        active={!bookmark.checkBookmark(item.module.title, section.key)}
         onNavigate={this.props.onNavigate}
         onShowUnderlay={separators.highlight}
         onHideUnderlay={separators.unhighlight}
