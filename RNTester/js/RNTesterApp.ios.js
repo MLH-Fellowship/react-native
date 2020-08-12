@@ -13,7 +13,6 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
-const RNTesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList.ios');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
@@ -133,7 +132,7 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme: ?ColorSchemeName = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  const exampleTitle = screen == 'component' ? "Component Store" : "API Store"
+  const exampleTitle = screen === 'component' ? 'Component Store' : screen === 'api' ? 'API Store' : 'Bookmarks';
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
@@ -144,30 +143,6 @@ const RNTesterExampleListViaHook = ({
             list={list}
             screen={screen}
           />
-        </View>
-      </RNTesterBookmarkContext.Provider>
-    </RNTesterThemeContext.Provider>
-  );
-};
-
-const RNTesterBookmarkListViaHook = ({
-  onBack,
-  bookmark,
-  onNavigate,
-}: {
-  title: string,
-  onPressDrawer?: () => mixed,
-  onNavigate?: () => mixed,
-  ...
-}) => {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  return (
-    <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmark}>
-        <View style={styles.container}>
-          <Header title="Bookmarks" onBack={onBack} />
-          <RNTesterBookmarkList onNavigate={onNavigate} />
         </View>
       </RNTesterBookmarkContext.Provider>
     </RNTesterThemeContext.Provider>
@@ -324,7 +299,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     } else if (this.state.screen === 'bookmark') {
       return (
         <>
-          <RNTesterBookmarkListViaHook
+          <RNTesterExampleListViaHook
             onBack={this._handleBack}
             title={'RNTester'}
             bookmark={bookmark}
