@@ -300,8 +300,8 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       return (
         <>
           <RNTesterExampleListViaHook
-            onBack={this._handleBack}
             title={'RNTester'}
+            list={RNTesterList}
             bookmark={bookmark}
             onNavigate={this._handleAction}
           />

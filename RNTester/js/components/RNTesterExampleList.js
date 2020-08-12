@@ -236,19 +236,23 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
   }
 
   updateSectionsList = (index, key) => {
-    if (key === 'Components') {
+    console.log(index, key);
+    if (key === 'COMPONENTS' || 'RECENT_COMPONENTS') {
       let openedItem = this.state.components[index];
       let componentsCopy = [...this.state.recentComponents];
       const ind = componentsCopy.findIndex(
         component => component.key === openedItem.key,
       );
+      console.log(componentsCopy, 'Asaaaaaaaas');
       if (ind != -1) {
+        console.log(openedItem);
         componentsCopy.splice(ind, 1);
       }
       if (this.state.recentComponents.length >= 5) {
         componentsCopy.pop();
       }
       componentsCopy.unshift(openedItem);
+      console.log(componentsCopy);
       AsyncStorage.setItem('RecentComponents', JSON.stringify(componentsCopy));
     } else {
       let openedItem = this.state.api[index];
@@ -292,7 +296,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
         sections = [
           {
             data: this.state.components,
-            key: 'Components',
+            key: 'COMPONENTS',
           },
         ];
       }
