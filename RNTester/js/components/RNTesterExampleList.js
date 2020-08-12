@@ -59,25 +59,6 @@ type ButtonProps = {
   ...
 };
 
-const PlatformLogoContainer = ({platform}: PlatformLogoPropsType) => {
-  return (
-    <View style={{flexDirection: 'row'}}>
-      {(!platform || platform === 'ios') && (
-        <Image
-          style={styles.platformLogoStyle}
-          source={require('../assets/apple.png')}
-        />
-      )}
-      {(!platform || platform === 'android') && (
-        <Image
-          style={styles.platformLogoStyle}
-          source={require('../assets/android.png')}
-        />
-      )}
-    </View>
-  );
-};
-
 class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   static contextType = RNTesterBookmarkContext;
 
@@ -127,6 +108,9 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
   };
   render() {
     const {item} = this.props;
+    const platform = item.module.platform;
+    const onIos = !platform || platform === 'ios';
+    const onAndroid = !platform || platform === 'android';
     return (
       <RNTesterThemeContext.Consumer>
         {theme => {
@@ -144,30 +128,10 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                   styles.row,
                   {backgroundColor: theme.SystemBackgroundColor},
                 ]}>
-                <View style={styles.rowTextContent}>
+                <View style={styles.topRowStyle}>
                   <RNTesterComponentTitle>
                     {item.module.title}
                   </RNTesterComponentTitle>
-
-                  <View style={{flexDirection: 'row', marginBottom: 5}}>
-                    <Text style={{color: 'blue'}}>Category: </Text>
-                    <Text>{item.category || 'Components/Basic'}</Text>
-                  </View>
-
-                  <Text
-                    style={[
-                      styles.rowDetailText,
-                      {color: theme.SecondaryLabelColor},
-                    ]}>
-                    {item.module.description}
-                  </Text>
-                </View>
-                <View
-                  style={{
-                    flex: 0.15,
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}>
                   <TouchableHighlight
                     style={styles.imageViewStyle}
                     onPress={() => this.onButtonPress()}>
@@ -180,7 +144,34 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                       }
                     />
                   </TouchableHighlight>
-                  <PlatformLogoContainer platform={item.module.platform} />
+                </View>
+                <Text
+                  style={[
+                    styles.rowDetailText,
+                    {color: theme.SecondaryLabelColor, marginBottom: 5},
+                  ]}>
+                  {item.module.description}
+                </Text>
+                <View style={styles.bottomRowStyle}>
+                  <Text style={{color: theme.SecondaryLabelColor, width: 65}}>
+                    {item.category || 'Other'}
+                  </Text>
+                  <View style={styles.platformLabelStyle}>
+                    <Text
+                      style={{
+                        color: onIos ? '#787878' : theme.SeparatorColor,
+                        fontWeight: onIos ? '500' : '300',
+                      }}>
+                      iOS
+                    </Text>
+                    <Text
+                      style={{
+                        color: onAndroid ? '#787878' : theme.SeparatorColor,
+                        fontWeight: onAndroid ? '500' : '300',
+                      }}>
+                      Android
+                    </Text>
+                  </View>
                 </View>
               </View>
             </TouchableHighlight>
@@ -344,13 +335,14 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
               <RNTesterExampleFilter
                 testID="explorer_search"
                 page="components_page"
-                content={content}
+                sections={sections}
                 filter={filter}
                 render={({filteredSections}) => (
                   <SectionList
                     sections={filteredSections}
                     extraData={filteredSections}
                     renderItem={this._renderItem}
+                    ItemSeparatorComponent={ItemSeparator}
                     keyboardShouldPersistTaps="handled"
                     automaticallyAdjustContentInsets={false}
                     keyboardDismissMode="on-drag"
@@ -421,48 +413,46 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     marginVertical: 4,
     marginHorizontal: 15,
-    flexDirection: 'row',
-    borderColor: 'blue',
-    borderWidth: 1,
     overflow: 'hidden',
   },
-  rowTextContent: {
-    flex: 0.8,
-  },
   separator: {
-    height: StyleSheet.hairlineWidth,
-    marginLeft: 15,
+    height: Platform.select({ios: StyleSheet.hairlineWidth, android: 8}),
+    marginHorizontal: Platform.select({ios: 15, android: 0}),
   },
   separatorHighlighted: {
     height: StyleSheet.hairlineWidth,
   },
-  rowTitleText: {
-    fontSize: 20,
-    fontWeight: '300',
-    fontFamily: 'Times New Roman',
-    marginBottom: 10,
+  topRowStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  bottomRowStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   rowDetailText: {
     fontSize: 12,
     lineHeight: 20,
   },
-  imageStyle: {
-    height: 25,
-    width: 25,
-  },
   imageViewStyle: {
     height: 30,
     width: 30,
     borderRadius: 15,
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  platformLogoStyle: {
-    height: 35,
-    width: 30,
     position: 'relative',
-    top: 20,
+    bottom: 5,
+  },
+  imageStyle: {
+    height: 25,
+    width: 25,
+  },
+  platformLabelStyle: {
+    flexDirection: 'row',
+    width: 100,
+    justifyContent: 'space-between',
   },
 });
 
