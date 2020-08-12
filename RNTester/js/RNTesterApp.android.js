@@ -143,7 +143,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         AsyncStorage.setItem('Api', JSON.stringify(stateApi));
       },
       AddComponent: (componentName, component) => {
-        console.log(this.state.Components);
         const stateComponent = Object.assign({}, this.state.Components);
         stateComponent[componentName] = component;
         this.setState({
@@ -169,7 +168,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       },
       checkBookmark: (title, key) => {
         if (key === 'APIS' || key === 'RECENT_APIS') {
-          console.log(title);
           return this.state.Api[title] === undefined;
         }
         return this.state.Components[title] === undefined;
