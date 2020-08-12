@@ -96,8 +96,6 @@ type OptionalProps<ItemT> = {|
     `PureComponent`). If any of your `renderItem`, Header, Footer, etc.
     functions depend on anything outside of the `data` prop, stick it here and
     treat it immutably.
-
-    @type function
    */
   extraData?: any,
   /**
@@ -440,6 +438,8 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     Scrolls to the end of the content. May be janky without `getItemLayout`
     prop.
+
+    @param params See below
    */
   scrollToEnd(
     params?: ?{
@@ -467,6 +467,8 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     > Note: Cannot scroll to locations outside the render window without
     > specifying the `getItemLayout` prop.
+
+    @param params See below
    */
   scrollToIndex(params: {
     /**
@@ -503,6 +505,8 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
 
     > Note: Cannot scroll to locations outside the render window without
     > specifying the `getItemLayout` prop.
+
+    @param params See below
    */
   scrollToItem(params: {
     /**
@@ -530,7 +534,9 @@ class FlatList<ItemT> extends React.PureComponent<Props<ItemT>, void> {
     scrollToOffset(params);
     ```
 
-    Scroll to a specific content pixel offset in the list. 
+    Scroll to a specific content pixel offset in the list.
+
+    @param params See below
    */
   scrollToOffset(params: {
     /**
