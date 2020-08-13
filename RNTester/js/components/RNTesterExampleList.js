@@ -332,8 +332,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
           key: 'APIS',
         },
       ];
-    }
-    else {
+    } else {
       sections = [];
     }
 
