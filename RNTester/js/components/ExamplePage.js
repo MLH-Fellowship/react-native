@@ -28,8 +28,8 @@ const ScreenWidth = Dimensions.get('window').width;
 
 export default function ExamplePage(props: Props): React.Node {
   const description = props.description ?? '';
-  const androidPresent = !props.android;
-  const applePresent = !props.ios;
+  const onAndroid = !props.android;
+  const onIos = !props.ios;
 
   return (
     <React.Fragment>
@@ -40,11 +40,23 @@ export default function ExamplePage(props: Props): React.Node {
             <View
               style={{
                 flexDirection: 'row',
-                width: 150,
+                width: 100,
                 justifyContent: 'space-between',
               }}>
-              <Text style={styles.platformPill}>iOS</Text>
-              <Text style={styles.platformPill}>Android</Text>
+              <Text
+                style={{
+                  color: onIos ? '#787878' : theme.SeparatorColor,
+                  fontWeight: onIos ? '500' : '300',
+                }}>
+                iOS
+              </Text>
+              <Text
+                style={{
+                  color: onAndroid ? '#787878' : theme.SeparatorColor,
+                  fontWeight: onAndroid ? '500' : '300',
+                }}>
+                Android
+              </Text>
             </View>
             <Text style={{textDecorationLine: 'underline'}}>Docs</Text>
           </View>
@@ -61,15 +73,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     paddingTop: 8,
     overflow: 'hidden',
-  },
-  platformPill: {
-    width: 70,
-    padding: 2,
-    borderColor: '#52A5FF',
-    borderWidth: 1,
-    borderRadius: 12,
-    textAlign: 'center',
-    marginBottom: 8,
   },
   iconContainer: {
     flexDirection: 'row',
