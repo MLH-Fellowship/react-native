@@ -302,7 +302,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           <RNTesterExampleListViaHook
             title={'RNTester'}
             list={RNTesterList}
-            screen={screen}
+            screen={this.state.screen}
             bookmark={bookmark}
             onNavigate={this._handleAction}
           />
