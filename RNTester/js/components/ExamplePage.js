@@ -25,44 +25,49 @@ type Props = $ReadOnly<{|
 
 const ScreenHeight = Dimensions.get('window').height;
 const ScreenWidth = Dimensions.get('window').width;
+import {RNTesterThemeContext} from './RNTesterTheme';
 
 export default function ExamplePage(props: Props): React.Node {
   const description = props.description ?? '';
-  const onAndroid = !props.android;
-  const onIos = !props.ios;
-
+  const onAndroid = props.android;
+  const onIos = props.ios;
   return (
-    <React.Fragment>
-      <View style={styles.titleView}>
-        <>
-          <Text style={{marginVertical: 8}}>{description}</Text>
-          <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View
-              style={{
-                flexDirection: 'row',
-                width: 100,
-                justifyContent: 'space-between',
-              }}>
-              <Text
-                style={{
-                  color: onIos ? '#787878' : theme.SeparatorColor,
-                  fontWeight: onIos ? '500' : '300',
-                }}>
-                iOS
-              </Text>
-              <Text
-                style={{
-                  color: onAndroid ? '#787878' : theme.SeparatorColor,
-                  fontWeight: onAndroid ? '500' : '300',
-                }}>
-                Android
-              </Text>
+    <RNTesterThemeContext.Consumer>
+      {theme => {
+        return (
+          <>
+            <View style={styles.titleView}>
+              <Text style={{marginVertical: 8}}>{description}</Text>
+              <View
+                style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    width: 100,
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      color: onIos ? '#787878' : theme.SeparatorColor,
+                      fontWeight: onIos ? '500' : '300',
+                    }}>
+                    iOS
+                  </Text>
+                  <Text
+                    style={{
+                      color: onAndroid ? '#787878' : theme.SeparatorColor,
+                      fontWeight: onAndroid ? '500' : '300',
+                    }}>
+                    Android
+                  </Text>
+                </View>
+              </View>
             </View>
-          </View>
-        </>
-      </View>
-      <View style={styles.examplesContainer}>{props.children}</View>
-    </React.Fragment>
+            <View style={styles.examplesContainer}>{props.children}</View>
+          </>
+        );
+      }}
+    </RNTesterThemeContext.Consumer>
   );
 }
 

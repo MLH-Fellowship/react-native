@@ -155,7 +155,8 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                 </Text>
                 <View style={styles.bottomRowStyle}>
                   <Text style={{color: theme.SecondaryLabelColor, width: 65}}>
-                    {item.category || 'Other'}
+                    {/* TODO: Remove the item.category check. This is temporary until al category labels are migrated over. */}
+                    {item.module.category || item.category || 'Other'}
                   </Text>
                   <View style={styles.platformLabelStyle}>
                     <Text
@@ -419,7 +420,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listItem: {
-    backgroundColor: Platform.select({ios: '#FFFFFF', android: '#F3F8FF'})
+    backgroundColor: Platform.select({ios: '#FFFFFF', android: '#F3F8FF'}),
   },
   sectionHeader: {
     padding: 5,
