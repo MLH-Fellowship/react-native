@@ -23,7 +23,7 @@ const {
 
 const colors = ['#ff0000', '#00ff00', '#0000ff', 'rgba(0, 0, 0, 0.4)'];
 
-const barStyles = ['default', 'light-content'];
+const barStyles = ['default', 'light-content', 'dark-content'];
 
 const showHideTransitions = ['fade', 'slide'];
 
@@ -122,6 +122,15 @@ class StatusBarStyleExample extends React.Component<{...}, $FlowFixMeState> {
           animated={this.state.animated}
           barStyle={this.state.barStyle}
         />
+        {Platform.OS === 'android' ? (
+          <View style={styles.noteContainer}>
+            <Text>
+              On Android, this will only have an impact on API versions 23 and
+              above.
+            </Text>
+          </View>
+        ) : null}
+
         <TouchableHighlight
           style={styles.wrapper}
           onPress={this._onChangeBarStyle}>
@@ -385,6 +394,29 @@ class StatusBarStaticAndroidExample extends React.Component<{...}> {
             </Text>
           </View>
         </TouchableHighlight>
+        <View style={styles.groupedItems}>
+          <Text style={styles.noteContainer}>
+            These will only have an impact on Android API versions 23 and above.
+          </Text>
+          <TouchableHighlight
+            style={styles.wrapper}
+            onPress={() => {
+              StatusBar.setBarStyle('default', true);
+            }}>
+            <View style={styles.button}>
+              <Text>setBarStyle('default', true)</Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={styles.wrapper}
+            onPress={() => {
+              StatusBar.setBarStyle('dark-content', true);
+            }}>
+            <View style={styles.button}>
+              <Text>setBarStyle('dark-content', true)</Text>
+            </View>
+          </TouchableHighlight>
+        </View>
       </View>
     );
   }
@@ -446,7 +478,6 @@ exports.examples = [
     render(): React.Node {
       return <StatusBarStyleExample />;
     },
-    platform: 'ios',
   },
   {
     title: 'StatusBar network activity indicator',
@@ -518,5 +549,11 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     marginTop: 10,
+  },
+  groupedItems: {
+    padding: 10,
+  },
+  noteContainer: {
+    marginBottom: 15,
   },
 });
