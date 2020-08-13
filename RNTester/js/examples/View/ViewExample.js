@@ -24,6 +24,7 @@ exports.description = ('Basic building block of all UI, examples that ' +
   'demonstrate some of the many styles available.': string);
 
 exports.displayName = 'ViewExample';
+exports.category = 'Basic';
 exports.examples = [
   {
     title: 'Background Color',

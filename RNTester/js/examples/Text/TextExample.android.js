@@ -880,6 +880,7 @@ const styles = StyleSheet.create({
 });
 exports.title = 'Text';
 exports.description = 'Base component for rendering styled text.';
+exports.category = 'Basic';
 exports.examples = [
   {
     title: 'Basic text',

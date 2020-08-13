@@ -401,6 +401,7 @@ const styles = StyleSheet.create({
 });
 
 exports.displayName = (undefined: ?string);
+exports.category = 'Basic';
 exports.framework = 'React';
 exports.title = 'Image';
 exports.description =

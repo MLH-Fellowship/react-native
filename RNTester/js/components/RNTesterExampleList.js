@@ -271,7 +271,7 @@ class RNTesterExampleList extends React.Component<Props, $FlowFixMeState> {
     const bookmark = this.context;
     const filter = ({example, filterRegex, category}) =>
       filterRegex.test(example.module.title) &&
-      (!category || example.category === category) &&
+      (!category || example.module.category === category) &&
       (!Platform.isTV || example.supportsTVOS);
 
     const {screen} = this.props;
