@@ -155,8 +155,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
                 </Text>
                 <View style={styles.bottomRowStyle}>
                   <Text style={{color: theme.SecondaryLabelColor, width: 65}}>
-                    {/* TODO: Remove the item.category check. This is temporary until al category labels are migrated over. */}
-                    {item.module.category || item.category || 'Other'}
+                    {item.module.category || 'Other'}
                   </Text>
                   <View style={styles.platformLabelStyle}>
                     <Text
