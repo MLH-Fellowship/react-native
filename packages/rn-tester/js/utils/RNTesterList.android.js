@@ -178,6 +178,10 @@ const APIExamples: Array<RNTesterExample> = [
     module: require('../examples/Dimensions/DimensionsExample'),
   },
   {
+    key: 'Keyboard',
+    module: require('../examples/Keyboard/KeyboardExample'),
+  },
+  {
     key: 'LayoutEventsExample',
     module: require('../examples/Layout/LayoutEventsExample'),
   },
