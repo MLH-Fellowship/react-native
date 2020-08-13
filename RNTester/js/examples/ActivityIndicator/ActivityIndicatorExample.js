@@ -74,7 +74,6 @@ exports.framework = 'React';
 exports.title = 'ActivityIndicator';
 exports.description = 'Animated loading indicators.';
 exports.documentationURL = 'https://reactnative.dev/docs/activityindicator';
-
 exports.examples = [
   {
     title: 'Default (small, white)',

@@ -48,7 +48,8 @@ class RNTesterExampleContainer extends React.Component {
           description={module.description}
           android={!module.platform || module.platform === 'android'}
           ios={!module.platform || module.platform === 'ios'}
-          documentationURL={module.documentationURL}>
+          documentationURL={module.documentationURL}
+          category={module.category}>
           {module.examples[0].render()}
         </ExamplePage>
       );
@@ -60,7 +61,8 @@ class RNTesterExampleContainer extends React.Component {
           description={module.description}
           android={!module.platform || module.platform === 'android'}
           ios={!module.platform || module.platform === 'ios'}
-          documentationURL={module.documentationURL}>
+          documentationURL={module.documentationURL}
+          category={module.category}>
           {module.examples[0].render()}
         </ExamplePage>
       );
@@ -82,7 +84,8 @@ class RNTesterExampleContainer extends React.Component {
         description={module.description}
         android={!module.platform || module.platform === 'android'}
         ios={!module.platform || module.platform === 'ios'}
-        documentationURL={module.documentationURL}>
+        documentationURL={module.documentationURL}
+        category={module.category}>
         <RNTesterExampleFilter
           testID="example_search"
           page="examples_page"

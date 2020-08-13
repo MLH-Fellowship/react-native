@@ -31,6 +31,7 @@ export default function ExamplePage(props: Props): React.Node {
   const description = props.description ?? '';
   const onAndroid = props.android;
   const onIos = props.ios;
+  const category = props.category;
   return (
     <RNTesterThemeContext.Consumer>
       {theme => {
@@ -38,7 +39,7 @@ export default function ExamplePage(props: Props): React.Node {
           <>
             <View style={styles.titleView}>
               <Text style={{marginVertical: 8}}>{description}</Text>
-              <View
+              {/* <View
                 style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                 <View
                   style={{
@@ -46,6 +47,27 @@ export default function ExamplePage(props: Props): React.Node {
                     width: 100,
                     justifyContent: 'space-between',
                   }}>
+                  <Text
+                    style={{
+                      color: onIos ? '#787878' : theme.SeparatorColor,
+                      fontWeight: onIos ? '500' : '300',
+                    }}>
+                    iOS
+                  </Text>
+                  <Text
+                    style={{
+                      color: onAndroid ? '#787878' : theme.SeparatorColor,
+                      fontWeight: onAndroid ? '500' : '300',
+                    }}>
+                    Android
+                  </Text>
+                </View>
+              </View> */}
+              <View style={styles.rowStyle}>
+                <Text style={{color: theme.SecondaryLabelColor, width: 65}}>
+                  {category || 'Other'}
+                </Text>
+                <View style={styles.platformLabelStyle}>
                   <Text
                     style={{
                       color: onIos ? '#787878' : theme.SeparatorColor,
@@ -94,5 +116,14 @@ const styles = StyleSheet.create({
   docsContainer: {
     alignContent: 'center',
     justifyContent: 'center',
+  },
+  rowStyle: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  platformLabelStyle: {
+    flexDirection: 'row',
+    width: 100,
+    justifyContent: 'space-between',
   },
 });
