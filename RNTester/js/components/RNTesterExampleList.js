@@ -121,6 +121,7 @@ class RowComponent extends React.PureComponent<ButtonProps, ButtonState> {
               accessibilityLabel={
                 item.module.title + ' ' + item.module.description
               }
+              style={styles.listItem}
               underlayColor={'rgb(242,242,242)'}
               onPress={this._onPress}>
               <View
@@ -418,6 +419,9 @@ const styles = StyleSheet.create({
   listContainer: {
     flex: 1,
   },
+  listItem: {
+    backgroundColor: Platform.select({ios: '#FFFFFF', android: '#F3F8FF'})
+  },
   sectionHeader: {
     padding: 5,
     fontWeight: '500',
@@ -426,13 +430,14 @@ const styles = StyleSheet.create({
   row: {
     justifyContent: 'center',
     paddingHorizontal: 15,
-    paddingVertical: 8,
-    marginVertical: 4,
+    paddingVertical: 12,
+    marginVertical: Platform.select({ios: 4, android: 8}),
     marginHorizontal: 15,
     overflow: 'hidden',
+    elevation: 5,
   },
   separator: {
-    height: Platform.select({ios: StyleSheet.hairlineWidth, android: 8}),
+    height: Platform.select({ios: StyleSheet.hairlineWidth, android: 0}),
     marginHorizontal: Platform.select({ios: 15, android: 0}),
   },
   separatorHighlighted: {
