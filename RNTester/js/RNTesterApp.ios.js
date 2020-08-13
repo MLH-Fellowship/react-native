@@ -53,9 +53,11 @@ const APP_STATE_KEY = 'RNTesterAppState.v2';
 const Header = ({
   onBack,
   title,
+  documentationURL,
 }: {
   onBack?: () => mixed,
   title: string,
+  documentationURL: string,
   ...
 }) => (
   <RNTesterThemeContext.Consumer>
@@ -74,6 +76,18 @@ const Header = ({
               <Text style={{...styles.title, ...{color: theme.LabelColor}}}>
                 {title}
               </Text>
+              {documentationURL && (
+                <Text
+                  style={{
+                    textDecorationLine: 'underline',
+                    position: 'absolute',
+                    top: 3,
+                    right: 20,
+                  }}
+                  onPress={() => Linking.openURL(documentationURL)}>
+                  Docs
+                </Text>
+              )}
             </View>
             {onBack && (
               <View>
@@ -109,7 +123,11 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.exampleContainer}>
-        <Header title={title} onBack={onBack} />
+        <Header
+          title={title}
+          onBack={onBack}
+          documentationURL={module.documentationURL}
+        />
         <RNTesterExampleContainer module={module} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -132,12 +150,17 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme: ?ColorSchemeName = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  const exampleTitle = screen === 'component' ? 'Component Store' : screen === 'api' ? 'API Store' : 'Bookmarks';
+  const exampleTitle =
+    screen === 'component'
+      ? 'Component Store'
+      : screen === 'api'
+      ? 'API Store'
+      : 'Bookmarks';
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
         <View style={styles.exampleContainer}>
-        <Header title={exampleTitle} />
+          <Header title={exampleTitle} />
           <RNTesterExampleList
             onNavigate={onNavigate}
             list={list}
@@ -307,7 +330,10 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
             onNavigate={this._handleAction}
           />
           <View style={styles.bottomNavbar}>
-            <RNTesterNavbar screen={this.state.screen} onNavigate={this._handleAction} />
+            <RNTesterNavbar
+              screen={this.state.screen}
+              onNavigate={this._handleAction}
+            />
           </View>
         </>
       );
@@ -321,7 +347,10 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           screen={this.state.screen}
         />
         <View style={styles.bottomNavbar}>
-          <RNTesterNavbar screen={this.state.screen} onNavigate={this._handleAction} />
+          <RNTesterNavbar
+            screen={this.state.screen}
+            onNavigate={this._handleAction}
+          />
         </View>
       </>
     );

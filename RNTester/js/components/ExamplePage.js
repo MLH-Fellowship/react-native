@@ -58,7 +58,6 @@ export default function ExamplePage(props: Props): React.Node {
                 Android
               </Text>
             </View>
-            <Text style={{textDecorationLine: 'underline'}}>Docs</Text>
           </View>
         </>
       </View>
