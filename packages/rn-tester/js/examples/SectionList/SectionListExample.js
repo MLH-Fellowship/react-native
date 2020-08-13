@@ -12,7 +12,7 @@
 const RNTesterPage = require('../../components/RNTesterPage');
 const React = require('react');
 
-const infoLog = require('../../../../../Libraries/Utilities/infoLog');
+const infoLog = require('react-native');
 
 const {
   HeaderComponent,
@@ -33,6 +33,7 @@ const {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity,
 } = require('react-native');
 
 import type {Item} from '../../components/ListExampleShared';
@@ -77,13 +78,27 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         inverted: boolean,
         logViewable: boolean,
         virtualized: boolean,
+        empty: boolean,
+        header: boolean,
+        footer: boolean,
+        sectionHeader: boolean,
+        sectionFooter: boolean,
+        sectionSeparatorComponent: boolean,
+        itemSeparatorComponent: boolean,
       |} = {
-    data: genItemData(1000),
+    data: genItemData(20),
     debug: false,
     filterText: '',
     logViewable: false,
     virtualized: true,
     inverted: false,
+    empty: false,
+    header: true,
+    footer: true,
+    sectionHeader: true,
+    sectionFooter: true,
+    sectionSeparatorComponent: true,
+    itemSeparatorComponent: true,
   };
 
   _scrollPos = new Animated.Value(0);
@@ -134,6 +149,13 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
             {renderSmallSwitchOption(this, 'logViewable')}
             {renderSmallSwitchOption(this, 'debug')}
             {renderSmallSwitchOption(this, 'inverted')}
+            {renderSmallSwitchOption(this, 'empty')}
+            {renderSmallSwitchOption(this, 'header')}
+            {renderSmallSwitchOption(this, 'footer')}
+            {renderSmallSwitchOption(this, 'sectionHeader')}
+            {renderSmallSwitchOption(this, 'sectionFooter')}
+            {renderSmallSwitchOption(this, 'sectionSeparatorComponent')}
+            {renderSmallSwitchOption(this, 'itemSeparatorComponent')}
             <Spindicator value={this._scrollPos} />
           </View>
           <View style={styles.scrollToRow}>
@@ -155,14 +177,28 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
         <SeparatorComponent />
         <Animated.SectionList
           ref={this._captureRef}
-          ListHeaderComponent={HeaderComponent}
-          ListFooterComponent={FooterComponent}
-          SectionSeparatorComponent={info => (
-            <CustomSeparatorComponent {...info} text="SECTION SEPARATOR" />
-          )}
-          ItemSeparatorComponent={info => (
-            <CustomSeparatorComponent {...info} text="ITEM SEPARATOR" />
-          )}
+          ListHeaderComponent={this.state.header ? <HeaderComponent /> : null}
+          ListFooterComponent={this.state.footer ? <FooterComponent /> : null}
+          ListEmptyComponent={
+            <Text style={styles.emptyList}>Nothing to see here!</Text>
+          }
+          SectionSeparatorComponent={
+            this.state.sectionSeparatorComponent
+              ? info => (
+                  <CustomSeparatorComponent
+                    {...info}
+                    text="SECTION SEPARATOR"
+                  />
+                )
+              : null
+          }
+          ItemSeparatorComponent={
+            this.state.itemSeparatorComponent
+              ? info => (
+                  <CustomSeparatorComponent {...info} text="ITEM SEPARATOR" />
+                )
+              : null
+          }
           debug={this.state.debug}
           inverted={this.state.inverted}
           disableVirtualization={!this.state.virtualized}
@@ -171,44 +207,52 @@ class SectionListExample extends React.PureComponent<{...}, $FlowFixMeState> {
           onViewableItemsChanged={this._onViewableItemsChanged}
           refreshing={false}
           renderItem={this._renderItemComponent}
-          renderSectionHeader={renderSectionHeader}
-          renderSectionFooter={renderSectionFooter}
+          renderSectionHeader={
+            this.state.sectionHeader ? renderSectionHeader : null
+          }
+          renderSectionFooter={
+            this.state.sectionFooter ? renderSectionFooter : null
+          }
           stickySectionHeadersEnabled
-          sections={[
-            {
-              key: 'empty section',
-              data: [],
-            },
-            {
-              renderItem: renderStackedItem,
-              key: 's1',
-              data: [
-                {
-                  title: 'Item In Header Section',
-                  text: 'Section s1',
-                  key: 'header item',
-                },
-              ],
-            },
-            {
-              key: 's2',
-              data: [
-                {
-                  noImage: true,
-                  title: '1st item',
-                  text: 'Section s2',
-                  key: 'noimage0',
-                },
-                {
-                  noImage: true,
-                  title: '2nd item',
-                  text: 'Section s2',
-                  key: 'noimage1',
-                },
-              ],
-            },
-            ...filteredSectionData,
-          ]}
+          sections={
+            this.state.empty
+              ? []
+              : [
+                  {
+                    key: 'empty section',
+                    data: [],
+                  },
+                  {
+                    renderItem: renderStackedItem,
+                    key: 's1',
+                    data: [
+                      {
+                        title: 'Item In Header Section',
+                        text: 'Section s1',
+                        key: 'header item',
+                      },
+                    ],
+                  },
+                  {
+                    key: 's2',
+                    data: [
+                      {
+                        noImage: true,
+                        title: '1st item',
+                        text: 'Section s2',
+                        key: 'noimage0',
+                      },
+                      {
+                        noImage: true,
+                        title: '2nd item',
+                        text: 'Section s2',
+                        key: 'noimage1',
+                      },
+                    ],
+                  },
+                  ...filteredSectionData,
+                ]
+          }
           style={styles.list}
           viewabilityConfig={VIEWABILITY_CONFIG}
         />
@@ -288,9 +332,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 7,
   },
+  emptyList: {
+    textAlign: 'center',
+    marginVertical: 20,
+    fontSize: 14,
+  },
 });
 
-exports.title = 'SectionList';
+exports.title = '<SectionList>';
 exports.description = 'Performant, scrollable list of data.';
 exports.examples = [
   {
