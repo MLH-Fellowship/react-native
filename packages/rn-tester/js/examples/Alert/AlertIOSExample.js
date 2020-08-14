@@ -12,7 +12,7 @@
 
 const React = require('react');
 
-const {SimpleAlertExampleBlock} = require('./AlertExample');
+const {examples: CommonAlertExamples} = require('./AlertExample');
 const {
   StyleSheet,
   View,
@@ -152,15 +152,10 @@ const styles = StyleSheet.create({
 });
 
 exports.framework = 'React';
-exports.title = 'Alert';
+exports.title = 'Alerts';
 exports.description = 'iOS alerts and action sheets';
 exports.examples = [
-  {
-    title: 'Alerts',
-    render(): React.Node {
-      return <SimpleAlertExampleBlock />;
-    },
-  },
+  ...CommonAlertExamples,
   {
     title: 'Prompt Options',
     render(): React.Element<any> {
