@@ -19,19 +19,19 @@ const React = require('react');
 const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavBar = require('./components/RNTesterNavbar');
 
-// const nativeImageSource = require('react-native');
-
 const {
   AppRegistry,
   AsyncStorage,
   BackHandler,
-  Linking,
   StyleSheet,
   Text,
+  Linking,
   UIManager,
   useColorScheme,
   View,
 } = require('react-native');
+
+import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -50,6 +50,7 @@ const APP_STATE_KEY = 'RNTesterAppState.v2';
 
 const Header = ({
   title,
+  documentationURL,
 }: {
   title: string,
   ...
@@ -62,6 +63,18 @@ const Header = ({
             <Text style={[styles.title, {color: theme.LabelColor}]}>
               {title}
             </Text>
+            {documentationURL && (
+                <Text
+                  style={{
+                    textDecorationLine: 'underline',
+                    position: 'absolute',
+                    top: 3,
+                    right: 20,
+                  }}
+                  onPress={() => openURLInBrowser(documentationURL)}>
+                  Docs
+                </Text>
+              )}
           </View>
         </View>
       );
@@ -84,7 +97,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} />
+        <Header title={title} documentationURL={module.documentationURL} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>

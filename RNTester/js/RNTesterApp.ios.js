@@ -35,6 +35,8 @@ const {
   LogBox,
 } = require('react-native');
 
+import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
+
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterAction} from './utils/RNTesterActions';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
@@ -84,7 +86,7 @@ const Header = ({
                     top: 3,
                     right: 20,
                   }}
-                  onPress={() => Linking.openURL(documentationURL)}>
+                  onPress={() => openURLInBrowser(documentationURL)}>
                   Docs
                 </Text>
               )}
