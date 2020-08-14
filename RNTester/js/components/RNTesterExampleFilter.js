@@ -12,7 +12,13 @@
 
 const React = require('react');
 const RNTesterListFilters = require('./RNTesterListFilters');
-const {StyleSheet, TextInput, View, ScrollView} = require('react-native');
+const {
+  StyleSheet,
+  TextInput,
+  View,
+  ScrollView,
+  Image,
+} = require('react-native');
 import {RNTesterThemeContext} from './RNTesterTheme';
 
 type Props = {
@@ -98,27 +104,33 @@ class RNTesterExampleFilter extends React.Component<Props, State> {
         {theme => {
           return (
             <View style={[styles.searchRow, {backgroundColor: '#F3F8FF'}]}>
-              <TextInput
-                autoCapitalize="none"
-                autoCorrect={false}
-                clearButtonMode="always"
-                onChangeText={text => {
-                  this.setState(() => ({filter: text}));
-                }}
-                placeholder="Search..."
-                placeholderTextColor={theme.PlaceholderTextColor}
-                underlineColorAndroid="transparent"
-                style={[
-                  styles.searchTextInput,
-                  {
-                    color: theme.LabelColor,
-                    backgroundColor: theme.SecondaryGroupedBackgroundColor,
-                    borderColor: theme.QuaternaryLabelColor,
-                  },
-                ]}
-                testID={this.props.testID}
-                value={this.state.filter}
-              />
+              <View style={styles.textInputStyle}>
+                <Image
+                  source={require('../assets/search-icon.png')}
+                  style={styles.searchIcon}
+                />
+                <TextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  clearButtonMode="always"
+                  onChangeText={text => {
+                    this.setState(() => ({filter: text}));
+                  }}
+                  placeholder="Search..."
+                  placeholderTextColor={theme.PlaceholderTextColor}
+                  underlineColorAndroid="transparent"
+                  style={[
+                    styles.searchTextInput,
+                    {
+                      color: theme.LabelColor,
+                      backgroundColor: theme.SecondaryGroupedBackgroundColor,
+                      borderColor: theme.QuaternaryLabelColor,
+                    },
+                  ]}
+                  testID={this.props.testID}
+                  value={this.state.filter}
+                />
+              </View>
               {!this.props.hideFilterPills && (
                 <RNTesterListFilters
                   onFilterButtonPress={filterLabel =>
@@ -138,16 +150,30 @@ const styles = StyleSheet.create({
   searchRow: {
     paddingHorizontal: 20,
     paddingVertical: 10,
+    alignItems: 'center',
   },
   searchTextInput: {
     borderRadius: 6,
     borderWidth: 1,
-    paddingLeft: 8,
     paddingVertical: 0,
     height: 35,
-  },
-  container: {
     flex: 1,
+    alignSelf: 'center',
+    paddingLeft: 35,
+  },
+  textInputStyle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    position: 'relative',
+    right: 10,
+  },
+  searchIcon: {
+    width: 20,
+    height: 20,
+    position: 'relative',
+    top: 0,
+    left: 27,
+    zIndex: 2,
   },
 });
 
