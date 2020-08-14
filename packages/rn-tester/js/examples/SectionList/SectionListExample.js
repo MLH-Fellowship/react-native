@@ -339,7 +339,7 @@ const styles = StyleSheet.create({
   },
 });
 
-exports.title = '<SectionList>';
+exports.title = 'SectionList';
 exports.description = 'Performant, scrollable list of data.';
 exports.examples = [
   {
