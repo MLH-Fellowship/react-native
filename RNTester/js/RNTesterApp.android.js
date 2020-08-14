@@ -29,6 +29,8 @@ const {
   UIManager,
   useColorScheme,
   View,
+  TouchableOpacity,
+  Image,
 } = require('react-native');
 
 import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
@@ -48,13 +50,7 @@ type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
 
-const Header = ({
-  title,
-  documentationURL,
-}: {
-  title: string,
-  ...
-}) => (
+const Header = ({title, documentationURL}: {title: string, ...}) => (
   <RNTesterThemeContext.Consumer>
     {theme => {
       return (
@@ -64,17 +60,20 @@ const Header = ({
               {title}
             </Text>
             {documentationURL && (
-                <Text
-                  style={{
-                    textDecorationLine: 'underline',
-                    position: 'absolute',
-                    top: 3,
-                    right: 20,
-                  }}
-                  onPress={() => openURLInBrowser(documentationURL)}>
-                  Docs
-                </Text>
-              )}
+              <TouchableOpacity
+                style={{
+                  textDecorationLine: 'underline',
+                  position: 'absolute',
+                  bottom: 3,
+                  right: 25,
+                }}
+                onPress={() => openURLInBrowser(documentationURL)}>
+                <Image
+                  source={require('./assets/documentation.png')}
+                  style={{width: 25, height: 25}}
+                />
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       );
@@ -122,7 +121,12 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  const exampleTitle = screen === 'component' ? 'Component Store' : screen === 'api' ? 'API Store' : 'Bookmarks';
+  const exampleTitle =
+    screen === 'component'
+      ? 'Component Store'
+      : screen === 'api'
+      ? 'API Store'
+      : 'Bookmarks';
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
@@ -236,7 +240,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     });
   }
 
-
   render(): React.Node {
     if (!this.state) {
       return null;
@@ -252,9 +255,12 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           RemoveComponent: this.state.RemoveComponent,
           checkBookmark: this.state.checkBookmark,
         })}
-          <View style={styles.bottomNavbar}>
-            <RNTesterNavBar screen={this.state.screen} onNavigate={this._handleAction} />
-          </View>
+        <View style={styles.bottomNavbar}>
+          <RNTesterNavBar
+            screen={this.state.screen}
+            onNavigate={this._handleAction}
+          />
+        </View>
       </View>
     );
   }

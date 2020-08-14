@@ -33,6 +33,8 @@ const {
   useColorScheme,
   View,
   LogBox,
+  TouchableOpacity,
+  Image,
 } = require('react-native');
 
 import openURLInBrowser from 'react-native/Libraries/Core/Devtools/openURLInBrowser';
@@ -79,16 +81,19 @@ const Header = ({
                 {title}
               </Text>
               {documentationURL && (
-                <Text
+                <TouchableOpacity
                   style={{
                     textDecorationLine: 'underline',
                     position: 'absolute',
-                    top: 3,
-                    right: 20,
+                    bottom: 3,
+                    right: 25,
                   }}
                   onPress={() => openURLInBrowser(documentationURL)}>
-                  Docs
-                </Text>
+                  <Image
+                    source={require('./assets/documentation.png')}
+                    style={{width: 25, height: 25}}
+                  />
+                </TouchableOpacity>
               )}
             </View>
             {onBack && (
