@@ -190,6 +190,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         this.setState({
           Api: stateApi,
         });
+        // Syncing the bookmarks over async storage
         AsyncStorage.setItem('Api', JSON.stringify(stateApi));
       },
       AddComponent: (componentName, component) => {
@@ -198,6 +199,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         this.setState({
           Components: stateComponent,
         });
+        // Syncing the bookmarks over async storage
         AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
       },
       RemoveApi: apiName => {
@@ -230,19 +232,29 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   componentDidMount() {
-    this._mounted = true;
+    // console.log("Hello World", this._mounted);
     Linking.getInitialURL().then(url => {
       AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        if (!this._mounted) {
-          return;
-        }
+        // console.log("Hello World")
         const exampleAction = URIActionMap(
           this.props.exampleFromAppetizeParams,
         );
         const urlAction = URIActionMap(url);
         const launchAction = exampleAction || urlAction;
-        const initialAction = launchAction || {type: 'RNTesterListAction'};
-        this.setState(RNTesterNavigationReducer(undefined, initialAction));
+        if (err || !storedString) {
+          const initialAction = launchAction || {type: 'RNTesterListAction'};
+          this.setState(RNTesterNavigationReducer(null, initialAction));
+          return;
+        }
+
+        const storedState = JSON.parse(storedString)
+        if (launchAction) {
+          this.setState(RNTesterNavigationReducer(storedState, launchAction));
+          return;
+        }
+        this.setState({
+          openExample: storedState.openExample,
+        });
       });
     });
 
@@ -270,10 +282,6 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     });
   }
 
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
   _handleBack = () => {
     this._handleAction(RNTesterActions.Back(this.state.screen));
   };
@@ -284,9 +292,12 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
     }
     const newState = RNTesterNavigationReducer(this.state, action);
     if (this.state !== newState) {
+      // syncing the app state over async storage
+      console.log(newState)
       this.setState(newState, () =>
         AsyncStorage.setItem(APP_STATE_KEY, JSON.stringify(this.state)),
       );
+
     }
   };
 
