@@ -45,9 +45,17 @@ import {
   RNTesterBookmarkContext,
   bookmarks,
 } from './components/RNTesterBookmark';
+
 type Props = {exampleFromAppetizeParams?: ?string, ...};
 
-// LogBox.ignoreLogs(['Module RCTImagePickerManager requires main queue setup']);
+import {
+  initializeAsyncStore,
+  addApi,
+  addComponent,
+  removeApi,
+  removeComponent,
+  checkBookmarks
+} from './utils/RNTesterAsyncStorageAbstraction';
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
 
@@ -184,46 +192,11 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
       screen: 'component',
       Components: bookmarks.Components,
       Api: bookmarks.Api,
-      AddApi: (apiName, api) => {
-        const stateApi = Object.assign({}, this.state.Api);
-        stateApi[apiName] = api;
-        this.setState({
-          Api: stateApi,
-        });
-        // Syncing the Api Bookmarks over async storage
-        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
-      },
-      AddComponent: (componentName, component) => {
-        const stateComponent = Object.assign({}, this.state.Components);
-        stateComponent[componentName] = component;
-        this.setState({
-          Components: stateComponent,
-        });
-        // Syncing the Components Bookmarks over async storage
-        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
-      },
-      RemoveApi: apiName => {
-        const stateApi = Object.assign({}, this.state.Api);
-        delete stateApi[apiName];
-        this.setState({
-          Api: stateApi,
-        });
-        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
-      },
-      RemoveComponent: componentName => {
-        const stateComponent = Object.assign({}, this.state.Components);
-        delete stateComponent[componentName];
-        this.setState({
-          Components: stateComponent,
-        });
-        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
-      },
-      checkBookmark: (title, key) => {
-        if (key === 'APIS' || key === 'RECENT_APIS') {
-          return this.state.Api[title] === undefined;
-        }
-        return this.state.Components[title] === undefined;
-      },
+      AddApi: (apiName, api) => addApi(apiName, api, this),
+      AddComponent: (componentName, component) => addComponent(componentName, component, this),
+      RemoveApi: (apiName) => removeApi(apiName, this),
+      RemoveComponent: (componentName) => removeComponent(componentName, this),
+      checkBookmark: (title,key) => checkBookmarks(title, key, this),
     };
   }
 
@@ -232,53 +205,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then(url => {
-      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        const exampleAction = URIActionMap(
-          this.props.exampleFromAppetizeParams,
-        );
-        const urlAction = URIActionMap(url);
-        const launchAction = exampleAction || urlAction;
-        if (err || !storedString) {
-          const initialAction = launchAction || {type: 'RNTesterListAction'};
-          this.setState(RNTesterNavigationReducer(null, initialAction));
-          return;
-        }
-
-        const storedState = JSON.parse(storedString);
-        if (launchAction) {
-          this.setState(RNTesterNavigationReducer(storedState, launchAction));
-          return;
-        }
-        
-        this.setState({
-          openExample: storedState.openExample,
-        });
-      });
-    });
-
-    Linking.addEventListener('url', url => {
-      this._handleAction(URIActionMap(url));
-    });
-
-    AsyncStorage.getItem('Components', (err, storedString) => {
-      if (err || !storedString) {
-        return;
-      }
-      const components = JSON.parse(storedString);
-      this.setState({
-        Components: components,
-      });
-    });
-    AsyncStorage.getItem('Api', (err, storedString) => {
-      if (err || !storedString) {
-        return;
-      }
-      const api = JSON.parse(storedString);
-      this.setState({
-        Api: api,
-      });
-    });
+    initializeAsyncStore(this);
   }
 
   _handleBack = () => {
