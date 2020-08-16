@@ -45,10 +45,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     module: require('../examples/Modal/ModalExample'),
   },
   {
-    key: 'MultiColumnExample',
-    module: require('../examples/MultiColumn/MultiColumnExample'),
-  },
-  {
     key: 'NewAppScreenExample',
     module: require('../examples/NewAppScreen/NewAppScreenExample'),
   },
