@@ -218,23 +218,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _renderApp(bookmark) {
     const {openExample, screen} = this.state;
 
-    if (screen === 'bookmark' && !openExample) {
-      return (
-        <RNTesterExampleListViaHook
-          title={'RNTester'}
-          key={screen}
-          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-           * when making Flow check .android.js files. */
-          bookmark={bookmark}
-          onNavigate={this._handleAction}
-          updateRecentlyViewedList={this.state.updateRecentlyViewedList}
-          recentComponents={this.state.recentComponents}
-          recentApis={this.state.recentApis}
-          list={RNTesterList}
-          screen={screen}
-        />
-      );
-    } else if (openExample) {
+    if (openExample) {
       const ExampleModule = RNTesterList.Modules[openExample];
       if (ExampleModule.external) {
         return (
