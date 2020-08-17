@@ -78,8 +78,8 @@ class FlatListExample extends React.PureComponent<Props, State> {
     empty: false,
     useFlatListItemComponent: false,
     fadingEdgeLength: 0,
-    header: false,
-    footer: false,
+    header: true,
+    footer: true,
     numColumns: 1,
     multiColumn: false
   };
@@ -179,7 +179,7 @@ class FlatListExample extends React.PureComponent<Props, State> {
             fadingEdgeLength={this.state.fadingEdgeLength}
             ItemSeparatorComponent={ItemSeparatorComponent}
             ListHeaderComponent={this.state.header ? <HeaderComponent />: null}
-            ListFooterComponent={this.state.footer ? FooterComponent : null}
+            ListFooterComponent={this.state.footer ? <FooterComponent /> : null}
             ListEmptyComponent={ListEmptyComponent}
             data={this.state.empty ? [] : filteredData}
             debug={this.state.debug}
