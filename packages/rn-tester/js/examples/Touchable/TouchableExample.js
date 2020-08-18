@@ -554,6 +554,7 @@ const styles = StyleSheet.create({
 exports.displayName = (undefined: ?string);
 exports.description = 'Touchable and onPress examples.';
 exports.title = 'Touchable* and onPress';
+exports.documentationURL = 'https://reactnative.dev/docs/touchablehighlight';
 exports.examples = [
   {
     title: '<TouchableHighlight>',
