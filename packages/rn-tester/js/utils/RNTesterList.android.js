@@ -52,18 +52,10 @@ const ComponentExamples: Array<RNTesterExample> = [
     key: 'NewAppScreenExample',
     module: require('../examples/NewAppScreen/NewAppScreenExample'),
   },
-  // {
-  //   key: 'PickerExample',
-  //   module: require('../examples/Picker/PickerExample'),
-  // },
   {
     key: 'PressableExample',
     module: require('../examples/Pressable/PressableExample'),
   },
-  // {
-  //   key: 'ProgressBarAndroidExample',
-  //   module: require('../examples/ProgressBarAndroid/ProgressBarAndroidExample'),
-  // },
   {
     key: 'RefreshControlExample',
     module: require('../examples/RefreshControl/RefreshControlExample'),
@@ -88,10 +80,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     category: 'ListViews',
     module: require('../examples/SectionList/SectionListExample'),
   },
-  // {
-  //   key: 'SliderExample',
-  //   module: require('../examples/Slider/SliderExample'),
-  // },
   {
     key: 'StatusBarExample',
     module: require('../examples/StatusBar/StatusBarExample'),
@@ -157,18 +145,9 @@ const APIExamples: Array<RNTesterExample> = [
     module: require('../examples/Border/BorderExample'),
   },
   {
-    key: 'ClipboardExample',
-    module: require('../examples/Clipboard/ClipboardExample'),
-  },
-  {
     key: 'CrashExample',
     module: require('../examples/Crash/CrashExample'),
   },
-  // {
-  //   key: 'DatePickerAndroidExample',
-  //   category: 'Android',
-  //   module: require('../examples/DatePicker/DatePickerAndroidExample'),
-  // },
   {
     key: 'DevSettings',
     module: require('../examples/DevSettings/DevSettingsExample'),
