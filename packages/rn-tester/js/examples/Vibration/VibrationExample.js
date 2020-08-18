@@ -10,108 +10,123 @@
 
 'use strict';
 
-const React = require('react');
-
-const {
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
   TouchableHighlight,
   Vibration,
   Platform,
-} = require('react-native');
+} from 'react-native';
 
 exports.framework = 'React';
 exports.title = 'Vibration';
-exports.description = 'Vibration API';
+exports.description =
+  'Vibration API that exposes methods to make device vibrate.';
 
+/** show platform specific parameter usage */
 let pattern, patternLiteral, patternDescription;
+
 if (Platform.OS === 'android') {
   pattern = [0, 500, 200, 500];
   patternLiteral = '[0, 500, 200, 500]';
-  patternDescription = `${patternLiteral}
-arg 0: duration to wait before turning the vibrator on.
-arg with odd: vibration length.
-arg with even: duration to wait before next vibration.
+  patternDescription = `Vibration length on Android can be set as needed.
+
+For Example, the arguments : 
+${patternLiteral} behave following these rules.
+
+argument at 0: duration to wait before turning the vibrator on.
+argument at odd index: vibration length.
+argument at even index: duration to wait before next vibration.
 `;
 } else {
   pattern = [0, 1000, 2000, 3000];
   patternLiteral = '[0, 1000, 2000, 3000]';
-  patternDescription = `${patternLiteral}
-vibration length on iOS is fixed.
-pattern controls durations BETWEEN each vibration only.
+  patternDescription = `Unlike Android, vibration length on iOS is fixed.
 
-arg 0: duration to wait before turning the vibrator on.
-subsequent args: duration to wait before next vibration.
+For example, the pattern in arguments : ${patternLiteral} control only the durations BETWEEN each vibration.
+
+argument at 0: duration to wait before turning the vibrator on.
+rest arguments: duration to wait before next vibration.
 `;
 }
 
+/** example use-cases */
+const PlatformDescription = () => (
+  <View style={styles.wrapper}>
+    <Text>{patternDescription}</Text>
+  </View>
+);
+
+const SingleVibrateExample = () => (
+  <TouchableHighlight
+    style={styles.wrapper}
+    onPress={() => Vibration.vibrate(1000)}>
+    <View style={styles.button}>
+      <Text>Vibrate</Text>
+    </View>
+  </TouchableHighlight>
+);
+
+const PatternVibrateExample = () => (
+  <TouchableHighlight
+    style={styles.wrapper}
+    onPress={() => Vibration.vibrate(pattern)}>
+    <View style={styles.button}>
+      <Text>Vibrate following pattern</Text>
+    </View>
+  </TouchableHighlight>
+);
+
+const InfiniteVibrateExample = () => (
+  <TouchableHighlight
+    style={styles.wrapper}
+    onPress={() => Vibration.vibrate(pattern, true)}>
+    <View style={styles.button}>
+      <Text>Vibrate until cancel</Text>
+    </View>
+  </TouchableHighlight>
+);
+
+const StopVibrationExample = () => (
+  <TouchableHighlight style={styles.wrapper} onPress={() => Vibration.cancel()}>
+    <View style={styles.button}>
+      <Text>Stop Vibration</Text>
+    </View>
+  </TouchableHighlight>
+);
+
 exports.examples = [
   {
-    title: 'Pattern Descriptions',
-    render(): React.Node {
-      return (
-        <View style={styles.wrapper}>
-          <Text>{patternDescription}</Text>
-        </View>
-      );
-    },
+    title: 'API Description',
+    description:
+      'The vibration API behaves differently for different platforms, the use-case for your current platform is given here',
+    render: (): React.Node => <PlatformDescription />,
   },
   {
-    title: 'Vibration.vibrate()',
-    render(): React.Node {
-      return (
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() => Vibration.vibrate()}>
-          <View style={styles.button}>
-            <Text>Vibrate</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    },
+    title: 'Simple Device Vibration',
+    description:
+      'The vibrate method without any argument triggers a single vibration cycle.',
+    render: (): React.Node => <SingleVibrateExample />,
+  },
+
+  {
+    title: 'Vibration based on timed pattern',
+    description: `The vibrate method can be used to trigger the vibration as per the passed pattern. Here, the api call processes the pattern : ${patternLiteral}.`,
+    render: (): React.Node => <PatternVibrateExample />,
   },
   {
-    title: `Vibration.vibrate(${patternLiteral})`,
-    render(): React.Node {
-      return (
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() => Vibration.vibrate(pattern)}>
-          <View style={styles.button}>
-            <Text>Vibrate once</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    },
+    title: 'Infinite vibration until manually stopped',
+    description:
+      'Vibration.vibrate provides an api to trigger the device vibrator, and accepts two parameters. Setting the second(option) repeat parameter to true makes the device vibrate untill manually cancelled.',
+    render: (): React.Node => <InfiniteVibrateExample />,
   },
   {
-    title: `Vibration.vibrate(${patternLiteral}, true)`,
-    render(): React.Node {
-      return (
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() => Vibration.vibrate(pattern, true)}>
-          <View style={styles.button}>
-            <Text>Vibrate until cancel</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    },
-  },
-  {
-    title: 'Vibration.cancel()',
-    render(): React.Node {
-      return (
-        <TouchableHighlight
-          style={styles.wrapper}
-          onPress={() => Vibration.cancel()}>
-          <View style={styles.button}>
-            <Text>Cancel</Text>
-          </View>
-        </TouchableHighlight>
-      );
-    },
+    title: 'Stop device vibration',
+    description:
+      'Once a vibration call has been made with the repeat enabled, the vibration would continue until Vibration.cancel() is called.',
+    render: (): React.Node => <StopVibrationExample />,
   },
 ];
 
