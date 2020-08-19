@@ -25,11 +25,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
-    key: 'DatePickerIOSExample',
-    module: require('../examples/DatePicker/DatePickerIOSExample'),
-    supportsTVOS: false,
-  },
-  {
     key: 'FlatListExample',
     module: require('../examples/FlatList/FlatListExample'),
     category: 'ListViews',
@@ -61,11 +56,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
-    key: 'MaskedViewExample',
-    module: require('../examples/MaskedView/MaskedViewExample'),
-    supportsTVOS: true,
-  },
-  {
     key: 'ModalExample',
     module: require('../examples/Modal/ModalExample'),
     supportsTVOS: true,
@@ -81,23 +71,8 @@ const ComponentExamples: Array<RNTesterExample> = [
     supportsTVOS: false,
   },
   {
-    key: 'PickerExample',
-    module: require('../examples/Picker/PickerExample'),
-    supportsTVOS: false,
-  },
-  {
-    key: 'PickerIOSExample',
-    module: require('../examples/Picker/PickerIOSExample'),
-    supportsTVOS: false,
-  },
-  {
     key: 'PressableExample',
     module: require('../examples/Pressable/PressableExample'),
-    supportsTVOS: true,
-  },
-  {
-    key: 'ProgressViewIOSExample',
-    module: require('../examples/ProgressViewIOS/ProgressViewIOSExample'),
     supportsTVOS: true,
   },
   {
@@ -132,16 +107,6 @@ const ComponentExamples: Array<RNTesterExample> = [
     module: require('../examples/SectionList/SectionListExample'),
     category: 'ListViews',
     supportsTVOS: true,
-  },
-  {
-    key: 'SegmentedControlIOSExample',
-    module: require('../examples/SegmentedControlIOS/SegmentedControlIOSExample'),
-    supportsTVOS: false,
-  },
-  {
-    key: 'SliderExample',
-    module: require('../examples/Slider/SliderExample'),
-    supportsTVOS: false,
   },
   {
     key: 'StatusBarExample',
@@ -229,11 +194,6 @@ const APIExamples: Array<RNTesterExample> = [
     supportsTVOS: true,
   },
   {
-    key: 'AsyncStorageExample',
-    module: require('../examples/AsyncStorage/AsyncStorageExample'),
-    supportsTVOS: true,
-  },
-  {
     key: 'BorderExample',
     module: require('../examples/Border/BorderExample'),
     supportsTVOS: true,
@@ -242,11 +202,6 @@ const APIExamples: Array<RNTesterExample> = [
     key: 'BoxShadowExample',
     module: require('../examples/BoxShadow/BoxShadowExample'),
     supportsTVOS: true,
-  },
-  {
-    key: 'ClipboardExample',
-    module: require('../examples/Clipboard/ClipboardExample'),
-    supportsTVOS: false,
   },
   {
     key: 'CrashExample',
@@ -292,21 +247,16 @@ const APIExamples: Array<RNTesterExample> = [
     module: require('../examples/PanResponder/PanResponderExample'),
     supportsTVOS: false,
   },
-  // {
-  //   key: 'PlatformColorExample',
-  //   module: require('../examples/PlatformColor/PlatformColorExample'),
-  //   supportsTVOS: true,
-  // },
+  {
+    key: 'PlatformColorExample',
+    module: require('../examples/PlatformColor/PlatformColorExample'),
+    supportsTVOS: true,
+  },
   {
     key: 'PointerEventsExample',
     module: require('../examples/PointerEvents/PointerEventsExample'),
     supportsTVOS: false,
   },
-  // {
-  //   key: 'PushNotificationIOSExample',
-  //   module: require('../examples/PushNotificationIOS/PushNotificationIOSExample'),
-  //   supportsTVOS: false,
-  // },
   {
     key: 'RCTRootViewIOSExample',
     module: require('../examples/RCTRootView/RCTRootViewIOSExample'),
