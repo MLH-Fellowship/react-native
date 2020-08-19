@@ -18,6 +18,7 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const RNTesterNavbar = require('./components/RNTesterNavbar');
+import { LogBox } from 'react-native';
 
 const {
   AppRegistry,
@@ -184,6 +185,12 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   constructor() {
     super();
+
+    // RNTester App currently uses Async Storage from react-native for storing navigation state
+    // and bookmark items.
+    // TODO: Add Native Async Storage Module in RNTester
+    LogBox.ignoreLogs(['Warning: ...']);
+
     this.state = {
       openExample: null,
       screen: 'component',
