@@ -184,6 +184,12 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
 
   constructor() {
     super();
+
+    // RNTester App currently uses Async Storage from react-native for storing navigation state
+    // and bookmark items.
+    // TODO: Add Native Async Storage Module in RNTester
+    console.disableYellowBox = true;
+
     this.state = {
       openExample: null,
       screen: 'component',
