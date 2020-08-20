@@ -18,7 +18,6 @@ const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const SnapshotViewIOS = require('./examples/Snapshot/SnapshotViewIOS.ios');
 const RNTesterNavbar = require('./components/RNTesterNavbar');
-import { LogBox } from 'react-native';
 
 const {
   AppRegistry,
@@ -31,6 +30,7 @@ const {
   Text,
   useColorScheme,
   View,
+  LogBox,
 } = require('react-native');
 
 import type {RNTesterExample} from './types/RNTesterTypes';
@@ -179,7 +179,6 @@ const RNTesterExampleListViaHook = ({
     </RNTesterThemeContext.Provider>
   );
 };
-
 
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _mounted: boolean;

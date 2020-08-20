@@ -17,7 +17,6 @@ const RNTesterList = require('./utils/RNTesterList');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
 const RNTesterNavBar = require('./components/RNTesterNavbar');
-import { LogBox } from 'react-native';
 
 const {
   AppRegistry,
@@ -28,6 +27,7 @@ const {
   UIManager,
   useColorScheme,
   View,
+  LogBox,
 } = require('react-native');
 
 import type {RNTesterExample} from './types/RNTesterTypes';
