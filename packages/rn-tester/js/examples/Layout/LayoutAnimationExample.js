@@ -448,6 +448,8 @@ const styles = StyleSheet.create({
 exports.title = 'Layout Animation';
 exports.description =
   'Automatically animates views to their new positions when the next layout happens.';
+exports.category = 'UI';
+exports.documentationURL = 'https://reactnative.dev/docs/layoutanimation';
 exports.examples = [
   {
     title: 'Add and remove views',
