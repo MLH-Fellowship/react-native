@@ -72,7 +72,7 @@ class OptionBar extends React.Component<OptionBarPropType> {
               styles.optionStyle,
               {
                 backgroundColor:
-                  this.props.selectedOption === option ? '#ccc' : 'white',
+                  this.props.selectedOption === option ? '#ccc' : '#fff',
               },
             ]}>
             <Text>{option}</Text>
@@ -446,7 +446,8 @@ const styles = StyleSheet.create({
 });
 
 exports.title = 'Layout Animation';
-exports.description = 'Layout animation';
+exports.description =
+  'Automatically animates views to their new positions when the next layout happens.';
 exports.examples = [
   {
     title: 'Add and remove views',
