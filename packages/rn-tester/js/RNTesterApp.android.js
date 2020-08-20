@@ -13,34 +13,41 @@
 const RNTesterActions = require('./utils/RNTesterActions');
 const RNTesterExampleContainer = require('./components/RNTesterExampleContainer');
 const RNTesterExampleList = require('./components/RNTesterExampleList');
-const RNtesterBookmarkList = require('./components/RNTesterBookmarkList');
 const RNTesterList = require('./utils/RNTesterList');
 const RNTesterNavigationReducer = require('./utils/RNTesterNavigationReducer');
 const React = require('react');
-const URIActionMap = require('./utils/URIActionMap');
 const RNTesterNavBar = require('./components/RNTesterNavbar');
-
-// const nativeImageSource = require('react-native');
 
 const {
   AppRegistry,
   AsyncStorage,
   BackHandler,
-  Linking,
   StyleSheet,
   Text,
   UIManager,
   useColorScheme,
   View,
+  LogBox,
 } = require('react-native');
 
 import type {RNTesterExample} from './types/RNTesterTypes';
 import type {RNTesterNavigationState} from './utils/RNTesterNavigationReducer';
 import {RNTesterThemeContext, themes} from './components/RNTesterTheme';
+import RNTesterDocumentationURL from './components/RNTesterDocumentationURL';
 import {
   RNTesterBookmarkContext,
   bookmarks,
 } from './components/RNTesterBookmark';
+
+import {
+  initializeAsyncStore,
+  addApi,
+  addComponent,
+  removeApi,
+  removeComponent,
+  checkBookmarks,
+  updateRecentlyViewedList,
+} from './utils/RNTesterAsyncStorageAbstraction';
 
 UIManager.setLayoutAnimationEnabledExperimental &&
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -49,12 +56,7 @@ type Props = {exampleFromAppetizeParams?: ?string, ...};
 
 const APP_STATE_KEY = 'RNTesterAppState.v2';
 
-const Header = ({
-  title,
-}: {
-  title: string,
-  ...
-}) => (
+const Header = ({title, documentationURL}: {title: string, ...}) => (
   <RNTesterThemeContext.Consumer>
     {theme => {
       return (
@@ -63,6 +65,9 @@ const Header = ({
             <Text style={[styles.title, {color: theme.LabelColor}]}>
               {title}
             </Text>
+            {documentationURL && (
+              <RNTesterDocumentationURL documentationURL={documentationURL} />
+            )}
           </View>
         </View>
       );
@@ -85,7 +90,7 @@ const RNTesterExampleContainerViaHook = ({
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <View style={styles.container}>
-        <Header title={title} />
+        <Header title={title} documentationURL={module.documentationURL} />
         <RNTesterExampleContainer module={module} ref={exampleRef} />
       </View>
     </RNTesterThemeContext.Provider>
@@ -95,12 +100,18 @@ const RNTesterExampleContainerViaHook = ({
 const RNTesterExampleListViaHook = ({
   title,
   onNavigate,
+  updateRecentlyViewedList,
+  recentComponents,
+  recentApis,
   bookmark,
   list,
   screen,
 }: {
   title: string,
   onNavigate?: () => mixed,
+  updateRecentlyViewedList?: () => mixed,
+  recentComponents: Array<RNTesterExample>,
+  recentApis: Array<RNTesterExample>,
   list: {
     ComponentExamples: Array<RNTesterExample>,
     APIExamples: Array<RNTesterExample>,
@@ -110,7 +121,12 @@ const RNTesterExampleListViaHook = ({
 }) => {
   const colorScheme = useColorScheme();
   const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  const exampleTitle = screen == 'component' ? "Component Store" : "API Store"
+  const exampleTitle =
+    screen === 'component'
+      ? 'Component Store'
+      : screen === 'api'
+      ? 'API Store'
+      : 'Bookmarks';
   return (
     <RNTesterThemeContext.Provider value={theme}>
       <RNTesterBookmarkContext.Provider value={bookmark}>
@@ -118,6 +134,9 @@ const RNTesterExampleListViaHook = ({
           <Header title={exampleTitle} />
           <RNTesterExampleList
             onNavigate={onNavigate}
+            recentComponents={recentComponents}
+            recentApis={recentApis}
+            updateRecentlyViewedList={updateRecentlyViewedList}
             list={list}
             screen={screen}
           />
@@ -127,75 +146,30 @@ const RNTesterExampleListViaHook = ({
   );
 };
 
-const RNTesterBookmarkListViaHook = ({
-  title,
-  bookmark,
-  onNavigate,
-}: {
-  title: string,
-  onNavigate?: () => mixed,
-  ...
-}) => {
-  const colorScheme = useColorScheme();
-  const theme = colorScheme === 'dark' ? themes.dark : themes.light;
-  return (
-    <RNTesterThemeContext.Provider value={theme}>
-      <RNTesterBookmarkContext.Provider value={bookmark}>
-        <View style={styles.container}>
-          <Header title="Bookmarks" />
-          <RNtesterBookmarkList onNavigate={onNavigate} />
-        </View>
-      </RNTesterBookmarkContext.Provider>
-    </RNTesterThemeContext.Provider>
-  );
-};
-
 class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   constructor() {
     super();
+
+    // RNTester App currently uses Async Storage from react-native for storing navigation state
+    // and bookmark items.
+    // TODO: Add Native Async Storage Module in RNTester
+    LogBox.ignoreLogs([new RegExp('has been extracted from react-native')]);
+
     this.state = {
       openExample: null,
       Components: bookmarks.Components,
       Api: bookmarks.Api,
+      recentComponents: [],
+      recentApis: [],
       screen: 'component',
-      AddApi: (apiName, api) => {
-        const stateApi = Object.assign({}, this.state.Api);
-        stateApi[apiName] = api;
-        this.setState({
-          Api: stateApi,
-        });
-        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
-      },
-      AddComponent: (componentName, component) => {
-        const stateComponent = Object.assign({}, this.state.Components);
-        stateComponent[componentName] = component;
-        this.setState({
-          Components: stateComponent,
-        });
-        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
-      },
-      RemoveApi: apiName => {
-        const stateApi = Object.assign({}, this.state.Api);
-        delete stateApi[apiName];
-        this.setState({
-          Api: stateApi,
-        });
-        AsyncStorage.setItem('Api', JSON.stringify(stateApi));
-      },
-      RemoveComponent: componentName => {
-        const stateComponent = Object.assign({}, this.state.Components);
-        delete stateComponent[componentName];
-        this.setState({
-          Components: stateComponent,
-        });
-        AsyncStorage.setItem('Components', JSON.stringify(stateComponent));
-      },
-      checkBookmark: (title, key) => {
-        if (key === 'APIS' || key === 'RECENT_APIS') {
-          return this.state.Api[title] === undefined;
-        }
-        return this.state.Components[title] === undefined;
-      },
+      AddApi: (apiName, api) => addApi(apiName, api, this),
+      AddComponent: (componentName, component) =>
+        addComponent(componentName, component, this),
+      RemoveApi: apiName => removeApi(apiName, this),
+      RemoveComponent: componentName => removeComponent(componentName, this),
+      checkBookmark: (title, key) => checkBookmarks(title, key, this),
+      updateRecentlyViewedList: (item, key) =>
+        updateRecentlyViewedList(item, key, this),
     };
   }
   UNSAFE_componentWillMount() {
@@ -205,48 +179,8 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   }
 
   componentDidMount() {
-    Linking.getInitialURL().then(url => {
-      AsyncStorage.getItem(APP_STATE_KEY, (err, storedString) => {
-        const exampleAction = URIActionMap(
-          this.props.exampleFromAppetizeParams,
-        );
-        const urlAction = URIActionMap(url);
-        const launchAction = exampleAction || urlAction;
-        if (err || !storedString) {
-          const initialAction = launchAction || {type: 'RNTesterListAction'};
-          this.setState(RNTesterNavigationReducer(null, initialAction));
-          return;
-        }
-        const storedState = JSON.parse(storedString);
-        if (launchAction) {
-          this.setState(RNTesterNavigationReducer(storedState, launchAction));
-          return;
-        }
-        this.setState({
-          openExample: storedState.openExample,
-        });
-      });
-    });
-    AsyncStorage.getItem('Components', (err, storedString) => {
-      if (err || !storedString) {
-        return;
-      }
-      const components = JSON.parse(storedString);
-      this.setState({
-        Components: components,
-      });
-    });
-    AsyncStorage.getItem('Api', (err, storedString) => {
-      if (err || !storedString) {
-        return;
-      }
-      const api = JSON.parse(storedString);
-      this.setState({
-        Api: api,
-      });
-    });
+    initializeAsyncStore(this);
   }
-
 
   render(): React.Node {
     if (!this.state) {
@@ -263,9 +197,12 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
           RemoveComponent: this.state.RemoveComponent,
           checkBookmark: this.state.checkBookmark,
         })}
-          <View style={styles.bottomNavbar}>
-            <RNTesterNavBar screen={this.state.screen} onNavigate={this._handleAction} />
-          </View>
+        <View style={styles.bottomNavbar}>
+          <RNTesterNavBar
+            screen={this.state.screen}
+            onNavigate={this._handleAction}
+          />
+        </View>
       </View>
     );
   }
@@ -273,17 +210,7 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
   _renderApp(bookmark) {
     const {openExample, screen} = this.state;
 
-    if (screen === 'bookmark' && !openExample) {
-      return (
-        <RNTesterBookmarkListViaHook
-          title={'RNTester'}
-          /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
-           * when making Flow check .android.js files. */
-          bookmark={bookmark}
-          onNavigate={this._handleAction}
-        />
-      );
-    } else if (openExample) {
+    if (openExample) {
       const ExampleModule = RNTesterList.Modules[openExample];
       if (ExampleModule.external) {
         return (
@@ -324,6 +251,9 @@ class RNTesterApp extends React.Component<Props, RNTesterNavigationState> {
         /* $FlowFixMe(>=0.78.0 site=react_native_android_fb) This issue was found
          * when making Flow check .android.js files. */
         onNavigate={this._handleAction}
+        updateRecentlyViewedList={this.state.updateRecentlyViewedList}
+        recentComponents={this.state.recentComponents}
+        recentApis={this.state.recentApis}
         bookmark={bookmark}
         list={RNTesterList}
         screen={screen}

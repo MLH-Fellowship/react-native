@@ -256,6 +256,8 @@ const styles = StyleSheet.create({
 
 exports.displayName = (undefined: ?string);
 exports.title = 'TextInput';
+exports.documentationURL = 'https://reactnative.dev/docs/textinput';
+exports.category = 'Basic';
 exports.description = 'Single and multi-line text inputs.';
 exports.examples = ([
   ...TextInputSharedExamples,

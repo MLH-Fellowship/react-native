@@ -18,11 +18,11 @@ const RNTesterNavbar = ({onNavigate, screen}) => {
         {/** component and APIs tab  */}
         <View style={styles.buttonContainer}>
           {/** left tab with Components  */}
-            {/** @attention attach navigation endpoints here */}
             <Pressable
+              testID="components-tab"
               onPress={() =>  onNavigate(RNTesterActions.OpenList('component'))}
               style={[styles.navButton, {backgroundColor: theme.BackgroundColor}]}>
-              <View style={styles.pressableContent} collapsable={false}>
+              <View style={[styles.pressableContent, isComponentActive ? styles.activeBar : null]} collapsable={false}>
                 <Image
                   style={styles.componentIcon}
                   source={
@@ -50,7 +50,8 @@ const RNTesterNavbar = ({onNavigate, screen}) => {
           {/** floating button in center  */}
           <View style={styles.floatContainer}>
             <Pressable
-              onPress={() => { onNavigate(RNTesterActions.OpenList('bookmark')) }}>
+              testID="bookmarks-tab"
+              onPress={() => { onNavigate(RNTesterActions.OpenList('bookmark')); }}>
                 <View style={[styles.floatingButton, {backgroundColor: theme.BorderColor}]} >
                 <Image
                     style={styles.bookmarkIcon}
@@ -66,10 +67,11 @@ const RNTesterNavbar = ({onNavigate, screen}) => {
           </View>
 
           {/** right tab with Components  */}
-         <Pressable 
-          onPress={() => { onNavigate(RNTesterActions.OpenList('api')) }}
+         <Pressable
+          testID="apis-tab"
+          onPress={() => { onNavigate(RNTesterActions.OpenList('api')); }}
           style={[styles.navButton, {backgroundColor: theme.BackgroundColor}]}>
-            <View style={styles.pressableContent} collapsable={false}>
+            <View style={[styles.pressableContent, isAPIActive ? styles.activeBar : null]} collapsable={false}>
               <Image
                 style={styles.apiIcon}
                 source={
@@ -129,7 +131,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   activeText: {
-    color: 'black',
+    color: '#5E5F62',
   },
   inactiveText: {
     color: '#B1B4BA',
@@ -155,6 +157,10 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  activeBar: {
+      borderTopWidth:2,
+      borderColor:'#005DFF'
   }
 });
 

@@ -17,6 +17,7 @@ const {
   Text,
   View,
   TouchableOpacity,
+  ScrollView,
 } = require('react-native');
 
 type ExampleViewSpec = {|
@@ -26,6 +27,8 @@ type ExampleViewSpec = {|
 type AddRemoveExampleState = {|
   views: Array<ExampleViewSpec>,
   nextKey: number,
+  selectedType?: string,
+  property?: string,
 |};
 
 function shuffleArray(array: Array<ExampleViewSpec>) {
@@ -48,19 +51,65 @@ function shuffleArray(array: Array<ExampleViewSpec>) {
   return array;
 }
 
+type OptionBarPropType = {|
+  options: Array<string | number>,
+  callback: Function,
+  selectedOption: string,
+|};
+
+class OptionBar extends React.Component<OptionBarPropType> {
+  render() {
+    return (
+      <ScrollView
+        style={styles.choiceContainer}
+        horizontal
+        showsHorizontalScrollIndicator={false}>
+        {this.props.options.map(option => (
+          <TouchableOpacity
+            onPress={() => this.props.callback(option)}
+            key={option}
+            style={[
+              styles.optionStyle,
+              {
+                backgroundColor:
+                  this.props.selectedOption === option ? '#ccc' : '#fff',
+              },
+            ]}>
+            <Text>{option}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    );
+  }
+}
+
 class AddRemoveExample extends React.Component<{...}, AddRemoveExampleState> {
   state = {
     views: [],
     nextKey: 1,
+    type: 'easeInEaseOut',
+    property: 'opacity',
   };
 
   configureNextAnimation() {
     LayoutAnimation.configureNext(
       {
         duration: 1000,
-        create: {type: 'easeInEaseOut', property: 'opacity'},
-        update: {type: 'easeInEaseOut', property: 'opacity'},
-        delete: {type: 'easeInEaseOut', property: 'opacity'},
+        create: {
+          type: this.state.type,
+          property: this.state.property,
+          springDamping: 0.4,
+        },
+        update: {
+          type: this.state.type,
+          property: 'opacity',
+          springDamping: 0.4,
+        },
+        delete: {
+          type: this.state.type,
+          property: this.state.property,
+          springDamping: 0.4,
+        },
       },
       args => console.log('AddRemoveExample completed', args),
     );
@@ -96,6 +145,17 @@ class AddRemoveExample extends React.Component<{...}, AddRemoveExampleState> {
     this.setState(state => ({views: shuffleArray(state.views)}));
   };
 
+  animationTypes = [
+    'easeInEaseOut',
+    'easeIn',
+    'easeOut',
+    'spring',
+    'linear',
+    'keyboard',
+  ];
+
+  propertyTypes = ['opacity', 'scaleX', 'scaleY', 'scaleXY'];
+
   render() {
     const views = this.state.views.map(({key}) => (
       <View
@@ -107,6 +167,22 @@ class AddRemoveExample extends React.Component<{...}, AddRemoveExampleState> {
     ));
     return (
       <View style={styles.container}>
+        <Text style={styles.optionHeader}>Select Animation Type:</Text>
+        <OptionBar
+          options={this.animationTypes}
+          callback={type => {
+            this.setState({type: type});
+          }}
+          selectedOption={this.state.type}
+        />
+        <Text style={styles.optionHeader}>Select Property Type:</Text>
+        <OptionBar
+          options={this.propertyTypes}
+          callback={type => {
+            this.setState({property: type});
+          }}
+          selectedOption={this.state.property}
+        />
         <TouchableOpacity onPress={this._onPressAddViewAnimated}>
           <View style={styles.button}>
             <Text>Add view</Text>
@@ -244,6 +320,7 @@ class CrossFadeExample extends React.Component<{...}, CrossFadeExampleState> {
 type LayoutUpdateExampleState = {|
   width: number,
   height: number,
+  duration: number,
 |};
 
 class LayoutUpdateExample extends React.Component<
@@ -253,6 +330,7 @@ class LayoutUpdateExample extends React.Component<
   state = {
     width: 200,
     height: 100,
+    duration: 1000,
   };
 
   timeout = null;
@@ -274,7 +352,7 @@ class LayoutUpdateExample extends React.Component<
 
     LayoutAnimation.configureNext(
       {
-        duration: 1000,
+        duration: this.state.duration,
         update: {
           type: LayoutAnimation.Types.linear,
         },
@@ -282,14 +360,22 @@ class LayoutUpdateExample extends React.Component<
       args => console.log('LayoutUpdateExample completed', args),
     );
 
-    this.timeout = setTimeout(() => this.setState({width: 100}), 500);
+    this.timeout = setTimeout(
+      () => this.setState({width: 100}),
+      this.state.duration / 2,
+    );
   };
 
   render() {
-    const {width, height} = this.state;
+    const {width, height, duration} = this.state;
 
     return (
       <View style={styles.container}>
+        <OptionBar
+          options={[100, 500, 1000, 2000]}
+          callback={d => this.setState({duration: d})}
+          selectedOption={duration}
+        />
         <TouchableOpacity onPress={this._onPressToggle}>
           <View style={styles.button}>
             <Text>Make box square</Text>
@@ -342,13 +428,33 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  choiceContainer: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  optionStyle: {
+    padding: 6,
+    marginHorizontal: 5,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  optionHeader: {
+    fontWeight: '500',
+    marginBottom: 5,
+  },
 });
 
 exports.title = 'Layout Animation';
-exports.description = 'Layout animation';
+exports.description =
+  'Automatically animates views to their new positions when the next layout happens.';
+exports.category = 'UI';
+exports.documentationURL = 'https://reactnative.dev/docs/layoutanimation';
 exports.examples = [
   {
     title: 'Add and remove views',
+    description:
+      'Add and Remove views with different animation configurations!',
     render(): React.Element<any> {
       return <AddRemoveExample />;
     },
@@ -366,7 +472,7 @@ exports.examples = [
     },
   },
   {
-    title: 'Layout update during animation',
+    title: 'Layout update during animation with different duration',
     render(): React.Element<any> {
       return <LayoutUpdateExample />;
     },

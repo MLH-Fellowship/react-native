@@ -14,10 +14,10 @@ const React = require('react');
 
 const {StyleSheet, Text, TouchableOpacity, View} = require('react-native');
 
-const filters = ['Basic', 'UI', 'ListViews', 'iOS', 'Android'];
+const filters = ['Basic', 'UI', 'ListView', 'iOS', 'Android'];
 
 type Props = {
-  onFilterButtonPress: function, //optional only for testing
+  onFilterButtonPress: (filter: string) => mixed, //optional only for testing
   ...
 };
 
@@ -52,14 +52,18 @@ class RNTesterListFilters extends React.Component<
                 styles.pillStyle,
                 {
                   backgroundColor:
-                    this.state.currentFilter === filterLabel ? 'blue' : 'white',
+                    this.state.currentFilter === filterLabel
+                      ? '#045cfc'
+                      : 'white',
                 },
               ]}
               onPress={() => this.filterPressed(filterLabel)}>
               <Text
                 style={{
                   color:
-                    this.state.currentFilter === filterLabel ? 'white' : 'blue',
+                    this.state.currentFilter === filterLabel
+                      ? 'white'
+                      : '#045cfc',
                 }}>
                 {filterLabel}
               </Text>
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: '#045cfc',
   },
 });
 
